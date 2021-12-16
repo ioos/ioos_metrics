@@ -1,0 +1,11 @@
+name: ioos-btn
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - bs4
+  - geopandas
+  - jupyter
+  - lxml
+  - pandas
+  - requests
