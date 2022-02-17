@@ -7,5 +7,6 @@ dependencies:
   - geopandas
   - jupyter
   - lxml
+  - owslib
   - pandas
   - requests
