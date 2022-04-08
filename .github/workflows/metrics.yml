@@ -24,10 +24,11 @@ jobs:
         shell: bash -l {0}
         run: |
           conda env create -f environment.yml
-          source activate ioos-btn
 
       - name: Collect quarterly metrics
-        run: python ioos_metrics.py
+        run: |
+          source activate ioos-btn
+          python ioos_metrics.py
 
       - name: Commit and push if it changed
         run: |
