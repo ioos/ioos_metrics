@@ -4,6 +4,7 @@ channels:
 dependencies:
   - python=3.9
   - bs4
+  - fiscalyear
   - geopandas
   - jupyter
   - lxml
