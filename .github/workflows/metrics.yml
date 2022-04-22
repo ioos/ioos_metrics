@@ -5,9 +5,7 @@ on:
      branches: 
        - main
      paths:
-       - '.github/workflows/**'
        - 'ioos_metrics.py'
-  workflow_dispatch:
   schedule:
     - cron: "0 12 5 1,4,7,10 *"
 
