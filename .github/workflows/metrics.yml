@@ -5,7 +5,7 @@ on:
      branches: 
        - main
      paths:
-       - 'ioos_metrics.py'
+       - 'gts_metrics.py'
   schedule:
     - cron: "0 12 5 1,4,7,10 *"
 
@@ -28,10 +28,11 @@ jobs:
         run: |
           conda env create -f environment.yml
 
-      - name: Collect quarterly metrics
+      - name: Collect quarterly GTS and BTN metrics
         run: |
           source activate ioos-btn
-          python ioos_metrics.py
+          python gts_metrics.py
+          python btn_metrics.py
 
       - name: Commit and push if it changed
         run: |
