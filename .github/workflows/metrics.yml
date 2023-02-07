@@ -32,7 +32,7 @@ jobs:
         run: |
           source activate ioos-btn
           python gts_metrics.py
-          python btn_metrics.py
+          # python btn_metrics.py
 
       - name: Commit and push if it changed
         run: |
