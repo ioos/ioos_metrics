@@ -18,16 +18,15 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Setup Conda
-        uses: s-weigand/setup-conda@v1
+      - name: Setup Micromamba
+        uses: mamba-org/provision-with-micromamba@main
         with:
-          activate-conda: false
-          conda-channels: conda-forge
+          environment-file: false
 
-      - name: Build environment
+      - name: Install conda environment
         shell: bash -l {0}
         run: |
-          conda env create -f environment.yml
+          micromamba create --file environment.yml   
 
       - name: echo secrets into a file
         run: |
@@ -40,8 +39,8 @@ jobs:
 
       - name: Collect quarterly GTS and BTN metrics
         run: |
-          source activate ioos-btn
-          python gts_metrics.py
+          micromamba activate ioos-btn
+          #python gts_metrics.py
           python btn_metrics.py
 
       - name: Commit and push if it changed
