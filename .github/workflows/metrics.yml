@@ -39,9 +39,9 @@ jobs:
           CDMO_NAME : ${{ secrets.CDMO_NAME }}
 
       - name: Collect quarterly GTS and BTN metrics
+        shell: bash -l {0}
         run: |
           micromamba activate ioos-btn
-          #python gts_metrics.py
           python btn_metrics.py
 
       - name: Commit and push if it changed
