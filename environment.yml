@@ -11,3 +11,4 @@ dependencies:
   - owslib
   - pandas
   - requests
+  - suds
