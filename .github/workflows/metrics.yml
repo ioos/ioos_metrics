@@ -30,9 +30,9 @@ jobs:
           micromamba create --file environment.yml   
 
       - name: echo secrets into a file
-        shell: bash
+        shell: bash -l {0}
         env:
-          CDMO_KEY  : ${{ secrets.CDMO_KEY }}
+          CDMO_KEY : ${{ secrets.CDMO_KEY }}
           CDMO_NAME : ${{ secrets.CDMO_NAME }}
         run: |
           echo "CDMO_NAME = $CDMO_NAME" > config.py
