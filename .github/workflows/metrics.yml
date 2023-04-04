@@ -30,13 +30,14 @@ jobs:
           micromamba create --file environment.yml   
 
       - name: echo secrets into a file
-        run: |
-          echo "CDMO_NAME = $CDMO_NAME" > config.py
-          echo "CDMO_KEY = $CDMO_KEY" >> config.py
         shell: bash
         env:
           CDMO_KEY  : ${{ secrets.CDMO_KEY }}
           CDMO_NAME : ${{ secrets.CDMO_NAME }}
+        run: |
+          echo "CDMO_NAME = $CDMO_NAME" > config.py
+          echo "CDMO_KEY = $CDMO_KEY" >> config.py
+
 
       - name: Collect quarterly GTS and BTN metrics
         shell: bash -l {0}
