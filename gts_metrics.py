@@ -34,7 +34,7 @@ df["time (UTC)"] = df["time (UTC)"].dt.tz_localize(None)
 
 groups = df.groupby(pd.Grouper(key="time (UTC)", freq="M"))
 
-s = groups[['time (UTC)','met','wave']].sum() # reducing the columns so the summary is digestable
+s = groups[['met','wave']].sum() # reducing the columns so the summary is digestable
 totals = s.assign(total=s["met"] + s["wave"])
 totals.index = totals.index.to_period("M")
 
