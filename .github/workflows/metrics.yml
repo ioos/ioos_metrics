@@ -44,6 +44,7 @@ jobs:
         run: |
           micromamba activate ioos-btn
           python btn_metrics.py
+          python gts_metrics.py
 
       - name: Commit and push if it changed
         run: |
