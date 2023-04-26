@@ -7,8 +7,13 @@ dependencies:
   - fiscalyear
   - geopandas
   - jupyter
+  - jinja2
   - lxml
   - owslib
   - pandas
+  - pip
+  - pip:
+      - pdbufr
+  - eccodes
   - requests
   - suds

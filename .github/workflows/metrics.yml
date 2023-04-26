@@ -6,10 +6,13 @@ on:
        - main
      paths:
        - '.github/workflows/metrics.yml'
-       - 'gts_metrics.py'
+       - 'gts_regional_metrics.py'
        - 'btn_metrics.py'
+       - 'gts_atn_metrics.py'
   schedule:
     - cron: "0 12 5 * *"
+
+  workflow_dispatch:
 
 jobs:
   scheduled:
@@ -44,7 +47,8 @@ jobs:
         run: |
           micromamba activate ioos-btn
           python btn_metrics.py
-          python gts_metrics.py
+          python gts_regional_metrics.py
+          python gts_atn_metrics.py
 
       - name: Commit and push if it changed
         run: |
