@@ -1,13 +1,9 @@
 # This script run once creates a catalog landing page based on the *_config.json file
 # reference when called. E.g., python create_catalog_landing_page.py EcoSys_config.json
 from jinja2 import Environment, FileSystemLoader
-# import argparse
 import json
 import os
-import shutil
-import sys
-#basic templating
-# use conda web_templating. .. source activate web_templating
+import pandas as pd
 
 def write_html_index(template, configs, org_config):
     root = os.path.dirname(os.path.abspath(__file__))
@@ -23,27 +19,18 @@ def load_template():
     template = env.get_template('catalog_landing_page.html')
     return template
 
-# def parse_args():
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('files')
-#     args = parser.parse_args()
-#     filename = args.files;
-#     return filename
-
 def write_templates(configs, org_config):
-    # filename = parse_args()
     template = load_template()
     write_html_index(template, configs, org_config)
 
 def main(org_config):
     allthemodels =  {}
-    for f in org_config['list_of_models']:
-        old_name = f +'.json'
-        print(old_name)
-        filename = os.path.join(org_config['location_of_model_list'], old_name)
-        with open(filename) as ff:
-            allthemodels[f] = json.load(ff)
-            print(allthemodels[f],'\n\n')
+    for f in org_config['list_of_metrics']:
+        for fname in os.listdir(os.path.join(org_config['location_of_metric_list'],f)):
+            filename = os.path.join(org_config['location_of_metric_list'], f, fname)
+            output = pd.read_csv(filename)
+            output.to_html(filename.replace('.csv', '.html'))
+
     write_templates(allthemodels, org_config)
 
 if __name__ == '__main__':

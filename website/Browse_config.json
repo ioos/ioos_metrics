@@ -4,7 +4,7 @@
   "githubpage": "https://mathewbiddle.github.io/browse",
   "google_analytics": "https://tag_url.google.co",
   "google_analytics_code": "some-code",
-  "list_of_models": ["2BOX", "AcousticThresholds"],
-  "location_of_model_list": "./model_list_dir",
+  "list_of_metrics": ["GTS", "GTS_ATN"],
+  "location_of_metric_list": "gts",
   "main_title": "All IOOS Metrics"
 }
