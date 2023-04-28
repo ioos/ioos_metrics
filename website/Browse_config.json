@@ -1,10 +1,9 @@
 {
-  "general_info_text": "Browse all the IOOS Metrics in one place, regardless of drawer.",
+  "general_info_text": "Browse all the IOOS Metrics in one place, regardless of type.",
   "general_title": "Browse all IOOS Metrics",
   "githubpage": "https://mathewbiddle.github.io/browse",
   "google_analytics": "https://tag_url.google.co",
   "google_analytics_code": "some-code",
-  "list_of_metrics": ["GTS", "GTS_ATN"],
-  "location_of_metric_list": "gts",
+  "location_of_metrics": "../gts",
   "main_title": "All IOOS Metrics"
 }

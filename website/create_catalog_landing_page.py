@@ -24,18 +24,15 @@ def write_templates(configs, org_config):
     write_html_index(template, configs, org_config)
 
 def main(org_config):
-    allthemodels =  {}
-    for f in org_config['list_of_metrics']:
-        for fname in os.listdir(os.path.join(org_config['location_of_metric_list'],f)):
-            filename = os.path.join(org_config['location_of_metric_list'], f, fname)
+    for f in os.listdir(org_config['location_of_metrics']):
+            filename = os.path.join(org_config['location_of_metrics'], f)
             output = pd.read_csv(filename)
-            output.to_html(filename.replace('.csv', '.html'))
+            output.to_html(filename.replace('.csv', '.html').replace(org_config['location_of_metrics'],'deploy'))
 
-    write_templates(allthemodels, org_config)
+#    write_templates(allthemodels, org_config)
 
 if __name__ == '__main__':
     org_config_file = 'Browse_config.json'
-    #org_config_file = sys.argv[1]; # use this approach if we need to generate multiple files
     with open(org_config_file) as f:
             org_config =  json.load(f)
     main(org_config)
