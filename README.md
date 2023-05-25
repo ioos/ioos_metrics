@@ -22,6 +22,6 @@ The webpages are built from the `website/` directory.
 2BOX
 AcousticThresholds
 
->python create_catalog_landing_page.py
+>python create_gts_regional_landing_page.py
 ```
 
