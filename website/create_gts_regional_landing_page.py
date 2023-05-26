@@ -29,29 +29,40 @@ def write_templates(configs, org_config):
 
 def main(org_config):
     configs = dict()
-    for f in os.listdir(org_config["location_of_metrics"]):
-        if 'regional_totals' in f:
-            filename = os.path.join(org_config["location_of_metrics"], f)
-            output = pd.read_csv(filename)
-            f_out = filename.replace(".csv", ".html").replace(
-                        org_config["location_of_metrics"], "deploy"
-                    )
 
-            #s = output.style.set_properties(**{'text-align': 'right'})
+    files = os.listdir(org_config["location_of_metrics"])
 
-            print(f_out)
-            key = '{} {}'.format(f_out.split('_')[3], f_out.split('_')[4].split(".")[0])
+    files.remove('GTS_ATN_monthly_totals.csv')
+    files = sorted(files)
 
-            table = output.to_html(
-                           index=False,
-                           index_names=False,
-                           col_space=70,
-                           justify='left',
-                           table_id=key)
+    for f in files:
+        filename = os.path.join(org_config["location_of_metrics"], f)
+        output = pd.read_csv(filename)
+        f_out = filename.replace(".csv", ".html").replace(
+            org_config["location_of_metrics"], "deploy"
+        )
 
-            configs[key] = {'name': f_out,
-                            'data': f,
-                            'table': table}
+        #output = output.style.set_table_styles([{'selector': 'td', 'props': 'text-align: right; font-weight: bold;'}])#properties(**{'text-align': 'right'})
+
+        print(f_out)
+        key = '{} {}'.format(f_out.split('_')[3], f_out.split('_')[4].split(".")[0])
+
+        table = output.to_html(
+            index=False,
+            index_names=False,
+            col_space=70,
+            justify='right',
+            table_id=key)
+
+        table = table.replace("<td>","<td style=\"text-align: right;\">")
+
+        configs[key] = {'name': f_out,
+                        'data': f,
+                        'table': table}
+
+    # myKeys = list(configs.keys())
+    # myKeys.sort()
+    # configs_sorted = {i: configs[i] for i in myKeys}
 
 #        configs = {'fname': f_out}
         # output.to_html(
@@ -65,7 +76,7 @@ def main(org_config):
     write_templates(configs, org_config)
 
 if __name__ == "__main__":
-    org_config_file = "Browse_config.json"
+    org_config_file = "gts_regional_config.json"
     with open(org_config_file) as f:
         org_config = json.load(f)
     main(org_config)

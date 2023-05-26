@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
+  {#<!-- Global site tag (gtag.js) - Google Analytics -->#}
   <script async src="{{org_config.google_analytics}}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -25,7 +25,7 @@
           <div class ="mywrap_head">
             <button class="header_button" onclick="location.href='./index.html';" value="Metrics homepage" >Metrics Homepage</button>
             <button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Explore Resources" >Explore Resources</button>
-            <button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Contact FIT" >Contact IOOS</button>
+            <button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Contact IOOS" >Contact IOOS</button>
           </div>
         <div class = "divider"></div>
         <div class ="mywrap">
@@ -37,9 +37,9 @@
 
           <input type="button" class="dropbtn" value="See all years" onclick="resetSearch()">
 
-          <!-- // Filter by keywords
+          {#<!-- // Filter by keywords
                // To update this, run parsejson.R get_html_snippet()
-               // And copy/paste over the output below div class= "tab-content" -->
+               // And copy/paste over the output below div class= "tab-content" -->#}
           <div class="dropdown">
             <button class="dropbtn">Filter by year</button>
             <div class="dropdown-content">
@@ -60,7 +60,7 @@
         <div class="divider_thin"></div>
         <div class="mywrap">
           <div class="mywrap">
-            <!--<nav class ="sidenav" role="navigation">
+            {#<!-- <nav class ="sidenav" role="navigation">
               <button class="menu-toggle" id=”menu-toggle” onclick="menuClick(this)"  aria-label=”toggle the menu” aria-expanded="false" aria-controls="menu"></button>
               <div class="menulabel">
                   <div class="bar1" aria-hidden=”true”></div>
@@ -92,7 +92,7 @@
                       Authored by developers external to NOAA.
                 </div>
                 </div>
-          </nav> -->
+          </nav>--> #}
 
 
 
@@ -102,46 +102,46 @@
           <div class = "box">
               {% set my_string = key  %}
               <a class = "shortTitle" href={{org_config.githubrepo}}blob/main/gts/{{value.data}}>{{key}}</a>
-              <!--<div class = "longTitle">{{key}}</div>-->
+              {# <!--<div class = "longTitle">{{key}}</div>--> #}
               <div class = "toolbox_drawers">
                   {{value.table}}
               </div>
 
               <div class = "language"></div>
-              <!-- web app button -->
-              <div class = "iconrow">
+              {#<!-- web app button -->#}
+              {#<!--<div class = "iconrow">
                 {% if value['online_app_link'] is defined and value['online_app_link']|length %}
                  <button class = "icon_small online" onclick="location.href= '{{value.online_app_link}}';" value="Go to online app" ></button>
                 {% else %}
                  <button class = "icon_small online" disabled></button>
                 {% endif %}
-                <!-- executable button -->
+                -- executable button --
                 {% if value['executable_link'] is defined and value['executable_link']|length %}
                  <button class = "icon_small down" onclick="location.href='{{value.executable_link}}';" value="download app" ></button>
                 {% else %}
                   <button class = "icon_small down" disabled></button>
                 {% endif %}
-                <!-- code repository button -->
+                -- code repository button --
                 {% if value['source_code_link'] is defined and value['source_code_link']|length %}
                  <button class = "icon_small github" onclick="location.href='{{value.source_code_link}}';" value="Go to online app" ></button>
                 {% else %}
                   <button class = "icon_small github" disabled></button>
                 {% endif %}
 
-                <!-- NOAA support button -->
+                -- NOAA support button --
                 {% if value['noaa_internal'] is defined and value['active_development'] is defined and value['noaa_internal'] == true and value['active_development'] == true%}
                   <button class = "icon_small internal_active" ></button>
                 {% else %}
                   <button class = "icon_small internal_active" disabled></button>
                 {% endif %}
-                <!-- External Tool Icon -->
+                -- External Tool Icon --
                 {% if value['noaa_internal'] is defined and value['active_development'] is defined and value['noaa_internal'] == false and value['active_development'] == true%}
                   <button class = "icon_small external_active" ></button>
                 {% else %}
                   <button class = "icon_small external_active" disabled></button>
                 {% endif %}
 
-              </div>
+              </div>-->#}
 
 
           </div>
@@ -158,14 +158,14 @@
       <div class = "divider"></div>
 
         <footer >
-             <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/IOOS_Emblem_Tertiary_B_RGB.png" alt="NOAA Fisheries Logo" height="75">
+             <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/IOOS_Emblem_Tertiary_B_RGB.png" alt="NOAA IOOS Logo" height="75">
          <div class="mywrap_center">
           <a class ="mylink line" href="https://www.commerce.gov/">U.S. Department of Commerce</a>
          <a class ="mylink line" href="https://www.noaa.gov">National Oceanographic and Atmospheric Administration</a>
          <a class ="mylink" href="https://www.ioos.noaa.gov/">NOAA IOOS</a>
          </div>
         </footer>
-        <div class ="attribution">Icons by icons8 https://icons8.com/</div>
+        {#<!--<div class ="attribution">Icons by icons8 https://icons8.com/</div>-->#}
       </main>
       <script>
         var sidenav = document.getElementsByClassName("sidenav");
