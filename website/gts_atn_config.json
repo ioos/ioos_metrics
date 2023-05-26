@@ -1,10 +1,10 @@
 {
-  "general_info_text": "Browse all the IOOS GTS Regional Metrics in one place.",
-  "general_title": "Browse all IOOS GTS Regional Metrics",
+  "general_info_text": "Browse all the IOOS GTS ATN Metrics in one place.",
+  "general_title": "Browse all IOOS GTS ATN Metrics",
   "githubpage": "https://mathewbiddle.github.io/browse",
   "githubrepo": "https://github.com/MathewBiddle/ioos_by_the_numbers/",
   "google_analytics": "https://tag_url.google.co",
   "google_analytics_code": "some-code",
   "location_of_metrics": "../gts",
-  "main_title": "All IOOS GTS Regional Metrics"
+  "main_title": "All IOOS GTS ATN Metrics"
 }
