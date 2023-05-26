@@ -1,16 +1,23 @@
 # This script run once creates a catalog landing page based on the *_config.json file
 # reference when called. E.g., python create_gts_regional_landing_page.py EcoSys_config.json
+import base64
+from io import BytesIO
+
 from jinja2 import Environment, FileSystemLoader
 import json
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import plotly.express as px
+import plotly
 
 
 def write_html_index(template, configs, org_config):
     root = os.path.dirname(os.path.abspath(__file__))
     # root = path to output directory
     filename = os.path.join(root, "deploy", "gts_atn.html")
-    with open(filename, "w") as fh:
+    with open(filename, "w", encoding="utf-8") as fh:
         fh.write(template.render(org_config=org_config, configs=configs))
 
 
@@ -27,13 +34,42 @@ def write_templates(configs, org_config):
     write_html_index(template, configs, org_config)
 
 
+def timeseries_plot(output):
+    # returns plot as html string.
+    # might need to use plotly
+    # import plotly.express as px
+    #
+    # fig =px.scatter(x=range(10), y=range(10))
+    # fig = fig.write_html("path/to/file.html")
+    output["date"] = pd.to_datetime(output["date"])
+
+    fig = px.bar(output, x="date", y="total")
+    fig = plotly.io.to_html(fig, full_html=False)
+    #    print(fig)
+    # fig = fig.write_html(full_html=False)
+    # print(fig)
+    # fig, axs = plt.subplots(figsize=(6.4, 7), layout='constrained')
+    #
+    # axs.bar(output['date'], output['total'], width=8)
+    # axs.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    # axs.set_ylabel('Total messages')
+    #
+    # tmpfile = BytesIO()
+    # fig.savefig(tmpfile, format='png')
+    # encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    #
+    # fig = '<img src=\'data:image/png;base64,{}\'>'.format(encoded)
+
+    return fig
+
+
 def main(org_config):
     configs = dict()
 
-    #files = os.listdir(org_config["location_of_metrics"])
+    # files = os.listdir(org_config["location_of_metrics"])
 
-    files = ['GTS_ATN_monthly_totals.csv']
-    #files = sorted(files)
+    files = ["GTS_ATN_monthly_totals.csv"]
+    # files = sorted(files)
 
     for f in files:
         filename = os.path.join(org_config["location_of_metrics"], f)
@@ -42,38 +78,40 @@ def main(org_config):
             org_config["location_of_metrics"], "deploy"
         )
 
-        #output = output.style.set_table_styles([{'selector': 'td', 'props': 'text-align: right; font-weight: bold;'}])#properties(**{'text-align': 'right'})
+        # output = output.style.set_table_styles([{'selector': 'td', 'props': 'text-align: right; font-weight: bold;'}])#properties(**{'text-align': 'right'})
 
         print(f_out)
-        key = '{} {}'.format(f_out.split("\\")[-1].split('_')[0], f_out.split('_')[1])
+        key = "{} {}".format(f_out.split("\\")[-1].split("_")[0], f_out.split("_")[1])
 
         table = output.to_html(
-            index=False,
-            index_names=False,
-            col_space=70,
-            justify='right',
-            table_id=key)
+            index=False, index_names=False, col_space=70, justify="right", table_id=key
+        )
 
-        table = table.replace("<td>","<td style=\"text-align: right;\">")
+        table = table.replace("<td>", '<td style="text-align: right;">')
 
-        configs[key] = {'name': f_out,
-                        'data': f,
-                        'table': table}
+        fig = timeseries_plot(output)
+
+        configs[key] = {
+            "name": f_out,
+            "data": f,
+            "table": table,
+            "figure": fig,
+        }
 
     # myKeys = list(configs.keys())
     # myKeys.sort()
     # configs_sorted = {i: configs[i] for i in myKeys}
 
-#        configs = {'fname': f_out}
-        # output.to_html(
-        #     f_out,
-        #     col_space=100,
-        #     justify='right',
-        #     index=False,
-        # )
-
+    #        configs = {'fname': f_out}
+    # output.to_html(
+    #     f_out,
+    #     col_space=100,
+    #     justify='right',
+    #     index=False,
+    # )
 
     write_templates(configs, org_config)
+
 
 if __name__ == "__main__":
     org_config_file = "gts_atn_config.json"
