@@ -23,6 +23,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install jinja2
         pip install pandas
+        pip install plotly
     - name: create HTML file
       run: |
         cd website
