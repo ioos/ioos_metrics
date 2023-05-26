@@ -9,10 +9,12 @@
 }
 
 .mywrap_center {
+  justify-content: right;
   display: flex;
-  flex-direction: row;
+  /*flex-direction: row;*/
   margin: auto;
-  padding-left: 15px;
+  width: 100%;
+  /*padding-left: 15px;*/
 }
 
 .mywrap_head {
