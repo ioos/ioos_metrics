@@ -27,6 +27,7 @@ jobs:
       run: |
         cd website
         python create_gts_regional_landing_page.py
+        python create_gts_atn_landing_page.py
         # note that static images and landing page (index.html) are
         # already in the deploy folder.
         # for now, don't create individual drawer pages
