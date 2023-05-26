@@ -7,8 +7,8 @@ from jinja2 import Environment, FileSystemLoader
 import json
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
+#import matplotlib.pyplot as plt
+#import matplotlib.dates as mdates
 import plotly.express as px
 import plotly
 
