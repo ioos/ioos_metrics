@@ -1,9 +1,14 @@
 # This script run once creates a catalog landing page based on the *_config.json file
 # reference when called. E.g., python create_gts_regional_landing_page.py EcoSys_config.json
+import base64
+from io import BytesIO
+
 from jinja2 import Environment, FileSystemLoader
 import json
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 
 def write_html_index(template, configs, org_config):
@@ -26,6 +31,23 @@ def write_templates(configs, org_config):
     template = load_template()
     write_html_index(template, configs, org_config)
 
+def timeseries_plot(output):
+    # fig = plt.figure()
+    fig, axs = plt.subplots(figsize=(6.4, 7), layout='constrained')
+    # plot sth
+    output['date'] = pd.to_datetime(output['date'])
+    # output.plot.line('date','total',ax=axs)
+    axs.bar(output['date'], output['total'], width=8)
+    axs.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
+    axs.set_ylabel('Total messages')
+
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+
+    fig = '<img src=\'data:image/png;base64,{}\'>'.format(encoded)
+
+    return fig
 
 def main(org_config):
     configs = dict()
@@ -56,9 +78,13 @@ def main(org_config):
 
         table = table.replace("<td>","<td style=\"text-align: right;\">")
 
+
+        fig = timeseries_plot(output)
+
         configs[key] = {'name': f_out,
                         'data': f,
-                        'table': table}
+                        'table': table,
+                        'figure': fig,}
 
     # myKeys = list(configs.keys())
     # myKeys.sort()
