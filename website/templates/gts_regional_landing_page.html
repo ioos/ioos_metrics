@@ -98,7 +98,7 @@
 
         <div class ="boxcontainer">
 
-          {% for key, value in configs.items() %}
+          {% for key, value in configs.items() if not "figure" in key %}
           <div class = "box">
               {% set my_string = key  %}
               <a class = "shortTitle" href={{org_config.githubrepo}}blob/main/gts/{{value.data}}>{{key}}</a>
@@ -150,7 +150,9 @@
 
 
         </div>
+
       </div>
+      {{configs.figure}}
 
 
 
