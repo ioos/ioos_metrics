@@ -36,8 +36,9 @@ def timeseries_plot(output):
     # fig = fig.write_html("path/to/file.html")
     output["date"] = pd.to_datetime(output["date"])
 
-    fig = px.bar(output, x="date", y="total",
-                 title="Regional Messages sent to the GTS via NDBC")
+    fig = px.bar(output, x="date", y=["met","wave"],
+                 title="Regional Messages sent to the GTS via NDBC",
+                 hover_data=["total"])
     #fig = fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
     fig = fig.update_xaxes(
         #ticklabelmode="period",
