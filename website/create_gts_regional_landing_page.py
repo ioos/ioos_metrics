@@ -38,20 +38,26 @@ def timeseries_plot(output):
 
     fig = px.bar(output, x="date", y=["met","wave"],
                  title="Regional Messages sent to the GTS via NDBC",
-                 hover_data=["total"])
+                 hover_data=["total"],
+                 )
     #fig = fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
     fig = fig.update_xaxes(
-        #ticklabelmode="period",
+        title_text = "Date",
         dtick="M3",
         tickformat="%b\n%Y",
         rangeslider_visible=True,
         rangeselector={'buttons': [
-                dict(count=1, label="1m", step="month", stepmode="backward"),
+                dict(count=3, label="3m", step="month", stepmode="backward"),
                 dict(count=6, label="6m", step="month", stepmode="backward"),
-                dict(count=1, label="YTD", step="year", stepmode="todate"),
+                dict(count=9, label="9m", step="month", stepmode="backward"),
                 dict(count=1, label="1y", step="year", stepmode="backward"),
                 dict(step="all")]},
         )
+
+    fig.update_yaxes(
+        title_text = "Messages Delivered to the GTS"
+    )
+
     fig = plotly.io.to_html(fig, full_html=False)
     #    print(fig)
     # fig = fig.write_html(full_html=False)
