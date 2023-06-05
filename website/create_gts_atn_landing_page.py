@@ -7,8 +7,6 @@ from jinja2 import Environment, FileSystemLoader
 import json
 import os
 import pandas as pd
-#import matplotlib.pyplot as plt
-#import matplotlib.dates as mdates
 import plotly.express as px
 import plotly
 
@@ -35,30 +33,10 @@ def write_templates(configs, org_config):
 
 
 def timeseries_plot(output):
-    # returns plot as html string.
-    # might need to use plotly
-    # import plotly.express as px
-    #
-    # fig =px.scatter(x=range(10), y=range(10))
-    # fig = fig.write_html("path/to/file.html")
     output["date"] = pd.to_datetime(output["date"])
 
     fig = px.bar(output, x="date", y="total")
     fig = plotly.io.to_html(fig, full_html=False)
-    #    print(fig)
-    # fig = fig.write_html(full_html=False)
-    # print(fig)
-    # fig, axs = plt.subplots(figsize=(6.4, 7), layout='constrained')
-    #
-    # axs.bar(output['date'], output['total'], width=8)
-    # axs.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
-    # axs.set_ylabel('Total messages')
-    #
-    # tmpfile = BytesIO()
-    # fig.savefig(tmpfile, format='png')
-    # encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
-    #
-    # fig = '<img src=\'data:image/png;base64,{}\'>'.format(encoded)
 
     return fig
 
@@ -66,10 +44,7 @@ def timeseries_plot(output):
 def main(org_config):
     configs = dict()
 
-    # files = os.listdir(org_config["location_of_metrics"])
-
     files = ["GTS_ATN_monthly_totals.csv"]
-    # files = sorted(files)
 
     for f in files:
         filename = os.path.join(org_config["location_of_metrics"], f)
@@ -77,8 +52,6 @@ def main(org_config):
         f_out = filename.replace(".csv", ".html").replace(
             org_config["location_of_metrics"], "deploy"
         )
-
-        # output = output.style.set_table_styles([{'selector': 'td', 'props': 'text-align: right; font-weight: bold;'}])#properties(**{'text-align': 'right'})
 
         print(f_out)
         key = "{} {}".format(f_out.split("\\")[-1].split("_")[0], f_out.split("_")[1])
@@ -97,18 +70,6 @@ def main(org_config):
             "table": table,
             "figure": fig,
         }
-
-    # myKeys = list(configs.keys())
-    # myKeys.sort()
-    # configs_sorted = {i: configs[i] for i in myKeys}
-
-    #        configs = {'fname': f_out}
-    # output.to_html(
-    #     f_out,
-    #     col_space=100,
-    #     justify='right',
-    #     index=False,
-    # )
 
     write_templates(configs, org_config)
 
