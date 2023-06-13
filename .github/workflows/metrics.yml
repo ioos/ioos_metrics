@@ -45,7 +45,7 @@ jobs:
       - name: Collect quarterly GTS and BTN metrics
         shell: bash -l {0}
         run: |
-          micromamba activate ioos-btn
+          micromamba activate ioos-metrics
           python btn_metrics.py
           python gts_regional_metrics.py
           python gts_atn_metrics.py
