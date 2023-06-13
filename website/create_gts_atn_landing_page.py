@@ -8,6 +8,8 @@ import json
 import os
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import plotly
 
 
@@ -33,9 +35,68 @@ def write_templates(configs, org_config):
 
 
 def timeseries_plot(output):
+    table = output.copy()
+
     output["date"] = pd.to_datetime(output["date"])
 
-    fig = px.bar(output, x="date", y="total")
+    figure = go.Figure(
+        # data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])],
+        layout=go.Layout(height=600, width=1500)
+    )
+
+    fig = make_subplots(
+        rows=1,
+        cols=3,
+        #        vertical_spacing=0.03,
+        specs=[
+            [{"type": "table"}, {"colspan": 2, "type": "bar"}, None]
+        ],  # {"type": "bar"},{'colspan': 1}]],
+        figure=figure,
+    )
+
+    fig.add_trace(
+        go.Table(
+            header=dict(
+                values=table.keys().tolist(), font=dict(size=10), align="right"
+            ),
+            cells=dict(values=[table[k].tolist() for k in table], align="right"),
+        ),
+        row=1,
+        col=1,
+    )
+
+    fig.add_trace(
+        go.Bar(
+            x=output["date"],
+            y=output["total"],
+        ),
+        row=1,
+        col=2,
+    )
+    #     title="ATN Messages sent to the GTS via NDBC",
+    #     width=800,
+    #     height=600,
+    #     )
+    # )
+    #
+    # fig.update_xaxes(
+    #     title_text="Date",
+    #     dtick="M3",
+    #     tickformat="%b\n%Y",
+    #     rangeslider_visible=True,
+    #     rangeselector={
+    #         "buttons": [
+    #             dict(count=3, label="3m", step="month", stepmode="backward"),
+    #             dict(count=6, label="6m", step="month", stepmode="backward"),
+    #             dict(count=9, label="9m", step="month", stepmode="backward"),
+    #             dict(count=1, label="1y", step="year", stepmode="backward"),
+    #             dict(step="all"),
+    #         ]
+    #     },
+    # )
+    #
+    # fig.update_yaxes(title_text="Messages Delivered to the GTS")
+
     fig = plotly.io.to_html(fig, full_html=False)
 
     return fig
@@ -44,32 +105,35 @@ def timeseries_plot(output):
 def main(org_config):
     configs = dict()
 
-    files = ["GTS_ATN_monthly_totals.csv"]
+    file = "GTS_ATN_monthly_totals.csv"
 
-    for f in files:
-        filename = os.path.join(org_config["location_of_metrics"], f)
-        output = pd.read_csv(filename)
-        f_out = filename.replace(".csv", ".html").replace(
-            org_config["location_of_metrics"], "deploy"
-        )
+    filename = os.path.join(org_config["location_of_metrics"], file)
+    output = pd.read_csv(filename)
+    f_out = filename.replace(".csv", ".html").replace(
+        org_config["location_of_metrics"], "deploy"
+    )
 
-        print(f_out)
-        key = "{} {}".format(f_out.split("\\")[-1].split("_")[0], f_out.split("_")[1])
+    print(f_out)
+    # key = "{} {}".format(f_out.split("\\")[-1].split("_")[0], f_out.split("_")[1])
 
-        table = output.to_html(
-            index=False, index_names=False, col_space=70, justify="right", table_id=key
-        )
+    table = output.to_html(
+        index=False,
+        index_names=False,
+        col_space=70,
+        justify="right",
+        table_id="GTS ATN",
+    )
 
-        table = table.replace("<td>", '<td style="text-align: right;">')
+    table = table.replace("<td>", '<td style="text-align: right;">')
 
-        fig = timeseries_plot(output)
+    fig = timeseries_plot(output)
 
-        configs[key] = {
-            "name": f_out,
-            "data": f,
-            "table": table,
-            "figure": fig,
-        }
+    configs = {
+        "name": f_out,
+        "data": f,
+        "table": table,
+        "figure": fig,
+    }
 
     write_templates(configs, org_config)
 
