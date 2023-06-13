@@ -36,5 +36,5 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: website/deploy # The folder the action should deploy.
-        repository-name: mathewbiddle/ioos_by_the_numbers
+        repository-name: mathewbiddle/ioos_metrics
   #      token: ${{ secrets.API_TOKEN_GITHUB }}
