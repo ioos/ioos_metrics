@@ -1,8 +1,8 @@
 {
   "general_info_text": "Browse all the IOOS GTS Regional Metrics in one place.",
   "general_title": "Browse all IOOS GTS Regional Metrics",
-  "githubpage": "https://mathewbiddle.github.io/browse",
-  "githubrepo": "https://github.com/MathewBiddle/ioos_by_the_numbers/",
+  "githubpage": "https://ioos.github.io/ioos_metrics/browse",
+  "githubrepo": "https://github.com/ioos/ioos_metrics/",
   "google_analytics": "https://tag_url.google.co",
   "google_analytics_code": "some-code",
   "location_of_metrics": "../gts",
