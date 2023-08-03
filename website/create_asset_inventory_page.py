@@ -70,31 +70,44 @@ def map_plot(gdf):
     columns = gdf.columns.tolist()
     columns.remove('geometry')
 
-    for name, group in gdf.groupby(by='RA'):
-        #group["ref"] = [f"<a href=\"{url}\" target=\"_blank\">{url}</a>" for url in group["url"]]
+#     for name, group in gdf.groupby(by='RA'):
+#         #group["ref"] = [f"<a href=\"{url}\" target=\"_blank\">{url}</a>" for url in group["url"]]
+#
+#         folium.GeoJson(
+#             data=group,
+#             name="{}".format(name),
+#             marker=folium.CircleMarker(radius=1, color='black'),
+#             tooltip=folium.features.GeoJsonTooltip(
+#                 fields=["RA","station_long_name"],
+# #                aliases=["",""],
+#             ),
+#             popup=folium.features.GeoJsonPopup(
+#                 fields=["RA","Latitude","Longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]#columns,
+#                 #aliases=[""],
+#             ), show=True,
+#         ).add_to(m)
+    layer = folium.GeoJson(
+                    data=gdf,
+                    #name=,
+                    marker=folium.CircleMarker(radius=1, color="black"),
+                    tooltip=folium.features.GeoJsonTooltip(
+                        fields=["RA","station_long_name"],
+        #                aliases=["",""],
+                    ),
+                    popup=folium.features.GeoJsonPopup(
+                        fields=["RA","Latitude","Longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]#columns,
+                        #aliases=[""],
+                    ), show=True,
+                ).add_to(m)
 
-        folium.GeoJson(
-            data=group,
-            name="{}".format(name),
-            marker=folium.CircleMarker(radius=1, color='black'),
-            tooltip=folium.features.GeoJsonTooltip(
-                fields=["RA","station_long_name"],
-#                aliases=["",""],
-            ),
-            popup=folium.features.GeoJsonPopup(
-                fields=["RA","Latitude","Longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]#columns,
-                #aliases=[""],
-            ), show=True,
+    Search(
+            layer=layer,
+            geom_type="Point",
+            placeholder="Search for an station",
+            collapsed=False,
+            search_label="station_long_name",
+            weight=3,
         ).add_to(m)
-
-    # statesearch = Search(
-    #         layer=gdf,
-    #         geom_type="Polygon",
-    #         placeholder="Search for an RA",
-    #         collapsed=False,
-    #         search_label="RA",
-    #         weight=3,
-    #     ).add_to(m)
 
     folium.LayerControl(collapsed=True).add_to(m)
 
