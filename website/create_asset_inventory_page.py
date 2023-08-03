@@ -8,6 +8,7 @@ import geopandas
 import plotly.express as px
 import plotly
 import folium
+from folium.plugins import Search
 
 
 def write_html_index(template, configs, org_config):
@@ -68,7 +69,7 @@ def map_plot(gdf):
 
     columns = gdf.columns.tolist()
     columns.remove('geometry')
-    #print(columns)
+
     for name, group in gdf.groupby(by='RA'):
         #group["ref"] = [f"<a href=\"{url}\" target=\"_blank\">{url}</a>" for url in group["url"]]
 
@@ -81,10 +82,19 @@ def map_plot(gdf):
 #                aliases=["",""],
             ),
             popup=folium.features.GeoJsonPopup(
-                fields=columns,
+                fields=["RA","Latitude","Longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]#columns,
                 #aliases=[""],
             ), show=True,
         ).add_to(m)
+
+    # statesearch = Search(
+    #         layer=gdf,
+    #         geom_type="Polygon",
+    #         placeholder="Search for an RA",
+    #         collapsed=False,
+    #         search_label="RA",
+    #         weight=3,
+    #     ).add_to(m)
 
     folium.LayerControl(collapsed=True).add_to(m)
 
@@ -108,8 +118,10 @@ def main(org_config):
     fig = map_plot(gdf)
 
     #print(fig)
+    columns = ["RA","Latitude","Longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]
 
-    configs = {'table': gdf.to_html(), 'figure': fig}
+    configs = {'table': gdf.to_html(table_id="table", index=False, columns=columns),
+               'figure': fig}
 
     write_templates(configs, org_config)
 
