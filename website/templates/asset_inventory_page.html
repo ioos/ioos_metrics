@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<header>
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+</header>
 <head>
     {#<!-- Global site tag (gtag.js) - Google Analytics --> #}
     <script async src="{{org_config.google_analytics}}"></script>
@@ -50,7 +53,18 @@
 
     <div>
         {{configs.table}}
+        {% raw %}
+        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script>
+        $(document).ready( function () {
+            $('#table').DataTable();
+        } );
+        let table = new DataTable('#table');
+        </script>
+        {% endraw %}
     </div>
+
 
     <div class="divider_thin"></div>
 
