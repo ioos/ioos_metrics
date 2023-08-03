@@ -381,6 +381,19 @@ button.icon_small[disabled] {
 
 }
 
+.mapbox {
+  width: 900px;
+  height: 550px;
+  border: 1px solid black;
+  /*border-width: 0 1px 0 1px;*/
+  margin-left: 40px;
+  margin-bottom: 40px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+
+}
+
 .box2 {
   color: white;
   height: auto;

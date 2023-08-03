@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {#<!-- Global site tag (gtag.js) - Google Analytics --> #}
+    <script async src="{{org_config.google_analytics}}"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config',"{{org_config.google_analytics_code}}" );
+
+
+
+    </script>
+    <title>{{org_config.main_title}}</title>
+    <link rel="icon" type="image/png"
+          href="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="./static/main.css"/>
+
+</head>
+<body>
+<main role="main" class="container">
+    <div class="mywrap_head">
+        <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/logo-navbar.png"
+             alt="NOAA IOOS Logo" height="75">&nbsp;&nbsp;&nbsp;
+        <h1 class="header_title">NOAA Integrated Ocean Observing System Metrics</h1>
+    </div>
+    <div class="divider"></div>
+    <div class="mywrap_head">
+        <button class="header_button" onclick="location.href='./index.html';" value="Metrics homepage">Metrics
+            Homepage
+        </button>
+        {#<!--<button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Explore Resources">
+            Explore Resources
+        </button>
+        <button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Contact IOOS">Contact
+            IOOS
+        </button>-->#}
+    </div>
+    <div class="divider"></div>
+    <div class="mywrap">
+        <h2 class="title">{{org_config.general_title}} <a href=https://github.com/ioos/ioos-asset-inventory/tree/main/2022>here</a>
+        </h2>
+    </div>
+
+    <div class="mapbox">
+    {{configs.figure}}
+    </div>
+
+    <div>
+        {{configs.table}}
+    </div>
+
+    <div class="divider_thin"></div>
+
+
+    <div class="divider"></div>
+
+    <footer>
+        <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/IOOS_Emblem_Tertiary_B_RGB.png"
+             alt="NOAA IOOS Logo" height="75">
+        <div class="mywrap_center">
+            <a class="mylink line" href="https://www.commerce.gov/">U.S. Department of Commerce</a>
+            <a class="mylink line" href="https://www.noaa.gov">National Oceanographic and Atmospheric Administration</a>
+            <a class="mylink" href="https://www.ioos.noaa.gov/">NOAA IOOS</a>
+        </div>
+    </footer>
+    {#<!--<div class ="attribution">Icons by icons8 https://icons8.com/</div>--> #}
+</main>
+<script>
+        var sidenav = document.getElementsByClassName("sidenav");
+        var menu = document.getElementById("menu");
+        var menulabel = document.getElementsByClassName("menulabel");
+
+
+            // sidenav[0].style.display="none";
+
+        function simpleSearch(val) {
+            var input, filter, ul, box, box_each, box_each_abbrev, box_each_keywords, box_each_drawer, i, txtValue;
+            if(val === undefined){
+              input = document.getElementById("myInput");
+              filter = input.value.toUpperCase();
+            }
+            else {
+              filter = val.toUpperCase();
+            }
+            box = document.getElementsByClassName("box");
+            for (i = 0; i < box.length; i++) {
+                box_each = box[i].getElementsByClassName("longTitle")[0];
+                box_each_abbrev = box[i].getElementsByClassName("shortTitle")[0];
+                box_each_keywords = box[i].getElementsByClassName("keywords")[0];
+                box_each_drawer = box[i].getElementsByClassName("toolbox_drawers")[0];
+                //console.log(box_each_keywords); // For Debugging
+                txtValue = box_each_abbrev.innerText; //box_each.textContent + " " + box_each_abbrev.innerText + " " + box_each_keywords.innerText + " " + box_each_drawer.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    box[i].style.display = "";
+                } else {
+                    box[i].style.display = "none";
+                }
+            }
+        }
+
+        function drawerSearch(val) {
+            var input, filter, ul, box, box_each, i, txtValue;
+            if(val === undefined){
+              input = document.getElementById("myInput");
+              filter = input.value.toUpperCase();
+            }
+            else {
+              filter = val.toUpperCase();
+            }
+            box = document.getElementsByClassName("box");
+            for (i = 0; i < box.length; i++) {
+                box_each = box[i].getElementsByClassName("toolbox_drawers")[0];
+                txtValue = box_each.textContent;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    box[i].style.display = "";
+                } else {
+                    box[i].style.display = "none";
+                }
+            }
+        }
+
+        function resetSearch() {
+            var box, i;
+            box = document.getElementsByClassName("box");
+            for (i = 0; i < box.length; i++) {
+              box[i].style.display = "";
+            }
+        }
+
+        function menuClick(x) {
+          // x.classList.toggle("change");
+          menulabel[0].classList.toggle("change");
+          sidenav[0].classList.toggle("open");
+          menu.classList.toggle("is_active");
+          let y =x.getAttribute("aria-expanded");
+          let t;
+          if (y == "true"){
+            y = "false"
+            t="-1";
+          }
+          else {
+            y = "true";
+            t="0";
+          }
+          x.setAttribute("aria-expanded", x);
+
+           }
+          // boxcontainer
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
