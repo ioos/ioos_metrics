@@ -5,7 +5,7 @@ dependencies:
   - python=3.11
   - bs4
   - fiscalyear
-  - geopandas
+  - geopandas>=0.13.2
   - jupyter
   - jinja2
   - lxml

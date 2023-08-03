@@ -1,0 +1,10 @@
+{
+  "general_info_text": "Browse the IOOS Asset Inventory.",
+  "general_title": "Browse IOOS asset inventory",
+  "githubpage": "https://ioos.github.io/ioos_metrics/browse",
+  "githubrepo": "https://github.com/ioos/ioos_metrics/",
+  "google_analytics": "https://tag_url.google.co",
+  "google_analytics_code": "some-code",
+  "location_of_metrics": "https://raw.githubusercontent.com/ioos/ioos-asset-inventory/main/2022/processed_inventory.geojson",
+  "main_title": "IOOS Asset Inventory"
+}
