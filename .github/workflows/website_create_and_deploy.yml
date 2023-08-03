@@ -24,11 +24,14 @@ jobs:
         pip install jinja2
         pip install pandas
         pip install plotly
+        pip install geopandas
+        pip install folium
     - name: create HTML file
       run: |
         cd website
         python create_gts_regional_landing_page.py
         python create_gts_atn_landing_page.py
+        python create_asset_inventory_page.py
         # note that static images and landing page (index.html) are
         # already in the deploy folder.
         # for now, don't create individual drawer pages
