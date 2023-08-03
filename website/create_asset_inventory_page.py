@@ -8,7 +8,7 @@ import geopandas
 import plotly.express as px
 import plotly
 import folium
-from folium.plugins import Search
+from folium.plugins import Search, Fullscreen
 
 
 def write_html_index(template, configs, org_config):
@@ -110,6 +110,8 @@ def map_plot(gdf):
         ).add_to(m)
 
     folium.LayerControl(collapsed=True).add_to(m)
+
+    Fullscreen().add_to(m)
 
     m.fit_bounds(m.get_bounds())
     #m.save("test.html")
