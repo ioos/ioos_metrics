@@ -5,6 +5,6 @@
   "githubrepo": "https://github.com/ioos/ioos_metrics/",
   "google_analytics": "https://tag_url.google.co",
   "google_analytics_code": "some-code",
-  "location_of_metrics": "https://raw.githubusercontent.com/ioos/ioos-asset-inventory/main/2022/processed_inventory.geojson",
+  "location_of_metrics": "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.geoJson?&Year=%222022%22",
   "main_title": "IOOS Asset Inventory"
 }

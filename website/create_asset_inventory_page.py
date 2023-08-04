@@ -88,15 +88,12 @@ def map_plot(gdf):
 #         ).add_to(m)
     layer = folium.GeoJson(
                     data=gdf,
-                    #name=,
                     marker=folium.CircleMarker(radius=1, color="black"),
                     tooltip=folium.features.GeoJsonTooltip(
                         fields=["RA","station_long_name"],
-        #                aliases=["",""],
                     ),
                     popup=folium.features.GeoJsonPopup(
-                        fields=["RA","Latitude","Longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]#columns,
-                        #aliases=[""],
+                        fields=["RA","latitude","longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]
                     ), show=True,
                 ).add_to(m)
 
@@ -128,12 +125,12 @@ def main(org_config):
 
     gdf = geopandas.read_file(file)
 
-    #print(gdf)
+    gdf['longitude'] = gdf.get_coordinates()['x']
+    gdf['latitude'] = gdf.get_coordinates()['y']
 
     fig = map_plot(gdf)
 
-    #print(fig)
-    columns = ["RA","Latitude","Longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]
+    columns = ["RA","station_long_name","latitude","longitude","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]
 
     configs = {'table': gdf.to_html(table_id="table", index=False, columns=columns),
                'figure': fig}
