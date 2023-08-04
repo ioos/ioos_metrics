@@ -73,9 +73,9 @@
     <div class="divider_thin"></div>
             <div id="field-definitions">
                 <h1>Field Definitions</h1>
-            <table>
+            <table border="1" class="dataframe">
                 <thead>
-                <tr>
+                <tr style="text-align: left;">
                     <th>Field</th>
                     <th>Definition</th>
                 </tr>
@@ -90,32 +90,32 @@
                     <td>Station name. e.g. Red Bank - Garden Banks, Fripps Inlet,  etc.</td>
                 </tr>
                 <tr>
-                    <td>Latitude (dec deg)</td>
+                    <td>Latitude</td>
                     <td>Coordinate Reference System WGS84 (<a href="https://epsg.io/4326" rel="nofollow">EPSG:4326</a>).</td>
                 </tr>
                 <tr>
-                    <td>Longitude (dec deg)</td>
+                    <td>Longitude</td>
                     <td>Coordinate Reference System WGS84 (<a href="https://epsg.io/4326" rel="nofollow">EPSG:4326</a>).</td>
                 </tr>
                 <tr>
                     <td>Platform</td>
-                    <td>A structure or vehicle designed to hold one or more sensors such that the intended oceanographic or atmospheric variable(s) can be monitored or measured in a manner designed for the ocean observing system or scientific hypotheses. Use terms listed in the IOOS Platform Vocabulary: <a href="http://mmisw.org/ont/ioos/platform" rel="nofollow">http://mmisw.org/ont/ioos/platform</a> (e.g. buoy, profiling buoy, moored buoy, wave buoy, fixed, offshore tower, profile)</td>
+                    <td>A structure or vehicle designed to hold one or more sensors such that the intended oceanographic or atmospheric variable(s) can be monitored or measured in a manner designed for the ocean observing system or scientific hypotheses.</td>
                 </tr>
                 <tr>
                     <td>station_deployment</td>
-                    <td>The time when the station became operational.  This can be determined by the first data record or an installation date.  This indicates the first time the station was deployed - not the last or latest, but the first time - even if IOOS was not established yet. Accepted responses:  Please provide a month and year (mm/yyyy).  If the actual deployment date is not known then provide a year (yyyy), or "&lt; 5 yr" (any date on/after 1/1/2013) or "&gt; 5 yr" (any date on/before 12/31/2012) .  If not available, please indicate why in the notes column.</td>
+                    <td>The time when the station became operational.  This can be determined by the first data record or an installation date.  This indicates the first time the station was deployed - not the last or latest, but the first time - even if IOOS was not established yet.</td>
                 </tr>
                 <tr>
-                    <td>Currently Operational? (Y, N, O, U)</td>
-                    <td>Is the asset deployed and collecting data?  Y = Yes (this includes seasonal buoys intended for redeployment).  N = No (it was uninstalled/removed, or is offline with no intent to repair).  O =  Offline (temporary outage, with intent to repair or redeploy).  U = Unknown (e.g. funding uncertainty for repair/redeployment, or operator's plans are unknown).  If O or U, please indicate why in the notes column.</td>
+                    <td>Operational?</td>
+                    <td>Is the asset deployed and collecting data?<br />Y = Yes (this includes seasonal buoys intended for redeployment).<br />N = No (it was uninstalled/removed, or is offline with no intent to repair).<br />O =  Offline (temporary outage, with intent to repair or redeploy).<br />U = Unknown (e.g. funding uncertainty for repair/redeployment, or operator's plans are unknown).</td>
                 </tr>
                 <tr>
-                    <td>RA Funding Involvement (Yf, Yp, N)</td>
-                    <td>Does the RA currently fund the asset?  This excludes support for data management activities.  Yf = Fully funds.  Yp = Partially funds.  N = No funding.</td>
+                    <td>RA_Funded</td>
+                    <td>Does the RA currently fund the asset? This excludes support for data management activities.<br />Yf = Fully funds.<br />Yp = Partially funds.<br />N = No funding.</td>
                 </tr>
                 <tr>
                     <td>Raw_Vars</td>
-                    <td>A list of observed variables that are associated with each station, with the depth(s) of the each measured oceanographic variable in parentheses following the variable name. 'Depths' not required for meteorological variables.  If the variable is ONLY measured at the surface and no other dpeth, you do not need to include any parentheses/depth - just state the variable name.  Use CF names (<a href="http://cfconventions.org/Data/cf-standard-names/47/build/cf-standard-name-table.html" rel="nofollow">http://cfconventions.org/Data/cf-standard-names/47/build/cf-standard-name-table.html</a>), and if the variable is not available in CF then use the IOOS parameter vocabulary (<a href="http://mmisw.org/ont/ioos/parameter" rel="nofollow">http://mmisw.org/ont/ioos/parameter</a>). Accepted responses: sea_water_temperature (1 m, 10 m, 40 m), or sea_water_temperature (sfc, 10 m, 40 m), or sea_water_temperature (sfc and 2 depths), or mass_concentration_of_chlorophyll_in_sea_water. The latter means chlorophyll is measured only at the surface.  Please provide all variables for the asset in a single cell in the spreadsheet (do not separate by row).</td>
+                    <td>A list of observed variables that are associated with each station, with the depth(s) of the each measured oceanographic variable in parentheses following the variable name.</td>
                 </tr>
                 </tbody>
             </table>
