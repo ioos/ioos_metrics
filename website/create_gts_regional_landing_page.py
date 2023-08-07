@@ -36,7 +36,7 @@ def timeseries_plot(output):
         output,
         x="date",
         y=["met", "wave"],
-        title="Regional Messages sent to the GTS via NDBC",
+        title="Number of IOOS Regional Observations sent to the GTS via NDBC",
         hover_data=["total"],
     )
 
