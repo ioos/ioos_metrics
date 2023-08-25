@@ -86,9 +86,10 @@ def map_plot(gdf):
 #                 #aliases=[""],
 #             ), show=True,
 #         ).add_to(m)
+    # request from micha to color by RA. If done above, I don't know how Search would use layer.
     layer = folium.GeoJson(
                     data=gdf,
-                    marker=folium.CircleMarker(radius=1, color="black"),
+                    marker=folium.CircleMarker(radius=5, color="black", fillColor="black", fillOpacity=1),
                     tooltip=folium.features.GeoJsonTooltip(
                         fields=["RA","station_long_name"],
                     ),
@@ -123,6 +124,8 @@ def main(org_config):
 
     file = org_config["location_of_metrics"]
 
+    file = file+"?&Year=max(Year)"
+
     gdf = geopandas.read_file(file)
 
     gdf['longitude'] = gdf.get_coordinates()['x']
@@ -130,7 +133,7 @@ def main(org_config):
 
     fig = map_plot(gdf)
 
-    columns = ["RA","station_long_name","latitude","longitude","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]
+    columns = ["Year","RA","station_long_name","latitude","longitude","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]
 
     configs = {'table': gdf.to_html(table_id="table", index=False, columns=columns),
                'figure': fig}
