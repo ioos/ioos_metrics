@@ -33,15 +33,15 @@ def write_templates(configs, org_config):
 
 
 def map_plot(gdf):
-
-    m = folium.Map(tiles=None,
-                   zoom_start=1,
-                   )
+    m = folium.Map(
+        tiles=None,
+        zoom_start=1,
+    )
 
     # Base Layers
     tiles = "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}"
     gh_repo = "https://github.com/ioos/ioos_metrics"
-    attr = f"Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri | <a href=\"{gh_repo}\" target=\"_blank\">{gh_repo}</a>"
+    attr = f'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri | <a href="{gh_repo}" target="_blank">{gh_repo}</a>'
     folium.raster_layers.TileLayer(
         name="Ocean",
         tiles=tiles,
@@ -49,7 +49,7 @@ def map_plot(gdf):
     ).add_to(m)
 
     folium.raster_layers.TileLayer(
-        'cartodbdark_matter',
+        "cartodbdark_matter",
         name="CartoDB",
     ).add_to(m)
 
@@ -68,44 +68,79 @@ def map_plot(gdf):
     ).add_to(m)
 
     columns = gdf.columns.tolist()
-    columns.remove('geometry')
+    columns.remove("geometry")
 
-#     for name, group in gdf.groupby(by='RA'):
-#         #group["ref"] = [f"<a href=\"{url}\" target=\"_blank\">{url}</a>" for url in group["url"]]
-#
-#         folium.GeoJson(
-#             data=group,
-#             name="{}".format(name),
-#             marker=folium.CircleMarker(radius=1, color='black'),
-#             tooltip=folium.features.GeoJsonTooltip(
-#                 fields=["RA","station_long_name"],
-# #                aliases=["",""],
-#             ),
-#             popup=folium.features.GeoJsonPopup(
-#                 fields=["RA","Latitude","Longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]#columns,
-#                 #aliases=[""],
-#             ), show=True,
-#         ).add_to(m)
-    # request from micha to color by RA. If done above, I don't know how Search would use layer.
-    layer = folium.GeoJson(
-                    data=gdf,
-                    marker=folium.CircleMarker(radius=5, color="black", fillColor="black", fillOpacity=1),
-                    tooltip=folium.features.GeoJsonTooltip(
-                        fields=["RA","station_long_name"],
-                    ),
-                    popup=folium.features.GeoJsonPopup(
-                        fields=["RA","latitude","longitude","station_long_name","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]
-                    ), show=True,
-                ).add_to(m)
+    colormap = pd.DataFrame(
+        {
+            "RA": [
+                "AOOS",
+                "PACIOOS",
+                "NANOOS",
+                "CENCOOS",
+                "SCCOOS",
+                "GLOS",
+                "NERACOOS",
+                "MARACOOS",
+                "SECOORA",
+                "GCOOS",
+                "CARICOOS",
+            ],
+            "color": [
+                "red",
+                "blue",
+                "orange",
+                "black",
+                "SlateBlue",
+                "magenta",
+                "brown",
+                "purple",
+                "DarkSlateGrey",
+                "grey",
+                "green",
+            ],
+        }
+    )
+    gdf = gdf.merge(colormap, how="left", on="RA")
+
+    search_group = folium.FeatureGroup(control=False, show=False)
+    search_group.add_to(m)
+
+    for name, group in gdf.groupby(by="RA"):
+        color = group["color"].unique()[0]
+
+        folium.GeoJson(
+            data=group,
+            name='<span style="color: {};"><b>{}</b></span>'.format(color, name),
+            marker=folium.CircleMarker(
+                radius=3, fillColor=color, color=color, fillOpacity=1
+            ),
+            tooltip=folium.features.GeoJsonTooltip(
+                fields=["RA", "station_long_name"],
+            ),
+            popup=folium.features.GeoJsonPopup(
+                fields=[
+                    "RA",
+                    "latitude",
+                    "longitude",
+                    "station_long_name",
+                    "Platform",
+                    "Operational",
+                    "station_deployment",
+                    "RA_Funded",
+                    "Raw_Vars",
+                ]
+            ),
+            show=True,
+        ).add_to(m).add_to(search_group)
 
     Search(
-            layer=layer,
-            geom_type="Point",
-            placeholder="Search for an station",
-            collapsed=False,
-            search_label="station_long_name",
-            weight=3,
-        ).add_to(m)
+        layer=search_group,
+        geom_type="Point",
+        placeholder="Search for an station",
+        collapsed=False,
+        search_label="station_long_name",
+        weight=3,
+    ).add_to(m)
 
     folium.LayerControl(collapsed=True).add_to(m)
 
@@ -120,23 +155,35 @@ def map_plot(gdf):
 
 
 def main(org_config):
-    configs = dict()
 
     file = org_config["location_of_metrics"]
 
-    file = file+"?&Year=max(Year)"
+    file = file + "?&Year=max(Year)"  # only grab most recent year
 
     gdf = geopandas.read_file(file)
 
-    gdf['longitude'] = gdf.get_coordinates()['x']
-    gdf['latitude'] = gdf.get_coordinates()['y']
+    gdf["longitude"] = gdf.get_coordinates()["x"]
+    gdf["latitude"] = gdf.get_coordinates()["y"]
 
     fig = map_plot(gdf)
 
-    columns = ["Year","RA","station_long_name","latitude","longitude","Platform","Operational","station_deployment","RA_Funded","Raw_Vars"]
+    columns = [
+        "Year",
+        "RA",
+        "station_long_name",
+        "latitude",
+        "longitude",
+        "Platform",
+        "Operational",
+        "station_deployment",
+        "RA_Funded",
+        "Raw_Vars",
+    ]
 
-    configs = {'table': gdf.to_html(table_id="table", index=False, columns=columns),
-               'figure': fig}
+    configs = {
+        "table": gdf.to_html(table_id="table", index=False, columns=columns),
+        "figure": fig,
+    }
 
     write_templates(configs, org_config)
 
