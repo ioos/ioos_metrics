@@ -163,7 +163,13 @@ def main(org_config):
     gdf = geopandas.read_file(file)
 
     gdf["longitude"] = gdf.get_coordinates()["x"]
+    gdf["longitude2"] = gdf["longitude"]
+    gdf.loc[gdf["longitude2"] > 0, "longitude2"] = gdf.loc[gdf["longitude2"] > 0, "longitude2"]-360
+
     gdf["latitude"] = gdf.get_coordinates()["y"]
+
+    gdf = geopandas.GeoDataFrame(
+        gdf, geometry=geopandas.points_from_xy(gdf['longitude2'], gdf['latitude']))
 
     fig = map_plot(gdf)
 
