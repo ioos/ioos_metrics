@@ -165,6 +165,15 @@ def main(org_config):
     gdf["longitude"] = gdf.get_coordinates()["x"]
     gdf["latitude"] = gdf.get_coordinates()["y"]
 
+    # to make a pretty map we need to translate longitudes that are between 130 and 180 to <-180 longitudes
+    # but, we still want to show the source longitude on the map so we keep those.
+    gdf["longitude2"] = gdf["longitude"]
+    gdf.loc[gdf["longitude2"] > 0, "longitude2"] = gdf.loc[gdf["longitude2"] > 0, "longitude2"] - 360
+
+    # recompute the geometry column based on the new longitudes so the map is prettier.
+    gdf = geopandas.GeoDataFrame(
+        gdf, geometry=geopandas.points_from_xy(gdf['longitude2'], gdf['latitude'], crs=gdf.crs))
+
     fig = map_plot(gdf)
 
     columns = [
