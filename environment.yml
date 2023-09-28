@@ -4,16 +4,14 @@ channels:
 dependencies:
   - python=3.11
   - bs4
+  - eccodes
   - fiscalyear
   - geopandas>=0.13.2
-  - jupyter
   - jinja2
+  - jupyter
   - lxml
   - owslib
   - pandas
-  - pip
-  - pip:
-      - pdbufr
-  - eccodes
+  - pdbufr
   - requests
   - suds
