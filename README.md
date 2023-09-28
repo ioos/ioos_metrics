@@ -22,11 +22,11 @@ The webpages are built from the `website/` directory.
 
 To create the webpages on your local system
 ```bash
->git clone https://github.com/ioos/ioos_metrics.git
->cd ioos_metrics/website
->python create_asset_inventory_page.py
->python create_gts_atn_landing_page.py
->python create_gts_regional_landing_page.py
+git clone https://github.com/ioos/ioos_metrics.git
+cd ioos_metrics/website
+python create_asset_inventory_page.py
+python create_gts_atn_landing_page.py
+python create_gts_regional_landing_page.py
 ```
 
 All the webpages will be saved to `website/deploy`. You can view the local html files with a web browser for testing.
