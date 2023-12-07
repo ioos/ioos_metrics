@@ -53,10 +53,10 @@ def map_plot(gdf):
         name="CartoDB",
     ).add_to(m)
 
-    folium.raster_layers.TileLayer(
-        name="Toner",
-        tiles="Stamen Toner",
-    ).add_to(m)
+    # folium.raster_layers.TileLayer(
+    #     name="Toner",
+    #     tiles="Stamen Toner",
+    # ).add_to(m)
 
     tiles = "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}"
     folium.raster_layers.TileLayer(
