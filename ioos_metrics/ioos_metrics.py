@@ -3,6 +3,28 @@ Code extracted from IOOS_BTN.ipynb
 
 """
 
+import io
+
+import pandas as pd
+import requests
+
+
+def previous_metrics():
+    ioos_btn_df = pd.read_csv(
+        "https://github.com/ioos/ioos_metrics/raw/main/ioos_btn_metrics.csv"
+    )
+
+    today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
+
+    # only update numbers if it's a new day
+    if today not in ioos_btn_df["date_UTC"].to_list():
+        ioos_btn_df = pd.concat(
+            [ioos_btn_df, pd.DataFrame([today], columns=["date_UTC"])],
+            ignore_index=True,
+            axis=0,
+        )
+    return ioos_btn_df
+
 
 def federal_partners():
     """
@@ -11,10 +33,6 @@ def federal_partners():
     Typically 17, from https://ioos.noaa.gov/community/national#federal.
 
     """
-    import io
-
-    import pandas as pd
-    import requests
 
     url = "https://ioos.noaa.gov/community/national#federal"
 
