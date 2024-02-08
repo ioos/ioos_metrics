@@ -14,20 +14,10 @@ def previous_metrics():
     Loads the previous metrics as a DataFrame for updating.
 
     """
-    ioos_btn_df = pd.read_csv(
+    df = pd.read_csv(
         "https://github.com/ioos/ioos_metrics/raw/main/ioos_btn_metrics.csv",
     )
-
-    today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
-
-    # only update numbers if it's a new day
-    if today not in ioos_btn_df["date_UTC"].to_list():
-        ioos_btn_df = pd.concat(
-            [ioos_btn_df, pd.DataFrame([today], columns=["date_UTC"])],
-            ignore_index=True,
-            axis=0,
-        )
-    return ioos_btn_df
+    return df
 
 
 def federal_partners():
@@ -93,3 +83,45 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
         lambda x: x.floor("D"),
     )
     return df.sum().days
+
+
+def update_metrics():
+    """
+    Load previous metrics and update the spreadsheet.
+
+    """
+    df = previous_metrics()
+
+    federal_partners_number = federal_partners()
+    glider_days = ngdac_gliders()
+
+    todo = [
+        "Regional Associations",
+        "HF Radar Stations",
+        "National Platforms",
+        "Regional Platforms",
+        "ATN Deployments",
+        "MBON Projects",
+        "OTT Projects",
+        "HAB Pilot Projects",
+        "QARTOD Manuals",
+        "IOOS Core Variables",
+        "Metadata Records",
+        "IOOS",
+        "COMT Projects",
+    ]
+
+    today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
+    new_metric_row = pd.DataFrame(
+        [today, federal_partners_number, glider_days],
+        index=["date_UTC", "Federal Partners", "NGDAC Glider Days"],
+    ).T
+    # only update numbers if it's a new day
+    if today not in df["date_UTC"].to_list():
+        df = pd.concat(
+            [df, new_metric_row],
+            ignore_index=True,
+            axis=0,
+        )
+
+    return df
