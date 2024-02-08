@@ -2,7 +2,7 @@ name: ioos-metrics
 channels:
   - conda-forge
 dependencies:
-  - python=3.11
+  - python=3.12
   - bs4
   - eccodes
   - fiscalyear
@@ -13,5 +13,7 @@ dependencies:
   - owslib
   - pandas
   - pdbufr
+  - pytest
   - requests
   - suds
+  - pyarrow
