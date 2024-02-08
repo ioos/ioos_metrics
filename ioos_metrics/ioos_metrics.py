@@ -17,6 +17,25 @@ def previous_metrics():
     df = pd.read_csv(
         "https://github.com/ioos/ioos_metrics/raw/main/ioos_btn_metrics.csv",
     )
+
+    number_cols = [
+        "Federal Partners",
+        "Regional Associations",
+        "HF Radar Stations",
+        "NGDAC Glider Days",
+        "National Platforms",
+        "Regional Platforms",
+        "ATN Deployments",
+        "MBON Projects",
+        "OTT Projects",
+        "HAB Pilot Projects",
+        "QARTOD Manuals",
+        "IOOS Core Variables",
+        "Metadata Records",
+        "IOOS",
+        "COMT Projects",
+    ]
+    df[number_cols] = df[number_cols].astype("Int64")
     return df
 
 
