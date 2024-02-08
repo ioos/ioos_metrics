@@ -17,6 +17,7 @@ def test_federal_partners():
     num = ioos_metrics.federal_partners()
     assert isinstance(num, int)
 
+
 def test_ngdac_gliders():
     num = ioos_metrics.ngdac_gliders()
     assert isinstance(num, int)

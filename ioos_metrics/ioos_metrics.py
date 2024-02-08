@@ -12,10 +12,10 @@ import requests
 def previous_metrics():
     """
     Loads the previous metrics as a DataFrame for updating.
-    
+
     """
     ioos_btn_df = pd.read_csv(
-        "https://github.com/ioos/ioos_metrics/raw/main/ioos_btn_metrics.csv"
+        "https://github.com/ioos/ioos_metrics/raw/main/ioos_btn_metrics.csv",
     )
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
@@ -55,7 +55,7 @@ def federal_partners():
 def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
     """
     NGDAC Glider Days
-    
+
     Gliders monitor water currents, temperature, and conditions that reveal effects from storms,
     impacts on fisheries, and the quality of our water.
     This information creates a more complete picture of what is happening in the ocean,
@@ -72,10 +72,10 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
     * drops all datasets with `datasetID` containing `delayed`.
     * duration is calculated based on the metadata ERDDAP generates (time_coverage) which usually over-estimate a bit b/c it includes empty data (NaN).
       Note that data with NaN can be real glider day with lost data. Which is OK for this metric.
-    
+
     """
     df = pd.read_csv(
-        "https://gliders.ioos.us/erddap/tabledap/allDatasets.csvp?minTime,maxTime,datasetID"
+        "https://gliders.ioos.us/erddap/tabledap/allDatasets.csvp?minTime,maxTime,datasetID",
     )
     df.dropna(
         axis=0,
@@ -90,6 +90,6 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
     ].apply(pd.to_datetime)
 
     df = df["maxTime (UTC)"].apply(lambda x: x.ceil("D")) - df["minTime (UTC)"].apply(
-        lambda x: x.floor("D")
+        lambda x: x.floor("D"),
     )
     return df.sum().days
