@@ -1,0 +1,25 @@
+name: Full Tests
+
+on:
+  pull_request:
+  push:
+    # branches: [main]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Micromamba
+      uses: mamba-org/setup-micromamba@v1
+      with:
+        init-shell: bash
+        environment-file: conda-lock.yml
+        environment-name: TEST
+
+    - name: Tests
+      shell: bash -l {0}
+      run: |
+        python -m pytest -rxs tests
