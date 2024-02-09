@@ -116,6 +116,31 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
     return df.sum().days
 
 
+def comt():
+    """
+    The COMT serves as a conduit between the federal operational and research communities and allows sharing of numerical models,
+    observations and software tools.
+    The COMT supports integration, comparison, scientific analyses and archiving of data and model output needed to elucidate,
+    prioritize, and resolve federal and regional operational coastal ocean issues associated with a range of existing and emerging coastal oceanic,
+    hydrologic, and ecological models.
+    The Testbed has enabled significant community building (within the modeling community as well as enhancing academic and federal operational relations) which has dramatically improved model development.
+
+    Number of Active Projects via personal communication from COMT program manager.
+    """
+
+    url = "https://ioos.noaa.gov/project/comt/"
+
+    html = requests.get(url, headers=_HEADERS).text
+
+    soup = BeautifulSoup(html, "html.parser")
+
+    for tag in soup.find_all("h2"):
+        if tag.text == "Current Projects":
+            comt = len(tag.next_sibling.find_all("li"))
+
+    return comt
+
+
 def update_metrics():
     """
     Load previous metrics and update the spreadsheet.
