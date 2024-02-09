@@ -1,5 +1,5 @@
 import sys
-
+import pytest
 import pandas as pd
 
 sys.path.append("..")
@@ -7,10 +7,13 @@ sys.path.append("..")
 from ioos_metrics import ioos_metrics
 
 
-def test_previous_metrics():
-    df = ioos_metrics.previous_metrics()
-    assert isinstance(df, pd.DataFrame)
-    assert not df.empty
+@pytest.fixture
+def df_previous_metrics():
+    return ioos_metrics.previous_metrics()
+
+def test_previous_metrics(df_previous_metrics):
+    assert isinstance(df_previous_metrics, pd.DataFrame)
+    assert not df_previous_metrics.empty
 
 
 def test_federal_partners():
@@ -18,6 +21,8 @@ def test_federal_partners():
     assert isinstance(num, int)
 
 
-def test_ngdac_gliders():
+def test_ngdac_gliders(df_previous_metrics):
     num = ioos_metrics.ngdac_gliders()
     assert isinstance(num, int)
+    # New count should always be >= than the previous one.
+    assert num >= df_previous_metrics["NGDAC Glider Days"].iloc[-1]
