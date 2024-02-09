@@ -4,9 +4,15 @@ Code extracted from IOOS_BTN.ipynb
 """
 
 import io
+import warnings
 
 import pandas as pd
 import requests
+from bs4 import BeautifulSoup
+
+_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+}
 
 
 def previous_metrics():
@@ -49,11 +55,7 @@ def federal_partners():
 
     url = "https://ioos.noaa.gov/community/national#federal"
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
-    }
-
-    html = requests.get(url, headers=headers).text
+    html = requests.get(url, headers=_HEADERS).text
 
     df = pd.read_html(io.StringIO(html))
     df_clean = df[1].drop(columns=[0, 2])
@@ -86,6 +88,16 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
     df = pd.read_csv(
         "https://gliders.ioos.us/erddap/tabledap/allDatasets.csvp?minTime,maxTime,datasetID",
     )
+
+    # We don't want allDatasets in our numbers.
+    df = df.loc[~(df["datasetID"] == "allDatasets")]
+    df.describe().T["count"]
+
+    # Check if any value is NaN and report it.
+    if df.isnull().sum().sum():
+        rows = df.loc[df.isnull().sum(axis=1).astype(bool)]
+        warnings.warn(f"The following rows have missing data:\n{rows}")
+
     df.dropna(
         axis=0,
         inplace=True,
@@ -113,22 +125,6 @@ def update_metrics():
 
     federal_partners_number = federal_partners()
     glider_days = ngdac_gliders()
-
-    todo = [
-        "Regional Associations",
-        "HF Radar Stations",
-        "National Platforms",
-        "Regional Platforms",
-        "ATN Deployments",
-        "MBON Projects",
-        "OTT Projects",
-        "HAB Pilot Projects",
-        "QARTOD Manuals",
-        "IOOS Core Variables",
-        "Metadata Records",
-        "IOOS",
-        "COMT Projects",
-    ]
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
     new_metric_row = pd.DataFrame(
