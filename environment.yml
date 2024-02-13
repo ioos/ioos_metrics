@@ -8,6 +8,8 @@ dependencies:
   - fake-useragent
   - fiscalyear
   - geopandas>=0.13.2
+  - gliderpy
+  - html5lib
   - joblib
   - lxml
   - pandas

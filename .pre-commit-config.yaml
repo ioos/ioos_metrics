@@ -1,3 +1,13 @@
+exclude: |
+    (?x)^(
+        GTS_Totals_weather_act.ipynb|
+        IOOS_BTN.ipynb|
+        btn_metrics.py|
+        gts_atn_metrics.py|
+        read_bufr.py|
+        website/.*
+    )$
+
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.5.0
@@ -7,12 +17,6 @@ repos:
     - id: debug-statements
     - id: end-of-file-fixer
     - id: check-added-large-files
-
-- repo: https://github.com/psf/black
-  rev: 24.3.0
-  hooks:
-  - id: black
-    language_version: python3
 
 - repo: https://github.com/codespell-project/codespell
   rev: v2.2.6
@@ -30,6 +34,22 @@ repos:
     - id: ruff
       args: ["--fix", "--show-fixes"]
     - id: ruff-format
+
+- repo: https://github.com/nbQA-dev/nbQA
+  rev: 1.8.5
+  hooks:
+    - id: nbqa-check-ast
+    - id: nbqa-black
+    - id: nbqa-ruff
+      args: [
+        --fix,
+        --config=ruff.toml,
+        ]
+
+- repo: https://github.com/bdice/nb-strip-paths
+  rev: v0.1.0
+  hooks:
+    - id: nb-strip-paths
 
 ci:
     autofix_commit_msg: |
