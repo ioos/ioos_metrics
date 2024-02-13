@@ -72,3 +72,14 @@ def test_ioos_core_variables():
     num = ioos_metrics.ioos_core_variables()
     assert isinstance(num, int)
     assert num >= 0
+
+
+def test_metadata_records():
+    num = ioos_metrics.metadata_records()
+    assert isinstance(num, int)
+    assert num >= 0
+
+
+def test_ioos():
+    num = ioos_metrics.ioos()
+    assert num == 1

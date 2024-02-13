@@ -276,6 +276,32 @@ def ioos_core_variables():
     return len(df.index.tolist())
 
 
+def metadata_records():
+    """
+    These are the number of metadata records currently available through the
+    [IOOS Catalog](https://data.ioos.us).
+    Previously the number of records was on the order of 8,600.
+    Below are three different mechanisms to calculate this metric,
+    however they do differ and the reason for that difference is unclear.
+
+    """
+    from ckanapi import RemoteCKAN
+
+    url = "https://data.ioos.us"
+    user_agent = "ckanapiioos/1.0 (+https://ioos.us/)"
+
+    ioos_catalog = RemoteCKAN(url, user_agent=user_agent)
+    datasets = ioos_catalog.action.package_search()
+    return datasets["count"]
+
+
+def ioos():
+    """
+    This represents the one IOOS Office.
+    """
+    return 1
+
+
 def update_metrics():
     """
     Load previous metrics and update the spreadsheet.
@@ -291,20 +317,26 @@ def update_metrics():
     atn = atn_deployments()
     ott = ott_projects()
     qartod = qartod_manuals()
+    core = ioos_core_variables()
+    metadata = metadata_records()
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
     new_row = {
         "date_UTC": today,
-        "Federal Partners": federal_partners_number,
-        "NGDAC Glider Days": glider_days,
-        "COMT Projects": comt_number,
-        "Regional Associations": ras,
-        "Regional Platforms": rps,
         "ATN Deployments": atn,
+        "COMT Projects": comt_number,
+        "Federal Partners": federal_partners_number,
+        "IOOS Core Variables": core,
+        "NGDAC Glider Days": glider_days,
         "OTT Projects": ott,
         "QARTOD Manuals": qartod,
+        "Regional Associations": ras,
+        "Regional Platforms": rps,
         "IOOS Core Variables": core,
+        "Metadata Records": metadata,
+        "IOOS": ioos(),
     }
+
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 
     # only update numbers if it's a new day
