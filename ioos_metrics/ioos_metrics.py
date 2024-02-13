@@ -142,6 +142,10 @@ def comt():
 
 
 def regional_associations():
+    """
+    Finds the current IOOS Regional Associations.
+
+    """
     ras = 0
     url = "https://ioos.noaa.gov/regions/regions-at-a-glance/"
 
