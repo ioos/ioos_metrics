@@ -141,6 +141,23 @@ def comt():
     return comt
 
 
+def regional_associations():
+    ras = 0
+    url = "https://ioos.noaa.gov/regions/regions-at-a-glance/"
+
+    html = requests.get(url, headers=_HEADERS).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    for tag in soup.find_all("a"):
+        if tag.find("strong") is not None:
+            ra = tag.find("strong").text
+            # TODO: change to log
+            # print(f"Found RA {ra}")
+            ras += 1
+
+    return ras
+
+
 def update_metrics():
     """
     Load previous metrics and update the spreadsheet.
@@ -150,11 +167,34 @@ def update_metrics():
 
     federal_partners_number = federal_partners()
     glider_days = ngdac_gliders()
+    comt_number = comt()
+    ras = regional_associations()
+
+    _TODO = [
+        # "NGDAC Glider Days", (TODO: change to data days)
+        "HF Radar Stations",  # It is a hardcoded number at the moment
+        "National Platforms",
+        "Regional Platforms",
+        "ATN Deployments",
+        "MBON Projects",
+        "OTT Projects",
+        "HAB Pilot Projects",
+        "QARTOD Manuals",
+        "IOOS Core Variables",
+        "Metadata Records",
+        "IOOS",
+    ]
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
     new_metric_row = pd.DataFrame(
-        [today, federal_partners_number, glider_days],
-        index=["date_UTC", "Federal Partners", "NGDAC Glider Days"],
+        [today, federal_partners_number, glider_days, comt_number, ras],
+        index=[
+            "date_UTC",
+            "Federal Partners",
+            "NGDAC Glider Days",
+            "COMT Projects",
+            "Regional Associations",
+        ],
     ).T
     # only update numbers if it's a new day
     if today not in df["date_UTC"].to_list():
