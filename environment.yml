@@ -4,6 +4,7 @@ channels:
 dependencies:
   - python=3.12
   - bs4
+  - ckanapi
   - eccodes
   - fiscalyear
   - geopandas>=0.13.2
@@ -13,7 +14,7 @@ dependencies:
   - owslib
   - pandas
   - pdbufr
+  - pyarrow
   - pytest
   - requests
   - suds
-  - pyarrow
