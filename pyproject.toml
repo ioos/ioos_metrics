@@ -1,0 +1,63 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools>=42",
+  "setuptools_scm",
+  "wheel",
+]
+
+[project]
+name = "ioos_metrics"
+description = "Package to fetch various metrics for IOOS by the numbers"
+readme = "README.md"
+license = {file = "LICENSE"}
+maintainers = [
+    {name = "Filipe Fernandes"},
+]
+requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "bs4",
+  "ckanapi",
+  "fake-useragent",
+  "geopandas>=0.13.2",
+  "gliderpy",
+  "html5lib",
+  "joblib",
+  "lxml",
+  "pandas",
+  "pdfminer.six",
+  "pyarrow",
+  "requests",
+]
+[project.urls]
+documentation = "https://ioos.github.io/ioos_metrics"
+homepage = "https://github.com/ioos/ioos_metrics"
+repository = "https://github.com/ioos/ioos_metrics"
+
+[tool.setuptools]
+packages = ["ioos_metrics"]
+include-package-data = true
+
+[tool.setuptools_scm]
+write_to = "ioos_metrics/_version.py"
+write_to_template = "__version__ = '{version}'"
+tag_regex = "^(?P<prefix>v)?(?P<version>[^\\+]+)(?P<suffix>.*)?$"
+
+[tool.check-manifest]
+ignore = [
+    "website",
+    "website/*",
+    "gts",
+    "gts/*",
+    "tests",
+    "tests/*",
+]
