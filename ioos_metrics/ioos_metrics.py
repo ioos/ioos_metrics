@@ -230,6 +230,33 @@ def ott_projects():
     return ott_projects
 
 
+def qartod_manuals():
+    """
+    As of the last update there are twelve QARTOD manuals in-place for IOOS.
+    These manuals establish authoritative QA/QC procedures for oceanographic data.
+
+    The five year plan lists 16 manuals/papers.
+    There's 13 QC manuals plus the Flags document,
+    the QA paper and the Glider DAC paper.
+    The Glider DAC paper is an implementation plan of the TS QC manual,
+    and it's posted under the Implementation tab on the QARTOD home page,
+    at https://cdn.ioos.noaa.gov/media/2017/12/Manual-for-QC-of-Glider-Data_05_09_16.pdf.
+
+
+    https://ioos.noaa.gov/project/qartod/
+
+    """
+    url = "https://ioos.noaa.gov/project/qartod/"
+
+    soup = BeautifulSoup(requests.get(url, headers=_HEADERS).text, "html.parser")
+    qartod = 0
+    for tag in soup.find_all("li"):
+        if "Real-Time Quality Control of" in tag.text:
+            qartod += 1
+
+    return qartod
+
+
 def update_metrics():
     """
     Load previous metrics and update the spreadsheet.
