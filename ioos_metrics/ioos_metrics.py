@@ -257,6 +257,25 @@ def qartod_manuals():
     return qartod
 
 
+def ioos_core_variables():
+    """
+    The IOOS Core Variables are presented on
+    [this website](https://www.iooc.us/task-teams/core-ioos-variables/).
+
+    """
+
+    url = "https://mmisw.org/ont/api/v0/ont?format=rj&iri=http://mmisw.org/ont/ioos/core_variable"
+
+    df = pd.read_json(url, orient="index")
+
+    # Drop the rows where 'name' doesn't exist.
+    df = df.dropna(
+        axis="index", how="any", subset="http://mmisw.org/ont/ioos/core_variable/name"
+    )
+
+    return len(df.index.tolist())
+
+
 def update_metrics():
     """
     Load previous metrics and update the spreadsheet.
@@ -271,6 +290,7 @@ def update_metrics():
     rps = regional_platforms()
     atn = atn_deployments()
     ott = ott_projects()
+    qartod = qartod_manuals()
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
     new_row = {
@@ -282,6 +302,8 @@ def update_metrics():
         "Regional Platforms": rps,
         "ATN Deployments": atn,
         "OTT Projects": ott,
+        "QARTOD Manuals": qartod,
+        "IOOS Core Variables": core,
     }
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 

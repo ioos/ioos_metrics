@@ -61,7 +61,14 @@ def test_ott_projects():
     assert isinstance(num, int)
     assert num >= 0
 
+
 def test_qartod_manuals():
     num = ioos_metrics.qartod_manuals()
+    assert isinstance(num, int)
+    assert num >= 0
+
+
+def test_ioos_core_variables():
+    num = ioos_metrics.ioos_core_variables()
     assert isinstance(num, int)
     assert num >= 0
