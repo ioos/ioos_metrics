@@ -3501,6 +3501,54 @@ package:
     sha256: 3bcd88290cd462d5573c2923c796599d0dece2ff9d9c9d6c914d31e9c5881aaf
   category: main
   optional: false
+- name: fake-useragent
+  version: 1.4.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/fake-useragent-1.4.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 87ac838f10c54be8014803165f44b936
+    sha256: 3710af40b8d780a0ee3884340662f67c4ccd67295a536113133181a680b3e551
+  category: main
+  optional: false
+- name: fake-useragent
+  version: 1.4.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/fake-useragent-1.4.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 87ac838f10c54be8014803165f44b936
+    sha256: 3710af40b8d780a0ee3884340662f67c4ccd67295a536113133181a680b3e551
+  category: main
+  optional: false
+- name: fake-useragent
+  version: 1.4.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/fake-useragent-1.4.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 87ac838f10c54be8014803165f44b936
+    sha256: 3710af40b8d780a0ee3884340662f67c4ccd67295a536113133181a680b3e551
+  category: main
+  optional: false
+- name: fake-useragent
+  version: 1.4.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/fake-useragent-1.4.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 87ac838f10c54be8014803165f44b936
+    sha256: 3710af40b8d780a0ee3884340662f67c4ccd67295a536113133181a680b3e551
+  category: main
+  optional: false
 - name: findlibs
   version: 0.0.5
   manager: conda

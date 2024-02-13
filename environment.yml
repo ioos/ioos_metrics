@@ -6,6 +6,7 @@ dependencies:
   - bs4
   - ckanapi
   - eccodes
+  - fake-useragent
   - fiscalyear
   - geopandas>=0.13.2
   - jinja2
