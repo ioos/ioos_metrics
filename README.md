@@ -7,9 +7,9 @@ Requirements:
 ## Website
 Leveraged existing resources from https://github.com/noaa-fisheries-integrated-toolbox/toolbox_web_templating.
 
-The webpages are built from the `website/` directory. 
+The webpages are built from the `website/` directory.
 
-| File(s)                               | Description                                                   
+| File(s)                               | Description
 |---------------------------------------|---------------------------------------------------------------
 | `*_config.json`                       | configuration for what resources to present on the webpages.
 | `create_asset_inventory_page.py`      | script to create https://ioos.github.io/ioos_metrics/asset_inventory.html
@@ -33,7 +33,6 @@ All the webpages will be saved to `website/deploy`. You can view the local html 
 
 ## Deployment
 
-The website is generated using GitHub Actions and GitHub Pages. The python scripts, referenced above, are ran and the 
+The website is generated using GitHub Actions and GitHub Pages. The python scripts, referenced above, are ran and the
 directory `website/deploy` is then uploaded as an artifact for GitHub Pages to serve as a website.
 This process is automatically ran with every push to the `main` branch. See [here](https://github.com/ioos/ioos_metrics/blob/main/.github/workflows/website_create_and_deploy.yml).
-

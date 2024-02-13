@@ -2,7 +2,7 @@ name: Collect quarterly metrics
 
 on:
   push:
-     branches: 
+     branches:
        - main
      paths:
        - '.github/workflows/metrics.yml'
