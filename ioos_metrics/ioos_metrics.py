@@ -198,6 +198,38 @@ def atn_deployments():
     return atn
 
 
+def ott_projects():
+    """
+    The IOOS Ocean Technology Transition project sponsors the transition of emerging marine observing technologies,
+    for which there is an existing operational requirement and a demonstrated commitment to integration and use by the ocean observing community,
+    to operational mode.
+    Each year IOOS supports 2-4 projects.
+    The number here reflects the total number projects supported by this effort.
+
+    These are the current active OTT projects which was provided by the OTT Program Manager.
+    Hopefully, we can find a good place to harvest these numbers from.
+
+    For now, we have the [website](https://ioos.noaa.gov/project/ocean-technology-transition/) and personal communication that there are 8 live projects.
+
+    """
+    url = "https://ioos.noaa.gov/project/ocean-technology-transition/"
+
+    html = requests.get(url, headers=_HEADERS).text
+    soup = BeautifulSoup(html, "html.parser")
+    table = soup.find(attrs={"class": "fg-text-dark ffb-one-desc-2-2"})
+    table = str(table)
+
+    df = pd.read_html(
+        io.StringIO(table),
+        header=0,
+    )
+
+    ott_projects = 0
+    for entry in df[0]:
+        ott_projects += df[0][entry][0].count("new in")
+    return ott_projects
+
+
 def update_metrics():
     """
     Load previous metrics and update the spreadsheet.
@@ -211,6 +243,7 @@ def update_metrics():
     ras = regional_associations()
     rps = regional_platforms()
     atn = atn_deployments()
+    ott = ott_projects()
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
     new_row = {
@@ -221,6 +254,7 @@ def update_metrics():
         "Regional Associations": ras,
         "Regional Platforms": rps,
         "ATN Deployments": atn,
+        "OTT Projects": ott,
     }
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 

@@ -50,7 +50,13 @@ def test_regional_platforms():
     assert num >= 0
 
 
-def test_regional_platforms():
-    num = ioos_metrics.regional_platforms()
+def test_atn_deployments():
+    num = ioos_metrics.atn_deployments()
+    assert isinstance(num, int)
+    assert num >= 0
+
+
+def test_ott_projects():
+    num = ioos_metrics.ott_projects()
     assert isinstance(num, int)
     assert num >= 0
