@@ -14,6 +14,7 @@ dependencies:
   - owslib
   - pandas
   - pdbufr
+  - pdfminer.six
   - pyarrow
   - pytest
   - requests

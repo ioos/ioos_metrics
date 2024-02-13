@@ -2911,6 +2911,71 @@ package:
     sha256: 75a9369a76ab7af83bc17583f8fd5f2db2b33a1d937e3802aac4229c19956822
   category: main
   optional: false
+- name: cryptography
+  version: 42.0.2
+  manager: conda
+  platform: linux-64
+  dependencies:
+    cffi: '>=1.12'
+    libgcc-ng: '>=12'
+    openssl: '>=3.1.5,<4.0a0'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/linux-64/cryptography-42.0.2-py312h4742d6a_0.conda
+  hash:
+    md5: 4c0d8028965cbef03ee9e08eaed9f6cf
+    sha256: bb749d84d13de3f0fbbca90666af9458c50c195d1179c4e977959458566c24be
+  category: main
+  optional: false
+- name: cryptography
+  version: 42.0.2
+  manager: conda
+  platform: osx-64
+  dependencies:
+    __osx: '>=10.12'
+    cffi: '>=1.12'
+    openssl: '>=3.1.5,<4.0a0'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/osx-64/cryptography-42.0.2-py312h8c97cfe_0.conda
+  hash:
+    md5: 58835734da16ea54a5cd831efe2d5bd9
+    sha256: 317f241b435094ab57964f3256ce6eb0f05ba0fc5601311e0c046ff031eb1d4a
+  category: main
+  optional: false
+- name: cryptography
+  version: 42.0.2
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    cffi: '>=1.12'
+    openssl: '>=3.1.5,<4.0a0'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/cryptography-42.0.2-py312he87677a_0.conda
+  hash:
+    md5: e44a0501d30888f3332963477acc7f98
+    sha256: 3266a03052092ce0a200da883044e60201183ce7f96ad844c5f67726f384b3e3
+  category: main
+  optional: false
+- name: cryptography
+  version: 42.0.2
+  manager: conda
+  platform: win-64
+  dependencies:
+    cffi: '>=1.12'
+    openssl: '>=3.1.5,<4.0a0'
+    python: '>=3.12,<3.13.0a0'
+    python_abi: 3.12.*
+    ucrt: '>=10.0.20348.0'
+    vc: '>=14.2,<15'
+    vc14_runtime: '>=14.29.30139'
+  url: https://conda.anaconda.org/conda-forge/win-64/cryptography-42.0.2-py312he4c2ea2_0.conda
+  hash:
+    md5: c51a234896448b69affb39552a594b2b
+    sha256: 668ec454a2bf672b4f606695e884fc1dd26a80a79fccaebc48e44273b8c6db26
+  category: main
+  optional: false
 - name: cycler
   version: 0.12.1
   manager: conda
@@ -13460,6 +13525,62 @@ package:
   hash:
     md5: 422748adcaf5c23c8c0f7ea84e7469c4
     sha256: 9009014de36efeb31d5d42a0fbf4704c59f9c7714a957b7aad66997a753aa90e
+  category: main
+  optional: false
+- name: pdfminer.six
+  version: '20231228'
+  manager: conda
+  platform: linux-64
+  dependencies:
+    charset-normalizer: '>=2.0.0'
+    cryptography: '>=36.0.0'
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/pdfminer.six-20231228-pyhd8ed1ab_0.conda
+  hash:
+    md5: e61f6b78673ea5e0273592cfc76eb16d
+    sha256: 3d57473e40c6fefca597eb394f1b25a6e2353e2597bae13137a70179ad4a3044
+  category: main
+  optional: false
+- name: pdfminer.six
+  version: '20231228'
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: '>=3.8'
+    cryptography: '>=36.0.0'
+    charset-normalizer: '>=2.0.0'
+  url: https://conda.anaconda.org/conda-forge/noarch/pdfminer.six-20231228-pyhd8ed1ab_0.conda
+  hash:
+    md5: e61f6b78673ea5e0273592cfc76eb16d
+    sha256: 3d57473e40c6fefca597eb394f1b25a6e2353e2597bae13137a70179ad4a3044
+  category: main
+  optional: false
+- name: pdfminer.six
+  version: '20231228'
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.8'
+    cryptography: '>=36.0.0'
+    charset-normalizer: '>=2.0.0'
+  url: https://conda.anaconda.org/conda-forge/noarch/pdfminer.six-20231228-pyhd8ed1ab_0.conda
+  hash:
+    md5: e61f6b78673ea5e0273592cfc76eb16d
+    sha256: 3d57473e40c6fefca597eb394f1b25a6e2353e2597bae13137a70179ad4a3044
+  category: main
+  optional: false
+- name: pdfminer.six
+  version: '20231228'
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.8'
+    cryptography: '>=36.0.0'
+    charset-normalizer: '>=2.0.0'
+  url: https://conda.anaconda.org/conda-forge/noarch/pdfminer.six-20231228-pyhd8ed1ab_0.conda
+  hash:
+    md5: e61f6b78673ea5e0273592cfc76eb16d
+    sha256: 3d57473e40c6fefca597eb394f1b25a6e2353e2597bae13137a70179ad4a3044
   category: main
   optional: false
 - name: pexpect
