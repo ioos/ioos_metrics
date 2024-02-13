@@ -162,6 +162,22 @@ def regional_associations():
     return ras
 
 
+def regional_platforms():
+    """
+    Regional platforms are calculated from the annual IOOS asset inventory submitted by each Regional Association.
+    More information about the IOOS asset inventory can be found at https://github.com/ioos/ioos-asset-inventory
+
+    The data from 2020 can be found
+    [here](https://github.com/ioos/ioos-asset-inventory/tree/main/2020)
+    and is available on [ERDDAP](http://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.html).
+
+    """
+
+    url = "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.json?station_long_name&distinct()"
+    df_regional_platforms = pd.read_json(url)
+    return len(df_regional_platforms.loc["rows"][0])
+
+
 def update_metrics():
     """
     Load previous metrics and update the spreadsheet.
@@ -173,12 +189,12 @@ def update_metrics():
     glider_days = ngdac_gliders()
     comt_number = comt()
     ras = regional_associations()
+    rps = regional_platforms()
 
     _TODO = [
         # "NGDAC Glider Days", (TODO: change to data days)
         "HF Radar Stations",  # It is a hardcoded number at the moment
         "National Platforms",
-        "Regional Platforms",
         "ATN Deployments",
         "MBON Projects",
         "OTT Projects",
@@ -190,20 +206,20 @@ def update_metrics():
     ]
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
-    new_metric_row = pd.DataFrame(
-        [today, federal_partners_number, glider_days, comt_number, ras],
-        index=[
-            "date_UTC",
-            "Federal Partners",
-            "NGDAC Glider Days",
-            "COMT Projects",
-            "Regional Associations",
-        ],
-    ).T
+    new_row = {
+        "date_UTC": today,
+        "Federal Partners": federal_partners_number,
+        "NGDAC Glider Days": glider_days,
+        "COMT Projects": comt_number,
+        "Regional Associations": ras,
+        "Regional Platforms": rps,
+    }
+    new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
+
     # only update numbers if it's a new day
     if today not in df["date_UTC"].to_list():
         df = pd.concat(
-            [df, new_metric_row],
+            [df, new_row],
             ignore_index=True,
             axis=0,
         )
