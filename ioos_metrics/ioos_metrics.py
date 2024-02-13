@@ -302,6 +302,67 @@ def ioos():
     return 1
 
 
+def mbon_projects():
+    """
+    Living marine resources are essential to the health and recreational needs of billions of people,
+    yet marine biodiversity and ecosystem processes remain major frontiers in ocean observing.
+    IOOS has a critical role in implementing operational,
+    sustained programs to observe biology and catalogue biodiversity to ensure these data are available for science,
+    management, and the public.
+    IOOS is leading development of the Marine Biodiversity Observation Network,
+    with core funding from NOAA, NASA and BOEM.
+    MBON connects regional networks of scientists, resource managers,
+    and users and integrates data from existing long-term programs to understand human- and climate-induced change and its impacts on marine life.
+    MBON partners are pioneering application of new remote sensing methods, imaging,
+    molecular approaches (eDNA and ‘omics),
+    and other technologies and integrating these with traditional research methods and coordinated experiments to understand changing patterns of biodiversity.
+
+    These are the currently funded MBON projects.
+    At this time, we are manually checking https://marinebon.org/ and counting the number of U.S. projects.
+
+    We hope to be able to use the resources [here](https://github.com/marinebon/www_marinebon2/tree/master/content/project) to automatically harvest these metrics in the future.
+
+    """
+
+    url = "https://ioos.noaa.gov/project/mbon/"
+    html = requests.get(url, headers=_HEADERS).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    mbon_projects = 0
+    for tag in soup.find_all("h3"):
+        if "class" in tag.attrs.keys():
+            continue  # we don't need the other headers
+        mbon_projects += 1
+
+    return mbon_projects
+
+
+def hab_pilot_projects():
+    """
+    These are the National Harmful Algal Bloom Observing Network Pilot Project awards.
+    Currently these were calculated from the
+    [award announcement pdf](https://cdn.ioos.noaa.gov/media/2021/10/NHABON-Funding-Awards-FY21_v2.pdf)
+    which states that there are 9 total.
+
+    Might be able to parse the pdf and calculate this on the fly.
+
+    """
+    from pdfminer.high_level import extract_text
+
+    url = "https://cdn.ioos.noaa.gov/media/2022/10/NHABON-Funding-Awards-FY22.pdf"
+
+    data = requests.get(url)
+
+    with io.BytesIO(data.content) as f:
+        pdf = extract_text(f)
+
+    content = pdf.split("\n")
+
+    nhabon_projects = sum("Funded amount" in s for s in content)
+    nhabon_projects = nhabon_projects + 1  # Gulf of Mexico project
+    return nhabon_projects
+
+
 def update_metrics():
     """
     Load previous metrics and update the spreadsheet.
@@ -319,6 +380,8 @@ def update_metrics():
     qartod = qartod_manuals()
     core = ioos_core_variables()
     metadata = metadata_records()
+    mbon = mbon_projects()
+    hab = hab_pilot_projects()
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
     new_row = {
@@ -335,6 +398,8 @@ def update_metrics():
         "IOOS Core Variables": core,
         "Metadata Records": metadata,
         "IOOS": ioos(),
+        "MBON Projects": mbon,
+        "HAB Pilot Projects": hab,
     }
 
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T

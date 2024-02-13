@@ -80,6 +80,18 @@ def test_metadata_records():
     assert num >= 0
 
 
+def test_mbon_projects():
+    num = ioos_metrics.mbon_projects()
+    assert isinstance(num, int)
+    assert num >= 0
+
+
+def test_hab_pilot_projects():
+    num = ioos_metrics.hab_pilot_projects()
+    assert isinstance(num, int)
+    assert num >= 0
+
+
 def test_ioos():
     num = ioos_metrics.ioos()
     assert num == 1
