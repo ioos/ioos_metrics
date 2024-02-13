@@ -191,20 +191,6 @@ def update_metrics():
     ras = regional_associations()
     rps = regional_platforms()
 
-    _TODO = [
-        # "NGDAC Glider Days", (TODO: change to data days)
-        "HF Radar Stations",  # It is a hardcoded number at the moment
-        "National Platforms",
-        "ATN Deployments",
-        "MBON Projects",
-        "OTT Projects",
-        "HAB Pilot Projects",
-        "QARTOD Manuals",
-        "IOOS Core Variables",
-        "Metadata Records",
-        "IOOS",
-    ]
-
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
     new_row = {
         "date_UTC": today,
