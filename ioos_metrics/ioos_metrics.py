@@ -174,8 +174,28 @@ def regional_platforms():
     """
 
     url = "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.json?station_long_name&distinct()"
-    df_regional_platforms = pd.read_json(url)
-    return len(df_regional_platforms.loc["rows"][0])
+    df = pd.read_json(url)
+    return len(df.loc["rows"].iloc[0])
+
+
+def atn_deployments():
+    """
+    See Deployments at https://portal.atn.ioos.us/#
+
+    """
+
+    headers = {"Accept": "application/json"}
+
+    raw_payload = requests.get(
+        "https://search.axds.co/v2/search?portalId=99", headers=headers
+    )
+    json_payload = raw_payload.json()
+    for plt in json_payload["types"]:
+        if plt["id"] == "platform2":
+            print(plt["count"])
+            atn = plt["count"]
+            break
+    return atn
 
 
 def update_metrics():
@@ -190,6 +210,7 @@ def update_metrics():
     comt_number = comt()
     ras = regional_associations()
     rps = regional_platforms()
+    atn = atn_deployments()
 
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
     new_row = {
@@ -199,6 +220,7 @@ def update_metrics():
         "COMT Projects": comt_number,
         "Regional Associations": ras,
         "Regional Platforms": rps,
+        "ATN Deployments": atn,
     }
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 

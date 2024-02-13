@@ -48,3 +48,9 @@ def test_regional_platforms():
     num = ioos_metrics.regional_platforms()
     assert isinstance(num, int)
     assert num >= 0
+
+
+def test_regional_platforms():
+    num = ioos_metrics.regional_platforms()
+    assert isinstance(num, int)
+    assert num >= 0
