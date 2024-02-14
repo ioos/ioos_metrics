@@ -10,6 +10,7 @@ dependencies:
   - fiscalyear
   - geopandas>=0.13.2
   - jinja2
+  - joblib
   - jupyter
   - lxml
   - owslib
@@ -19,4 +20,3 @@ dependencies:
   - pyarrow
   - pytest
   - requests
-  - suds
