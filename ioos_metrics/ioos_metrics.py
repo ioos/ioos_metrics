@@ -6,8 +6,8 @@ Code extracted from IOOS_BTN.ipynb
 import functools
 import io
 import logging
-import warnings
 
+import joblib
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -408,7 +408,6 @@ def update_metrics():
         "Federal Partners": federal_partners,
         "HAB Pilot Projects": hab_pilot_projects,
         "IOOS Core Variables": ioos_core_variables,
-        "IOOS Core Variables": ioos_core_variables,
         "IOOS": ioos,
         "MBON Projects": mbon_projects,
         "Metadata Records": metadata_records,
@@ -419,16 +418,11 @@ def update_metrics():
         "Regional Platforms": regional_platforms,
     }
 
-    for column, function in functions.items():
-        try:
-            num = function()
-        except Exception as err:
-            logging.error(f"{err}")
-            num = None
-        new_row.update({column: num})
-        # Log status.
-        message = _compare_metrics(column=column, num=num)
-        logging.info(f"{message}")
+    cpu_count = joblib.cpu_count()
+    parallel = joblib.Parallel(n_jobs=cpu_count, return_as="generator")
+    values = parallel(joblib.delayed(function)() for function in functions.values())
+    columns = dict(zip(functions.keys(), values))
+    new_row.update(columns)
 
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 
