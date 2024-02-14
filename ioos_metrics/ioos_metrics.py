@@ -3,7 +3,9 @@ Code extracted from IOOS_BTN.ipynb
 
 """
 
+import functools
 import io
+import logging
 import warnings
 
 import pandas as pd
@@ -11,12 +13,15 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
+logging.basicConfig(filename="metric.log", encoding="utf-8", level=logging.DEBUG)
+
 ua = UserAgent()
 _HEADERS = {
     "User-Agent": ua.random,
 }
 
 
+@functools.lru_cache(maxsize=128)
 def previous_metrics():
     """
     Loads the previous metrics as a DataFrame for updating.
@@ -47,6 +52,24 @@ def previous_metrics():
     return df
 
 
+def _compare_metrics(column, num):
+    """
+    Compares last stored metric against the new one and report if it is up, down, or the same.
+
+    """
+    last_row = previous_metrics().iloc[-1]
+    date = last_row["date_UTC"]
+    old = last_row[column]
+    if old == num:
+        return f"[{date}] : {column} equal {num} = {old}."
+    elif num < old:
+        return f"[{date}] : {column} down {num} < {old}."
+    elif num > old:
+        return f"[{date}] : {column} up {num} > {old}."
+    else:
+        return f"[{date}] : {column} failed."
+
+
 def federal_partners():
     """
     ICOOS Act/COORA
@@ -62,6 +85,7 @@ def federal_partners():
     df = pd.read_html(io.StringIO(html))
     df_clean = df[1].drop(columns=[0, 2])
     df_fed_partners = pd.concat([df_clean[1], df_clean[3]]).dropna().reset_index()
+    logging.info(f"{df_fed_partners[0].to_string()=}")
     return df_fed_partners.shape[0]
 
 
@@ -98,7 +122,7 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
     # Check if any value is NaN and report it.
     if df.isnull().sum().sum():
         rows = df.loc[df.isnull().sum(axis=1).astype(bool)]
-        warnings.warn(f"The following rows have missing data:\n{rows}")
+        logging.warning(f"The following rows have missing data:\n{rows}")
 
     df.dropna(
         axis=0,
@@ -138,6 +162,7 @@ def comt():
 
     for tag in soup.find_all("h2"):
         if tag.text == "Current Projects":
+            logging.info(f"{tag.next_sibling.find_all('li')=}")
             comt = len(tag.next_sibling.find_all("li"))
 
     return comt
@@ -156,9 +181,7 @@ def regional_associations():
 
     for tag in soup.find_all("a"):
         if tag.find("strong") is not None:
-            ra = tag.find("strong").text
-            # TODO: change to log
-            # print(f"Found RA {ra}")
+            logging.info(f"{tag.find('strong').text=}")
             ras += 1
 
     return ras
@@ -194,7 +217,6 @@ def atn_deployments():
     json_payload = raw_payload.json()
     for plt in json_payload["types"]:
         if plt["id"] == "platform2":
-            print(plt["count"])
             atn = plt["count"]
             break
     return atn
@@ -228,6 +250,7 @@ def ott_projects():
 
     ott_projects = 0
     for entry in df[0]:
+        logging.info(f"{df[0][entry][0].count('new in')=}")
         ott_projects += df[0][entry][0].count("new in")
     return ott_projects
 
@@ -254,6 +277,7 @@ def qartod_manuals():
     qartod = 0
     for tag in soup.find_all("li"):
         if "Real-Time Quality Control of" in tag.text:
+            logging.info(f"{tag.text=}")
             qartod += 1
 
     return qartod
@@ -370,39 +394,41 @@ def update_metrics():
     Load previous metrics and update the spreadsheet.
 
     """
+
     df = previous_metrics()
-
-    federal_partners_number = federal_partners()
-    glider_days = ngdac_gliders()
-    comt_number = comt()
-    ras = regional_associations()
-    rps = regional_platforms()
-    atn = atn_deployments()
-    ott = ott_projects()
-    qartod = qartod_manuals()
-    core = ioos_core_variables()
-    metadata = metadata_records()
-    mbon = mbon_projects()
-    hab = hab_pilot_projects()
-
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
+
     new_row = {
         "date_UTC": today,
-        "ATN Deployments": atn,
-        "COMT Projects": comt_number,
-        "Federal Partners": federal_partners_number,
-        "IOOS Core Variables": core,
-        "NGDAC Glider Days": glider_days,
-        "OTT Projects": ott,
-        "QARTOD Manuals": qartod,
-        "Regional Associations": ras,
-        "Regional Platforms": rps,
-        "IOOS Core Variables": core,
-        "Metadata Records": metadata,
-        "IOOS": ioos(),
-        "MBON Projects": mbon,
-        "HAB Pilot Projects": hab,
     }
+
+    functions = {
+        "ATN Deployments": atn_deployments,
+        "COMT Projects": comt,
+        "Federal Partners": federal_partners,
+        "HAB Pilot Projects": hab_pilot_projects,
+        "IOOS Core Variables": ioos_core_variables,
+        "IOOS Core Variables": ioos_core_variables,
+        "IOOS": ioos,
+        "MBON Projects": mbon_projects,
+        "Metadata Records": metadata_records,
+        "NGDAC Glider Days": ngdac_gliders,
+        "OTT Projects": ott_projects,
+        "QARTOD Manuals": qartod_manuals,
+        "Regional Associations": regional_associations,
+        "Regional Platforms": regional_platforms,
+    }
+
+    for column, function in functions.items():
+        try:
+            num = function()
+        except Exception as err:
+            log.error(f"{err}")
+            num = None
+        new_row.update({column: num})
+        # Log status.
+        message = _compare_metrics(column=column, num=num)
+        logging.info(f"{message}")
 
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 
