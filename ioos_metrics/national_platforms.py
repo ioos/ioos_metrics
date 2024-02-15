@@ -99,6 +99,7 @@ def get_nerrs():
         io.StringIO(str(soup.find(attrs={"class": "row text-center"}))),
         header=0,
         attrs={"class": "table"},
+        flavor="bs4",
     )
 
     df_final = pd.concat([df[0], df[1]])
