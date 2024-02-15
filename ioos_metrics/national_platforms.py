@@ -16,9 +16,11 @@ System-Wide Management Program (SWMP).
 
 """
 
+import io
 import logging
 import re
 
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
@@ -76,3 +78,28 @@ def get_ndbc():
             ndbc_buoys[string] = int(tag.next_sibling.string)
 
     return ndbc_buoys["Total Moored Buoys:"] + ndbc_buoys["Total Base Funded Stations:"]
+
+
+def get_nerrs():
+    """Fetches NERRS stations.
+
+    * https://nosc.noaa.gov/OSC/OSN/index.php
+      NERRS SWMP;
+      Across 29 NERRS;
+      Source = internal access only - NOAA Observing System Council.
+    * http://cdmo.baruch.sc.edu/webservices.cfm <- need IP address approval
+
+    """
+    url = "https://cdmo.baruch.sc.edu//webservices/station_timing.cfm"
+    html = requests.get(url, headers=_HEADERS, timeout=10).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    df = pd.read_html(
+        io.StringIO(str(soup.find(attrs={"class": "row text-center"}))),
+        header=0,
+        attrs={"class": "table"},
+    )
+
+    df_final = pd.concat([df[0], df[1]])
+
+    return df_final.shape[0]
