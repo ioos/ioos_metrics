@@ -385,7 +385,6 @@ def hab_pilot_projects():
     return nhabon_projects + 1  # Gulf of Mexico project
 
 
-
 def hf_radar_installations():
     """The previous number of 181 included all locations where
     a HFR station had ever been sighted as part of the IOOS National Network,
