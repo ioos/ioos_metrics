@@ -53,6 +53,7 @@ def test_if_metric_is_a_natural_number():
         comt,
         federal_partners,
         hab_pilot_projects,
+        hf_radar_installations,
         ioos_core_variables,
         mbon_projects,
         metadata_records,
@@ -61,7 +62,6 @@ def test_if_metric_is_a_natural_number():
         qartod_manuals,
         regional_associations,
         regional_platforms,
-        hf_radar_installations,
     ]
     for function in functions:
         num = function()

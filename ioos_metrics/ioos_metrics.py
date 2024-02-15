@@ -10,6 +10,15 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
+from ioos_metrics.national_platforms import (
+    get_cbibs,
+    get_cdip,
+    get_coops,
+    get_ndbc,
+    get_nerrs,
+    get_oap,
+)
+
 logging.basicConfig(
     filename="metric.log",
     encoding="utf-8",
@@ -438,6 +447,11 @@ def update_metrics(*, debug=False):
         values = parallel(joblib.delayed(function)() for function in functions.values())
         columns = dict(zip(functions.keys(), values, strict=False))
         new_row.update(columns)
+
+    # National Platforms hits several sources and should be parallelized.
+    functions = [get_cbibs, get_cdip, get_coops, get_ndbc, get_nerrs, get_oap]
+    national_platforms = sum(parallel(joblib.delayed(function)() for function in functions))
+    new_row.update({"National Platforms": national_platforms})
 
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 
