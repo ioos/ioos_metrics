@@ -376,6 +376,24 @@ def hab_pilot_projects():
     return nhabon_projects + 1  # Gulf of Mexico project
 
 
+
+def hf_radar_installations():
+    """The previous number of 181 included all locations where
+    a HFR station had ever been sighted as part of the IOOS National Network,
+    but doesn't appear to me to have accounted for temporary installations,
+    HFRs unfunded by IOOS operated by international partners,
+    or instances where an HFR being relocated from one site to another caused it to be double-counted.
+    Even the number 165 represents a "high water mark" for simultaneously operating HFRs,
+    since HFRs routinely are taken offline for periods of time,
+    for both planned preventative maintenance and in response to other exigent issues.
+
+    From http://hfrnet.ucsd.edu/sitediag/stationList.php
+
+    """
+    # This is a hardcoded number at the moment!
+    return 165
+
+
 def update_metrics(*, debug=False):
     """Load previous metrics and update the spreadsheet."""
     df = previous_metrics()
@@ -390,6 +408,7 @@ def update_metrics(*, debug=False):
         "COMT Projects": comt,
         "Federal Partners": federal_partners,
         "HAB Pilot Projects": hab_pilot_projects,
+        "HF Radar Stations": hf_radar_installations,
         "IOOS Core Variables": ioos_core_variables,
         "IOOS": ioos,
         "MBON Projects": mbon_projects,
