@@ -16,9 +16,23 @@ System-Wide Management Program (SWMP).
 
 """
 
+import logging
 import re
 
 import requests
+from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
+
+logging.basicConfig(
+    filename="national_platforms.log",
+    encoding="utf-8",
+    level=logging.DEBUG,
+)
+
+ua = UserAgent()
+_HEADERS = {
+    "User-Agent": ua.random,
+}
 
 
 def get_coops():
@@ -35,3 +49,30 @@ def get_coops():
     ).text
 
     return sum(1 for _ in re.finditer(r"\b%s\b" % re.escape("station name"), xml))
+
+
+def get_ndbc():
+    """Fetches NDBC buoys.
+
+    * Buoys: 106 (103 base-funded)
+    * CMAN: 45
+
+    """
+    url = "https://www.ndbc.noaa.gov/wstat.shtml"
+    html = requests.get(url, headers=_HEADERS, timeout=10).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    strings_to_find = [
+        "Total Base Funded Buoys:",
+        "Total Other Buoys:",
+        "Total Moored Buoys:",
+        "Total Base Funded Stations:",
+        "Total Stations:",
+    ]
+
+    ndbc_buoys = {}
+    for string in strings_to_find:
+        for tag in soup.find_all("td", string=string):
+            ndbc_buoys[string] = int(tag.next_sibling.string)
+
+    return ndbc_buoys["Total Moored Buoys:"] + ndbc_buoys["Total Base Funded Stations:"]
