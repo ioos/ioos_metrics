@@ -376,7 +376,7 @@ def hab_pilot_projects():
     return nhabon_projects + 1  # Gulf of Mexico project
 
 
-def update_metrics():
+def update_metrics(*, debug=False):
     """Load previous metrics and update the spreadsheet."""
     df = previous_metrics()
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
@@ -401,11 +401,24 @@ def update_metrics():
         "Regional Platforms": regional_platforms,
     }
 
-    cpu_count = joblib.cpu_count()
-    parallel = joblib.Parallel(n_jobs=cpu_count, return_as="generator")
-    values = parallel(joblib.delayed(function)() for function in functions.values())
-    columns = dict(zip(functions.keys(), values, strict=False))
-    new_row.update(columns)
+    # We cannot write the log in parallel. When debugging we should run the queries in seral mode.
+    if debug:
+        for column, function in functions.items():
+            try:
+                num = function()
+            except Exception:
+                logging.exception(f"{function=} failed.")
+                num = None
+            new_row.update({column: num})
+            # Log status.
+            message = _compare_metrics(column=column, num=num)
+            logging.info(f"{message}")
+    else:
+        cpu_count = joblib.cpu_count()
+        parallel = joblib.Parallel(n_jobs=cpu_count, return_as="generator")
+        values = parallel(joblib.delayed(function)() for function in functions.values())
+        columns = dict(zip(functions.keys(), values, strict=False))
+        new_row.update(columns)
 
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 
