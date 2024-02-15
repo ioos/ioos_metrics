@@ -19,7 +19,6 @@ System-Wide Management Program (SWMP).
 import io
 import json
 import logging
-import os
 import re
 
 import pandas as pd
@@ -116,7 +115,7 @@ def get_cbibs():
 
     Base URL: https://mw.buoybay.noaa.gov/api/v1
     """
-    apikey = os.environ["CBIBS"]
+    apikey = "f159959c117f473477edbdf3245cc2a4831ac61f"
 
     base_url = "https://mw.buoybay.noaa.gov/api/v1"
     start = "2021-12-08T01:00:00z"
