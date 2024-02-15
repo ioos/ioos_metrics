@@ -114,6 +114,7 @@ def get_cbibs():
     [API docs](https://buoybay.noaa.gov/node/174)
 
     Base URL: https://mw.buoybay.noaa.gov/api/v1
+
     """
     apikey = "f159959c117f473477edbdf3245cc2a4831ac61f"
 
@@ -125,3 +126,21 @@ def get_cbibs():
     query_url = f"{base_url}/json/query?key={apikey}&sd={start}&ed={end}&var={var}"
     payload = json.loads(requests.get(query_url, timeout=10).text)
     return len(payload["stations"])
+
+
+def get_oap():
+    """Fetches OAP stations.
+
+    * https://cdip.ucsd.edu/m/stn_table/
+      Includes overlap with the RAs and other programs
+
+    See buoys and moorings at https://oceanacidification.noaa.gov/WhatWeDo/Data.aspx
+
+    """
+    url = "https://oceanacidification.noaa.gov/WhatWeDo/Data.aspx"
+    html = requests.get(url, timeout=10).text
+    soup = BeautifulSoup(html, "html.parser")
+    text = soup.find_all(attrs={"data-id": "4fa1cacd"})[0].find_all("h6")[0].text
+
+    res = [int(i) for i in text.split() if i.isdigit()]
+    return int(res[0])

@@ -10,6 +10,7 @@ from ioos_metrics.national_platforms import (
     get_coops,
     get_ndbc,
     get_nerrs,
+    get_oap,
 )
 
 
@@ -19,6 +20,7 @@ def test_if_metric_is_a_natural_number():
         get_ndbc,
         get_nerrs,
         get_cbibs,
+        get_oap,
     ]
     for function in functions:
         num = function()
