@@ -423,7 +423,7 @@ def update_metrics():
         try:
             num = function()
         except Exception as err:
-            log.error(f"{err}")
+            logging.error(f"{err}")
             num = None
         new_row.update({column: num})
         # Log status.
