@@ -131,7 +131,7 @@ def get_cbibs():
 def get_oap():
     """Fetches OAP stations.
 
-    * https://cdip.ucsd.edu/m/stn_table/
+    * https://cdip.ucsd.edu/m/stn_table
       Includes overlap with the RAs and other programs
 
     See buoys and moorings at https://oceanacidification.noaa.gov/WhatWeDo/Data.aspx
@@ -144,3 +144,18 @@ def get_oap():
 
     res = [int(i) for i in text.split() if i.isdigit()]
     return int(res[0])
+
+
+def get_cdip():
+    """Fetches CDIP stations.
+
+    * https://cdip.ucsd.edu/m/stn_table
+      Includes overlap with the RAs
+
+    """
+    url = "https://cdip.ucsd.edu/themes/?d2=p1:m:mobile&regions=all&units=standard&zoom=auto&pub_set=public&tz=UTC&ll_fmt=dm&numcolorbands=10&palette=cdip_classic&high=6.096"
+    table_list = pd.read_html(url, match="Stn")
+
+    df = table_list[0]
+
+    return df["Stn"].unique().size
