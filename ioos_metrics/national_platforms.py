@@ -17,7 +17,9 @@ System-Wide Management Program (SWMP).
 """
 
 import io
+import json
 import logging
+import os
 import re
 
 import pandas as pd
@@ -103,3 +105,24 @@ def get_nerrs():
     df_final = pd.concat([df[0], df[1]])
 
     return df_final.shape[0]
+
+
+def get_cbibs():
+    """Fetches CBIBS buoys.
+
+    https://buoybay.noaa.gov/locations
+
+    [API docs](https://buoybay.noaa.gov/node/174)
+
+    Base URL: https://mw.buoybay.noaa.gov/api/v1
+    """
+    apikey = os.environ["CBIBS"]
+
+    base_url = "https://mw.buoybay.noaa.gov/api/v1"
+    start = "2021-12-08T01:00:00z"
+    end = "2021-12-09T23:59:59z"
+    var = "Position"
+
+    query_url = f"{base_url}/json/query?key={apikey}&sd={start}&ed={end}&var={var}"
+    payload = json.loads(requests.get(query_url, timeout=10).text)
+    return len(payload["stations"])
