@@ -23,6 +23,7 @@ from ioos_metrics.ioos_metrics import (
     qartod_manuals,
     regional_associations,
     regional_platforms,
+    update_metrics,
 )
 
 
@@ -67,3 +68,9 @@ def test_if_metric_is_a_natural_number():
         num = function()
         assert isinstance(num, int)
         assert num >= 0
+
+
+def test_update_metrics():
+    """Runs update_metrics in debug to log any possibles issues with the scrapping."""
+    df = update_metrics(debug=True)
+    df.to_csv("updated_metrics.csv")
