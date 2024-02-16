@@ -16,6 +16,7 @@ System-Wide Management Program (SWMP).
 
 """
 
+import functools
 import io
 import json
 import logging
@@ -38,6 +39,7 @@ _HEADERS = {
 }
 
 
+@functools.lru_cache(maxsize=128)
 def get_coops():
     """Fetches CO-OPS stations.
 
@@ -54,6 +56,7 @@ def get_coops():
     return sum(1 for _ in re.finditer(r"\b%s\b" % re.escape("station name"), xml))
 
 
+@functools.lru_cache(maxsize=128)
 def get_ndbc():
     """Fetches NDBC buoys.
 
@@ -81,6 +84,7 @@ def get_ndbc():
     return ndbc_buoys["Total Moored Buoys:"] + ndbc_buoys["Total Base Funded Stations:"]
 
 
+@functools.lru_cache(maxsize=128)
 def get_nerrs():
     """Fetches NERRS stations.
 
@@ -107,6 +111,7 @@ def get_nerrs():
     return df_final.shape[0]
 
 
+@functools.lru_cache(maxsize=128)
 def get_cbibs():
     """Fetches CBIBS buoys.
 
@@ -129,6 +134,7 @@ def get_cbibs():
     return len(payload["stations"])
 
 
+@functools.lru_cache(maxsize=128)
 def get_oap():
     """Fetches OAP stations.
 
@@ -147,6 +153,7 @@ def get_oap():
     return int(res[0])
 
 
+@functools.lru_cache(maxsize=128)
 def get_cdip():
     """Fetches CDIP stations.
 

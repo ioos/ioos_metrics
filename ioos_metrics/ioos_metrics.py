@@ -75,6 +75,7 @@ def _compare_metrics(column, num) -> str:
     return msg
 
 
+@functools.lru_cache(maxsize=128)
 def federal_partners():
     """ICOOS Act/COORA.
 
@@ -92,6 +93,7 @@ def federal_partners():
     return df.shape[0]
 
 
+@functools.lru_cache(maxsize=128)
 def ngdac_gliders():
     """NGDAC Glider Days.
 
@@ -141,6 +143,7 @@ def ngdac_gliders():
     return df.sum().days
 
 
+@functools.lru_cache(maxsize=128)
 def comt():
     """The COMT serves as a conduit between the federal operational
     and research communities and allows sharing of numerical models,
@@ -170,6 +173,7 @@ def comt():
     return comt
 
 
+@functools.lru_cache(maxsize=128)
 def regional_associations():
     """Finds the current IOOS Regional Associations."""
     ras = 0
@@ -186,6 +190,7 @@ def regional_associations():
     return ras
 
 
+@functools.lru_cache(maxsize=128)
 def regional_platforms():
     """Regional platforms are calculated from the annual IOOS asset inventory submitted by each Regional Association.
     More information about the IOOS asset inventory can be found at https://github.com/ioos/ioos-asset-inventory.
@@ -200,6 +205,7 @@ def regional_platforms():
     return len(df.loc["rows"].iloc[0])
 
 
+@functools.lru_cache(maxsize=128)
 def atn_deployments():
     """See Deployments at https://portal.atn.ioos.us/#."""
     headers = {"Accept": "application/json"}
@@ -217,6 +223,7 @@ def atn_deployments():
     return atn
 
 
+@functools.lru_cache(maxsize=128)
 def ott_projects():
     """The IOOS Ocean Technology Transition project sponsors the transition of emerging marine observing technologies,
     for which there is an existing operational requirement
@@ -252,6 +259,7 @@ def ott_projects():
     return ott_projects
 
 
+@functools.lru_cache(maxsize=128)
 def qartod_manuals():
     """As of the last update there are twelve QARTOD manuals in-place for IOOS.
     These manuals establish authoritative QA/QC procedures for oceanographic data.
@@ -282,6 +290,7 @@ def qartod_manuals():
     return qartod
 
 
+@functools.lru_cache(maxsize=128)
 def ioos_core_variables():
     """The IOOS Core Variables are presented on
     [this website](https://www.iooc.us/task-teams/core-ioos-variables/).
@@ -301,6 +310,7 @@ def ioos_core_variables():
     return len(df.index.tolist())
 
 
+@functools.lru_cache(maxsize=128)
 def metadata_records():
     """These are the number of metadata records currently available through the
     [IOOS Catalog](https://data.ioos.us).
@@ -319,11 +329,13 @@ def metadata_records():
     return datasets["count"]
 
 
+@functools.lru_cache(maxsize=128)
 def ioos() -> int:
     """Represents the one IOOS Office."""
     return 1
 
 
+@functools.lru_cache(maxsize=128)
 def mbon_projects():
     """Living marine resources are essential to the health and recreational needs of billions of people,
     yet marine biodiversity and ecosystem processes remain major frontiers in ocean observing.
@@ -361,6 +373,7 @@ def mbon_projects():
     return mbon_projects
 
 
+@functools.lru_cache(maxsize=128)
 def hab_pilot_projects():
     """These are the National Harmful Algal Bloom Observing Network Pilot Project awards.
     Currently these were calculated from the
@@ -385,6 +398,7 @@ def hab_pilot_projects():
     return nhabon_projects + 1  # Gulf of Mexico project
 
 
+@functools.lru_cache(maxsize=128)
 def hf_radar_installations():
     """The previous number of 181 included all locations where
     a HFR station had ever been sighted as part of the IOOS National Network,
@@ -427,6 +441,8 @@ def update_metrics(*, debug=False):
         "Regional Associations": regional_associations,
         "Regional Platforms": regional_platforms,
     }
+    # We do the national platforms separately b/c this one hits multiple services.
+    national_platforms_functions = [get_cbibs, get_cdip, get_coops, get_ndbc, get_nerrs, get_oap]
 
     # We cannot write the log in parallel. When debugging we should run the queries in seral mode.
     if debug:
@@ -440,17 +456,19 @@ def update_metrics(*, debug=False):
             # Log status.
             message = _compare_metrics(column=column, num=num)
             logging.info(f"{message}")
+
+        national_platforms = [function() for function in national_platforms_functions]
+        new_row.update({"National Platforms": national_platforms})
     else:
         cpu_count = joblib.cpu_count()
         parallel = joblib.Parallel(n_jobs=cpu_count, return_as="generator")
+
         values = parallel(joblib.delayed(function)() for function in functions.values())
         columns = dict(zip(functions.keys(), values, strict=False))
         new_row.update(columns)
 
-    # National Platforms hits several sources and should be parallelized.
-    functions = [get_cbibs, get_cdip, get_coops, get_ndbc, get_nerrs, get_oap]
-    national_platforms = sum(parallel(joblib.delayed(function)() for function in functions))
-    new_row.update({"National Platforms": national_platforms})
+        national_platforms = sum(parallel(joblib.delayed(function)() for function in national_platforms_functions))
+        new_row.update({"National Platforms": national_platforms})
 
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 
