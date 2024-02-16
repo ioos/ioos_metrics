@@ -1,3 +1,13 @@
+exclude: |
+    (?x)^(
+        GTS_Totals_weather_act.ipynb|
+        IOOS_BTN.ipynb|
+        btn_metrics.py|
+        gts_atn_metrics.py|
+        read_bufr.py|
+        website/.*
+    )$
+
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.5.0
@@ -31,7 +41,10 @@ repos:
     - id: nbqa-check-ast
     - id: nbqa-black
     - id: nbqa-ruff
-      args: [--fix, --extend-ignore=E402]
+      args: [
+        --fix,
+        --config=ruff.toml,
+        ]
 
 - repo: https://github.com/bdice/nb-strip-paths
   rev: v0.1.0
