@@ -1,8 +1,7 @@
-[tool.ruff]
 target-version = "py312"
 lint.select = ["ALL"]
 line-length = 120
-exclude=[
+exclude = [
     "website/*",
     "read_bufr.py",
     "btn_metrics.py",
@@ -19,11 +18,14 @@ lint.ignore = [
     "D205",  # 1 blank line required between summary line and description
     ]
 
-[tool.ruff.lint.extend-per-file-ignores]
+[lint.extend-per-file-ignores]
 "test_*.py" = [
     "S101",  # Use of assert detected
     "D103",  # Missing docstring in public function
     "INP001",  # File is part of an implicit namespace package
 ]
-[tool.ruff.lint.pycodestyle]
+"run_metrics.ipynb" = [
+    "D100",  # Missing docstring in public module
+]
+[lint.pycodestyle]
 max-doc-length = 180
