@@ -52,6 +52,70 @@ package:
     sha256: fbe2c5e56a653bebb982eda4876a9178aedfc2b545f25d0ce9c4c0b508253d22
   category: main
   optional: false
+- name: anyio
+  version: 4.3.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    exceptiongroup: '>=1.0.2'
+    idna: '>=2.8'
+    python: '>=3.8'
+    sniffio: '>=1.1'
+    typing_extensions: '>=4.1'
+  url: https://conda.anaconda.org/conda-forge/noarch/anyio-4.3.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: ac95aa8ed65adfdde51132595c79aade
+    sha256: 86aca4a31c09f9b4dbdb332cd9a6a7dbab62ca734d3f832651c0ab59c6a7f52e
+  category: main
+  optional: false
+- name: anyio
+  version: 4.3.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: '>=3.8'
+    sniffio: '>=1.1'
+    typing_extensions: '>=4.1'
+    idna: '>=2.8'
+    exceptiongroup: '>=1.0.2'
+  url: https://conda.anaconda.org/conda-forge/noarch/anyio-4.3.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: ac95aa8ed65adfdde51132595c79aade
+    sha256: 86aca4a31c09f9b4dbdb332cd9a6a7dbab62ca734d3f832651c0ab59c6a7f52e
+  category: main
+  optional: false
+- name: anyio
+  version: 4.3.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.8'
+    sniffio: '>=1.1'
+    typing_extensions: '>=4.1'
+    idna: '>=2.8'
+    exceptiongroup: '>=1.0.2'
+  url: https://conda.anaconda.org/conda-forge/noarch/anyio-4.3.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: ac95aa8ed65adfdde51132595c79aade
+    sha256: 86aca4a31c09f9b4dbdb332cd9a6a7dbab62ca734d3f832651c0ab59c6a7f52e
+  category: main
+  optional: false
+- name: anyio
+  version: 4.3.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.8'
+    sniffio: '>=1.1'
+    typing_extensions: '>=4.1'
+    idna: '>=2.8'
+    exceptiongroup: '>=1.0.2'
+  url: https://conda.anaconda.org/conda-forge/noarch/anyio-4.3.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: ac95aa8ed65adfdde51132595c79aade
+    sha256: 86aca4a31c09f9b4dbdb332cd9a6a7dbab62ca734d3f832651c0ab59c6a7f52e
+  category: main
+  optional: false
 - name: attrs
   version: 23.2.0
   manager: conda
@@ -2280,68 +2344,68 @@ package:
   category: main
   optional: false
 - name: cryptography
-  version: 42.0.2
+  version: 42.0.3
   manager: conda
   platform: linux-64
   dependencies:
     cffi: '>=1.12'
     libgcc-ng: '>=12'
-    openssl: '>=3.1.5,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/cryptography-42.0.2-py312h4742d6a_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/cryptography-42.0.3-py312h241aef2_0.conda
   hash:
-    md5: 4c0d8028965cbef03ee9e08eaed9f6cf
-    sha256: bb749d84d13de3f0fbbca90666af9458c50c195d1179c4e977959458566c24be
+    md5: de4a5f633f5620618ad29f5be8a6f206
+    sha256: b0a3a1c9cfbd8cd0ec46cefb115d113e59eab66ee2b3b617a394e043a5b1460a
   category: main
   optional: false
 - name: cryptography
-  version: 42.0.2
+  version: 42.0.3
   manager: conda
   platform: osx-64
   dependencies:
     __osx: '>=10.12'
     cffi: '>=1.12'
-    openssl: '>=3.1.5,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-64/cryptography-42.0.2-py312h8c97cfe_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/cryptography-42.0.3-py312h3d16f4b_0.conda
   hash:
-    md5: 58835734da16ea54a5cd831efe2d5bd9
-    sha256: 317f241b435094ab57964f3256ce6eb0f05ba0fc5601311e0c046ff031eb1d4a
+    md5: 84f3ebf0a460fa6fee76d852570e9526
+    sha256: 35905f44fc67197c5ad0b48d2af5d0e93f19b4f80aa56eae41609aca0264d279
   category: main
   optional: false
 - name: cryptography
-  version: 42.0.2
+  version: 42.0.3
   manager: conda
   platform: osx-arm64
   dependencies:
     cffi: '>=1.12'
-    openssl: '>=3.1.5,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/cryptography-42.0.2-py312he87677a_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/cryptography-42.0.3-py312h99f8e83_0.conda
   hash:
-    md5: e44a0501d30888f3332963477acc7f98
-    sha256: 3266a03052092ce0a200da883044e60201183ce7f96ad844c5f67726f384b3e3
+    md5: 638006ac73a7421d1a2baf220637a199
+    sha256: 358c5334b2e509e826b7ae9aee0edc7826a34381ab033e3b1f172517064780c9
   category: main
   optional: false
 - name: cryptography
-  version: 42.0.2
+  version: 42.0.3
   manager: conda
   platform: win-64
   dependencies:
     cffi: '>=1.12'
-    openssl: '>=3.1.5,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/cryptography-42.0.2-py312he4c2ea2_0.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/cryptography-42.0.3-py312h1f4a190_0.conda
   hash:
-    md5: c51a234896448b69affb39552a594b2b
-    sha256: 668ec454a2bf672b4f606695e884fc1dd26a80a79fccaebc48e44273b8c6db26
+    md5: 2bbeb01262e3d77bf947e5a1f94f9407
+    sha256: 044d34e35d31224d2f6ae3aa91adc6612c4ab8d4f1cf1393dcdfdab6b652700c
   category: main
   optional: false
 - name: cycler
@@ -2438,6 +2502,66 @@ package:
   hash:
     md5: a9ed63e45579cfef026a916af2bc27c9
     sha256: 4bbfb8ab343b4711223aedf797a2678955412124e71415dc2fe9816248f0b28d
+  category: main
+  optional: false
+- name: erddapy
+  version: 2.2.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    httpx: ''
+    pandas: <3,>=0.25.2
+    python: '>=3.8'
+    pytz: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/erddapy-2.2.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: ff7354c3bb305f54715d719b99146977
+    sha256: 551059f05aeb9b18f0148da0d406e3a1c19e42aea6357356ec2228d193da146b
+  category: main
+  optional: false
+- name: erddapy
+  version: 2.2.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    pytz: ''
+    httpx: ''
+    python: '>=3.8'
+    pandas: <3,>=0.25.2
+  url: https://conda.anaconda.org/conda-forge/noarch/erddapy-2.2.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: ff7354c3bb305f54715d719b99146977
+    sha256: 551059f05aeb9b18f0148da0d406e3a1c19e42aea6357356ec2228d193da146b
+  category: main
+  optional: false
+- name: erddapy
+  version: 2.2.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    pytz: ''
+    httpx: ''
+    python: '>=3.8'
+    pandas: <3,>=0.25.2
+  url: https://conda.anaconda.org/conda-forge/noarch/erddapy-2.2.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: ff7354c3bb305f54715d719b99146977
+    sha256: 551059f05aeb9b18f0148da0d406e3a1c19e42aea6357356ec2228d193da146b
+  category: main
+  optional: false
+- name: erddapy
+  version: 2.2.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    pytz: ''
+    httpx: ''
+    python: '>=3.8'
+    pandas: <3,>=0.25.2
+  url: https://conda.anaconda.org/conda-forge/noarch/erddapy-2.2.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: ff7354c3bb305f54715d719b99146977
+    sha256: 551059f05aeb9b18f0148da0d406e3a1c19e42aea6357356ec2228d193da146b
   category: main
   optional: false
 - name: exceptiongroup
@@ -3099,7 +3223,7 @@ package:
   category: main
   optional: false
 - name: fonttools
-  version: 4.48.1
+  version: 4.49.0
   manager: conda
   platform: linux-64
   dependencies:
@@ -3108,14 +3232,14 @@ package:
     munkres: ''
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/fonttools-4.48.1-py312h98912ed_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/fonttools-4.49.0-py312h98912ed_0.conda
   hash:
-    md5: 4fdffe33b2c5cd70ff7eac09fff31c31
-    sha256: 2f6be5b9281a8916b3b8364a4473d7ca504e93f309db17b823e2eee65d98fa2e
+    md5: b0d9bd8d89f85d031783e497e6e3bbad
+    sha256: df21c2a070b576e4b930a95a58780ec3d0fa2ff586b40e3d9fe7953cdf1ea456
   category: main
   optional: false
 - name: fonttools
-  version: 4.48.1
+  version: 4.49.0
   manager: conda
   platform: osx-64
   dependencies:
@@ -3123,14 +3247,14 @@ package:
     munkres: ''
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-64/fonttools-4.48.1-py312h41838bb_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/fonttools-4.49.0-py312h41838bb_0.conda
   hash:
-    md5: f7db6992aa780fca60ec35fb2cfe012f
-    sha256: b4f325f595ae2eeb5c3f686e00a597a47a66adcb8dce8b982a6cbe13fa5c6925
+    md5: 910043c784378419df3160b7661ee915
+    sha256: bcd82aeaafe7b54de10af15f60c352f5e3e73cfb76f7b8a86f06a4394eb18b1b
   category: main
   optional: false
 - name: fonttools
-  version: 4.48.1
+  version: 4.49.0
   manager: conda
   platform: osx-arm64
   dependencies:
@@ -3138,14 +3262,14 @@ package:
     munkres: ''
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/fonttools-4.48.1-py312he37b823_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/fonttools-4.49.0-py312he37b823_0.conda
   hash:
-    md5: 69f7b56ceca74d5a1af2f843d77d7f63
-    sha256: 4daffbb3b83582d6ddbc1cba6dd88876bb7aa65255c46b229619ce15f8a18c04
+    md5: b512c69c2d3fc0b5c04e2b120c6a22d2
+    sha256: 416813e38515bfe5d41a4df1cb68ad0595edbaadd122646ace755b4c7d16da69
   category: main
   optional: false
 - name: fonttools
-  version: 4.48.1
+  version: 4.49.0
   manager: conda
   platform: win-64
   dependencies:
@@ -3156,10 +3280,10 @@ package:
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/fonttools-4.48.1-py312he70551f_0.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/fonttools-4.49.0-py312he70551f_0.conda
   hash:
-    md5: 19208b0c0f867d08ea95a334810193a1
-    sha256: 8ab968251cd063b00d92b6a2172861ec6b44d4ac03a50218bf6e8531358cfad7
+    md5: f18ed43529ccb05217783459c49f2533
+    sha256: a95b5528c13faf6cb8b56f20dc19041f9ffc7145379b724f3282c57e172cc0f0
   category: main
   optional: false
 - name: freetype
@@ -3279,82 +3403,82 @@ package:
   category: main
   optional: false
 - name: gdal
-  version: 3.8.3
+  version: 3.8.4
   manager: conda
   platform: linux-64
   dependencies:
     hdf5: '>=1.14.3,<1.14.4.0a0'
     libgcc-ng: '>=12'
-    libgdal: 3.8.3
+    libgdal: 3.8.4
     libstdcxx-ng: '>=12'
     libxml2: '>=2.12.5,<3.0a0'
-    numpy: '>=1.26.3,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     openssl: '>=3.2.1,<4.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/linux-64/gdal-3.8.3-py312h257dd4b_2.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/gdal-3.8.4-py312h257dd4b_0.conda
   hash:
-    md5: df8a9553466cd78553bd99e601e17693
-    sha256: 77292e2f47819cbdbfa30042fc75428abbddf9dc55d934bc72ecef496bc334da
+    md5: bc136e43dd613ff29c9b57e3083f7113
+    sha256: 9c9965dd32d9cf019428423b6a304a65135161ed677101754f53c0f14f44c308
   category: main
   optional: false
 - name: gdal
-  version: 3.8.3
+  version: 3.8.4
   manager: conda
   platform: osx-64
   dependencies:
     hdf5: '>=1.14.3,<1.14.4.0a0'
     libcxx: '>=16'
-    libgdal: 3.8.3
+    libgdal: 3.8.4
     libxml2: '>=2.12.5,<3.0a0'
-    numpy: '>=1.26.3,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     openssl: '>=3.2.1,<4.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-64/gdal-3.8.3-py312h1be6df0_2.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/gdal-3.8.4-py312h1be6df0_0.conda
   hash:
-    md5: 914e0ca2e70cd05f778b91e409d5b6b3
-    sha256: c6204b80b1718b232d42bf81968c8ba19601387d11f7ca0a19cfec7ff23f97e1
+    md5: 830c34b2c5f5274d95498d268fcb8126
+    sha256: 79b1336c723167ef74601d28e2df6da07c2de61e06adf45311ebe0df992f545d
   category: main
   optional: false
 - name: gdal
-  version: 3.8.3
+  version: 3.8.4
   manager: conda
   platform: osx-arm64
   dependencies:
     hdf5: '>=1.14.3,<1.14.4.0a0'
     libcxx: '>=16'
-    libgdal: 3.8.3
+    libgdal: 3.8.4
     libxml2: '>=2.12.5,<3.0a0'
-    numpy: '>=1.26.3,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     openssl: '>=3.2.1,<4.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/gdal-3.8.3-py312h56161e1_2.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/gdal-3.8.4-py312h56161e1_0.conda
   hash:
-    md5: 4979fe3f323db513dce6e0eeb1e3d08b
-    sha256: b3c62b8a497fc39cb6b4f4039eef262d1bd76b00802fe7f66ff5f9b90bbc138c
+    md5: e8b94ff1aab7346607784775cd24eed7
+    sha256: 5641d066dedd7f2233db7f70d8db79919e384c4c583378bca6caab5508eca0a4
   category: main
   optional: false
 - name: gdal
-  version: 3.8.3
+  version: 3.8.4
   manager: conda
   platform: win-64
   dependencies:
     hdf5: '>=1.14.3,<1.14.4.0a0'
-    libgdal: 3.8.3
+    libgdal: 3.8.4
     libxml2: '>=2.12.5,<3.0a0'
-    numpy: '>=1.26.3,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     openssl: '>=3.2.1,<4.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/gdal-3.8.3-py312h36e25a9_2.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/gdal-3.8.4-py312h36e25a9_0.conda
   hash:
-    md5: 0292c4d1e3e1f091af18f1707c2a1044
-    sha256: 74912e7b112fbbc168407f945989d93f99af29dbd5a23aac94d0e61e8ee64419
+    md5: f8506cdf29c7ab42cb942e93ead3fabf
+    sha256: 01ea749dd43c989807677665d06c9f7828ec3b273d61622567595a8c80d9a12a
   category: main
   optional: false
 - name: geopandas
@@ -3742,6 +3866,70 @@ package:
     sha256: dbf1e431d3e5e03f8eeb77ec08a4c5d6d5d9af84dbef13d4365e397dd389beb8
   category: main
   optional: false
+- name: gliderpy
+  version: 0.2.1
+  manager: conda
+  platform: linux-64
+  dependencies:
+    erddapy: ''
+    httpx: ''
+    pandas: ''
+    python: '>=3.8'
+    xarray: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/gliderpy-0.2.1-pyhd8ed1ab_0.conda
+  hash:
+    md5: 11f6194814bc0ad677771b832eb74dca
+    sha256: d4108969d6b299dbb53738849c19da3ff8adcea34eae1ce303ce71b5d27a5a6a
+  category: main
+  optional: false
+- name: gliderpy
+  version: 0.2.1
+  manager: conda
+  platform: osx-64
+  dependencies:
+    pandas: ''
+    xarray: ''
+    httpx: ''
+    erddapy: ''
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/gliderpy-0.2.1-pyhd8ed1ab_0.conda
+  hash:
+    md5: 11f6194814bc0ad677771b832eb74dca
+    sha256: d4108969d6b299dbb53738849c19da3ff8adcea34eae1ce303ce71b5d27a5a6a
+  category: main
+  optional: false
+- name: gliderpy
+  version: 0.2.1
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    pandas: ''
+    xarray: ''
+    httpx: ''
+    erddapy: ''
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/gliderpy-0.2.1-pyhd8ed1ab_0.conda
+  hash:
+    md5: 11f6194814bc0ad677771b832eb74dca
+    sha256: d4108969d6b299dbb53738849c19da3ff8adcea34eae1ce303ce71b5d27a5a6a
+  category: main
+  optional: false
+- name: gliderpy
+  version: 0.2.1
+  manager: conda
+  platform: win-64
+  dependencies:
+    pandas: ''
+    xarray: ''
+    httpx: ''
+    erddapy: ''
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/gliderpy-0.2.1-pyhd8ed1ab_0.conda
+  hash:
+    md5: 11f6194814bc0ad677771b832eb74dca
+    sha256: d4108969d6b299dbb53738849c19da3ff8adcea34eae1ce303ce71b5d27a5a6a
+  category: main
+  optional: false
 - name: glog
   version: 0.6.0
   manager: conda
@@ -3780,6 +3968,114 @@ package:
   hash:
     md5: 5a570729c7709399cf8511aeeda6f989
     sha256: 4d772c42477f64be708594ac45870feba3e838977871118eb25e00deb0e9a73c
+  category: main
+  optional: false
+- name: h11
+  version: 0.14.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3'
+    typing_extensions: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/h11-0.14.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: b21ed0883505ba1910994f1df031a428
+    sha256: 817d2c77d53afe3f3d9cf7f6eb8745cdd8ea76c7adaa9d7ced75c455a2c2c085
+  category: main
+  optional: false
+- name: h11
+  version: 0.14.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    typing_extensions: ''
+    python: '>=3'
+  url: https://conda.anaconda.org/conda-forge/noarch/h11-0.14.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: b21ed0883505ba1910994f1df031a428
+    sha256: 817d2c77d53afe3f3d9cf7f6eb8745cdd8ea76c7adaa9d7ced75c455a2c2c085
+  category: main
+  optional: false
+- name: h11
+  version: 0.14.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    typing_extensions: ''
+    python: '>=3'
+  url: https://conda.anaconda.org/conda-forge/noarch/h11-0.14.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: b21ed0883505ba1910994f1df031a428
+    sha256: 817d2c77d53afe3f3d9cf7f6eb8745cdd8ea76c7adaa9d7ced75c455a2c2c085
+  category: main
+  optional: false
+- name: h11
+  version: 0.14.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    typing_extensions: ''
+    python: '>=3'
+  url: https://conda.anaconda.org/conda-forge/noarch/h11-0.14.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: b21ed0883505ba1910994f1df031a428
+    sha256: 817d2c77d53afe3f3d9cf7f6eb8745cdd8ea76c7adaa9d7ced75c455a2c2c085
+  category: main
+  optional: false
+- name: h2
+  version: 4.1.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    hpack: '>=4.0,<5'
+    hyperframe: '>=6.0,<7'
+    python: '>=3.6.1'
+  url: https://conda.anaconda.org/conda-forge/noarch/h2-4.1.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: b748fbf7060927a6e82df7cb5ee8f097
+    sha256: bfc6a23849953647f4e255c782e74a0e18fe16f7e25c7bb0bc57b83bb6762c7a
+  category: main
+  optional: false
+- name: h2
+  version: 4.1.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: '>=3.6.1'
+    hpack: '>=4.0,<5'
+    hyperframe: '>=6.0,<7'
+  url: https://conda.anaconda.org/conda-forge/noarch/h2-4.1.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: b748fbf7060927a6e82df7cb5ee8f097
+    sha256: bfc6a23849953647f4e255c782e74a0e18fe16f7e25c7bb0bc57b83bb6762c7a
+  category: main
+  optional: false
+- name: h2
+  version: 4.1.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.6.1'
+    hpack: '>=4.0,<5'
+    hyperframe: '>=6.0,<7'
+  url: https://conda.anaconda.org/conda-forge/noarch/h2-4.1.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: b748fbf7060927a6e82df7cb5ee8f097
+    sha256: bfc6a23849953647f4e255c782e74a0e18fe16f7e25c7bb0bc57b83bb6762c7a
+  category: main
+  optional: false
+- name: h2
+  version: 4.1.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.6.1'
+    hpack: '>=4.0,<5'
+    hyperframe: '>=6.0,<7'
+  url: https://conda.anaconda.org/conda-forge/noarch/h2-4.1.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: b748fbf7060927a6e82df7cb5ee8f097
+    sha256: bfc6a23849953647f4e255c782e74a0e18fe16f7e25c7bb0bc57b83bb6762c7a
   category: main
   optional: false
 - name: hdf4
@@ -3916,6 +4212,54 @@ package:
     sha256: 89bbb2c878e1b6c6073ef5f1f25eac97ed48393541a4a44a7d182da5ede3dc98
   category: main
   optional: false
+- name: hpack
+  version: 4.0.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/hpack-4.0.0-pyh9f0ad1d_0.tar.bz2
+  hash:
+    md5: 914d6646c4dbb1fd3ff539830a12fd71
+    sha256: 5dec948932c4f740674b1afb551223ada0c55103f4c7bf86a110454da3d27cb8
+  category: main
+  optional: false
+- name: hpack
+  version: 4.0.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/hpack-4.0.0-pyh9f0ad1d_0.tar.bz2
+  hash:
+    md5: 914d6646c4dbb1fd3ff539830a12fd71
+    sha256: 5dec948932c4f740674b1afb551223ada0c55103f4c7bf86a110454da3d27cb8
+  category: main
+  optional: false
+- name: hpack
+  version: 4.0.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/hpack-4.0.0-pyh9f0ad1d_0.tar.bz2
+  hash:
+    md5: 914d6646c4dbb1fd3ff539830a12fd71
+    sha256: 5dec948932c4f740674b1afb551223ada0c55103f4c7bf86a110454da3d27cb8
+  category: main
+  optional: false
+- name: hpack
+  version: 4.0.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/hpack-4.0.0-pyh9f0ad1d_0.tar.bz2
+  hash:
+    md5: 914d6646c4dbb1fd3ff539830a12fd71
+    sha256: 5dec948932c4f740674b1afb551223ada0c55103f4c7bf86a110454da3d27cb8
+  category: main
+  optional: false
 - name: html5lib
   version: '1.1'
   manager: conda
@@ -3970,6 +4314,190 @@ package:
   hash:
     md5: b2355343d6315c892543200231d7154a
     sha256: 9ad06446fe9847e86cb20d220bf11614afcd2cbe9f58096f08d5d4018877bee4
+  category: main
+  optional: false
+- name: httpcore
+  version: 1.0.3
+  manager: conda
+  platform: linux-64
+  dependencies:
+    anyio: '>=3.0,<5.0'
+    certifi: ''
+    h11: '>=0.13,<0.15'
+    h2: '>=3,<5'
+    python: '>=3.8'
+    sniffio: 1.*
+  url: https://conda.anaconda.org/conda-forge/noarch/httpcore-1.0.3-pyhd8ed1ab_0.conda
+  hash:
+    md5: 9410c9f0cf5d08a582c425d2094bf68d
+    sha256: 793cd4808e2ad7db39c0166a9a64847767d0282316f59de5ec5738f8b5025bd8
+  category: main
+  optional: false
+- name: httpcore
+  version: 1.0.3
+  manager: conda
+  platform: osx-64
+  dependencies:
+    certifi: ''
+    python: '>=3.8'
+    sniffio: 1.*
+    h2: '>=3,<5'
+    anyio: '>=3.0,<5.0'
+    h11: '>=0.13,<0.15'
+  url: https://conda.anaconda.org/conda-forge/noarch/httpcore-1.0.3-pyhd8ed1ab_0.conda
+  hash:
+    md5: 9410c9f0cf5d08a582c425d2094bf68d
+    sha256: 793cd4808e2ad7db39c0166a9a64847767d0282316f59de5ec5738f8b5025bd8
+  category: main
+  optional: false
+- name: httpcore
+  version: 1.0.3
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    certifi: ''
+    python: '>=3.8'
+    sniffio: 1.*
+    h2: '>=3,<5'
+    anyio: '>=3.0,<5.0'
+    h11: '>=0.13,<0.15'
+  url: https://conda.anaconda.org/conda-forge/noarch/httpcore-1.0.3-pyhd8ed1ab_0.conda
+  hash:
+    md5: 9410c9f0cf5d08a582c425d2094bf68d
+    sha256: 793cd4808e2ad7db39c0166a9a64847767d0282316f59de5ec5738f8b5025bd8
+  category: main
+  optional: false
+- name: httpcore
+  version: 1.0.3
+  manager: conda
+  platform: win-64
+  dependencies:
+    certifi: ''
+    python: '>=3.8'
+    sniffio: 1.*
+    h2: '>=3,<5'
+    anyio: '>=3.0,<5.0'
+    h11: '>=0.13,<0.15'
+  url: https://conda.anaconda.org/conda-forge/noarch/httpcore-1.0.3-pyhd8ed1ab_0.conda
+  hash:
+    md5: 9410c9f0cf5d08a582c425d2094bf68d
+    sha256: 793cd4808e2ad7db39c0166a9a64847767d0282316f59de5ec5738f8b5025bd8
+  category: main
+  optional: false
+- name: httpx
+  version: 0.26.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    anyio: ''
+    certifi: ''
+    httpcore: 1.*
+    idna: ''
+    python: '>=3.8'
+    sniffio: ''
+  url: https://conda.anaconda.org/conda-forge/noarch/httpx-0.26.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 0faecf87c2b27f5cde5ef45528ad2a6c
+    sha256: 7ed1c5eaa6fef7aa0047feb6d66b05b2b1137422722f752c0de990c7b7ff5260
+  category: main
+  optional: false
+- name: httpx
+  version: 0.26.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    certifi: ''
+    idna: ''
+    anyio: ''
+    sniffio: ''
+    python: '>=3.8'
+    httpcore: 1.*
+  url: https://conda.anaconda.org/conda-forge/noarch/httpx-0.26.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 0faecf87c2b27f5cde5ef45528ad2a6c
+    sha256: 7ed1c5eaa6fef7aa0047feb6d66b05b2b1137422722f752c0de990c7b7ff5260
+  category: main
+  optional: false
+- name: httpx
+  version: 0.26.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    certifi: ''
+    idna: ''
+    anyio: ''
+    sniffio: ''
+    python: '>=3.8'
+    httpcore: 1.*
+  url: https://conda.anaconda.org/conda-forge/noarch/httpx-0.26.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 0faecf87c2b27f5cde5ef45528ad2a6c
+    sha256: 7ed1c5eaa6fef7aa0047feb6d66b05b2b1137422722f752c0de990c7b7ff5260
+  category: main
+  optional: false
+- name: httpx
+  version: 0.26.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    certifi: ''
+    idna: ''
+    anyio: ''
+    sniffio: ''
+    python: '>=3.8'
+    httpcore: 1.*
+  url: https://conda.anaconda.org/conda-forge/noarch/httpx-0.26.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 0faecf87c2b27f5cde5ef45528ad2a6c
+    sha256: 7ed1c5eaa6fef7aa0047feb6d66b05b2b1137422722f752c0de990c7b7ff5260
+  category: main
+  optional: false
+- name: hyperframe
+  version: 6.0.1
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/hyperframe-6.0.1-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: 9f765cbfab6870c8435b9eefecd7a1f4
+    sha256: e374a9d0f53149328134a8d86f5d72bca4c6dcebed3c0ecfa968c02996289330
+  category: main
+  optional: false
+- name: hyperframe
+  version: 6.0.1
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/hyperframe-6.0.1-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: 9f765cbfab6870c8435b9eefecd7a1f4
+    sha256: e374a9d0f53149328134a8d86f5d72bca4c6dcebed3c0ecfa968c02996289330
+  category: main
+  optional: false
+- name: hyperframe
+  version: 6.0.1
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/hyperframe-6.0.1-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: 9f765cbfab6870c8435b9eefecd7a1f4
+    sha256: e374a9d0f53149328134a8d86f5d72bca4c6dcebed3c0ecfa968c02996289330
+  category: main
+  optional: false
+- name: hyperframe
+  version: 6.0.1
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.6'
+  url: https://conda.anaconda.org/conda-forge/noarch/hyperframe-6.0.1-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: 9f765cbfab6870c8435b9eefecd7a1f4
+    sha256: e374a9d0f53149328134a8d86f5d72bca4c6dcebed3c0ecfa968c02996289330
   category: main
   optional: false
 - name: icu
@@ -5975,7 +6503,7 @@ package:
   category: main
   optional: false
 - name: libgdal
-  version: 3.8.3
+  version: 3.8.4
   manager: conda
   platform: linux-64
   dependencies:
@@ -6002,9 +6530,9 @@ package:
     libkml: '>=1.3.0,<1.4.0a0'
     libnetcdf: '>=4.9.2,<4.9.3.0a0'
     libpng: '>=1.6.42,<1.7.0a0'
-    libpq: '>=16.1,<17.0a0'
+    libpq: '>=16.2,<17.0a0'
     libspatialite: '>=5.1.0,<5.2.0a0'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libstdcxx-ng: '>=12'
     libtiff: '>=4.6.0,<4.7.0a0'
     libuuid: '>=2.38.1,<3.0a0'
@@ -6018,18 +6546,18 @@ package:
     poppler: '>=24.2.0,<24.3.0a0'
     postgresql: ''
     proj: '>=9.3.1,<9.3.2.0a0'
-    tiledb: '>=2.19.1,<2.20.0a0'
+    tiledb: '>=2.20.0,<2.21.0a0'
     xerces-c: '>=3.2.5,<3.3.0a0'
     xz: '>=5.2.6,<6.0a0'
     zstd: '>=1.5.5,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-3.8.3-h80d7d79_2.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/libgdal-3.8.4-h9323651_0.conda
   hash:
-    md5: b0c8bd68d3119c8e3a355ff9417ceff1
-    sha256: ab5cf0b7ebddb1543ebc129c3c031e5743afd7264cfce98385d6ff18f43a9140
+    md5: f0444ecc68c3f7d0855c9dd6bc3424a7
+    sha256: af88738b2eda7d388daad5bd7dd8fe66efbaba300921ecb6fb03d9c5823a950d
   category: main
   optional: false
 - name: libgdal
-  version: 3.8.3
+  version: 3.8.4
   manager: conda
   platform: osx-64
   dependencies:
@@ -6055,9 +6583,9 @@ package:
     libkml: '>=1.3.0,<1.4.0a0'
     libnetcdf: '>=4.9.2,<4.9.3.0a0'
     libpng: '>=1.6.42,<1.7.0a0'
-    libpq: '>=16.1,<17.0a0'
+    libpq: '>=16.2,<17.0a0'
     libspatialite: '>=5.1.0,<5.2.0a0'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libtiff: '>=4.6.0,<4.7.0a0'
     libwebp-base: '>=1.3.2,<2.0a0'
     libxml2: '>=2.12.5,<3.0a0'
@@ -6069,18 +6597,18 @@ package:
     poppler: '>=24.2.0,<24.3.0a0'
     postgresql: ''
     proj: '>=9.3.1,<9.3.2.0a0'
-    tiledb: '>=2.19.1,<2.20.0a0'
+    tiledb: '>=2.20.0,<2.21.0a0'
     xerces-c: '>=3.2.5,<3.3.0a0'
     xz: '>=5.2.6,<6.0a0'
     zstd: '>=1.5.5,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/osx-64/libgdal-3.8.3-hf248df1_2.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/libgdal-3.8.4-h46636ed_0.conda
   hash:
-    md5: e90cc4866da1256f6336aca6949d41aa
-    sha256: c8407dc01e07c6680a77813c9ef5176465f70f3b2ffe623a3f3ca922578cbcb3
+    md5: 5cf7d0f51e6e9dd8d175d8660b843024
+    sha256: 12a0151e5e0d05590bcf5c6abf2fe36977df8b1198564198c167ed05492d5b1b
   category: main
   optional: false
 - name: libgdal
-  version: 3.8.3
+  version: 3.8.4
   manager: conda
   platform: osx-arm64
   dependencies:
@@ -6106,9 +6634,9 @@ package:
     libkml: '>=1.3.0,<1.4.0a0'
     libnetcdf: '>=4.9.2,<4.9.3.0a0'
     libpng: '>=1.6.42,<1.7.0a0'
-    libpq: '>=16.1,<17.0a0'
+    libpq: '>=16.2,<17.0a0'
     libspatialite: '>=5.1.0,<5.2.0a0'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libtiff: '>=4.6.0,<4.7.0a0'
     libwebp-base: '>=1.3.2,<2.0a0'
     libxml2: '>=2.12.5,<3.0a0'
@@ -6120,18 +6648,18 @@ package:
     poppler: '>=24.2.0,<24.3.0a0'
     postgresql: ''
     proj: '>=9.3.1,<9.3.2.0a0'
-    tiledb: '>=2.19.1,<2.20.0a0'
+    tiledb: '>=2.20.0,<2.21.0a0'
     xerces-c: '>=3.2.5,<3.3.0a0'
     xz: '>=5.2.6,<6.0a0'
     zstd: '>=1.5.5,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/libgdal-3.8.3-hb4bbca3_2.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/libgdal-3.8.4-ha86f356_0.conda
   hash:
-    md5: ed38dcd4424c2a3ef348a70252e80149
-    sha256: f293a8a1d36fb6a62948c8ffa0578147e1c85d166a3acbfb3e754418deecdc88
+    md5: a5d5f05fd2c03b0f1ba4863c8a1a0632
+    sha256: bff62d710f8a3ae6a0c4671c0584a7680e9e3a468003367ddf5bee8c90ff0079
   category: main
   optional: false
 - name: libgdal
-  version: 3.8.3
+  version: 3.8.4
   manager: conda
   platform: win-64
   dependencies:
@@ -6154,9 +6682,9 @@ package:
     libkml: '>=1.3.0,<1.4.0a0'
     libnetcdf: '>=4.9.2,<4.9.3.0a0'
     libpng: '>=1.6.42,<1.7.0a0'
-    libpq: '>=16.1,<17.0a0'
+    libpq: '>=16.2,<17.0a0'
     libspatialite: '>=5.1.0,<5.2.0a0'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libtiff: '>=4.6.0,<4.7.0a0'
     libwebp-base: '>=1.3.2,<2.0a0'
     libxml2: '>=2.12.5,<3.0a0'
@@ -6168,17 +6696,17 @@ package:
     poppler: '>=24.2.0,<24.3.0a0'
     postgresql: ''
     proj: '>=9.3.1,<9.3.2.0a0'
-    tiledb: '>=2.19.1,<2.20.0a0'
+    tiledb: '>=2.20.0,<2.21.0a0'
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
     xerces-c: '>=3.2.5,<3.3.0a0'
     xz: '>=5.2.6,<6.0a0'
     zstd: '>=1.5.5,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/win-64/libgdal-3.8.3-h0f7007b_2.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/libgdal-3.8.4-h7c2897a_0.conda
   hash:
-    md5: 358ef6414de9d3b725df7ab2a9766d3b
-    sha256: 108601d60189c8c3ba7708776690481dedf770e5dc2ea9f197cef4ab7d088dc0
+    md5: a9cf2825eb54cb14bad6bcf6020634e0
+    sha256: bb861002a1ac8dda09b8b55fe616ba5f086d68c5ff05c5246bdac28d747bcbff
   category: main
   optional: false
 - name: libgfortran
@@ -6254,7 +6782,7 @@ package:
   category: main
   optional: false
 - name: libglib
-  version: 2.78.3
+  version: 2.78.4
   manager: conda
   platform: linux-64
   dependencies:
@@ -6265,50 +6793,48 @@ package:
     libstdcxx-ng: '>=12'
     libzlib: '>=1.2.13,<1.3.0a0'
     pcre2: '>=10.42,<10.43.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.78.3-h783c2da_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/libglib-2.78.4-h783c2da_0.conda
   hash:
-    md5: 9bd06b12bbfa6fd1740fd23af4b0f0c7
-    sha256: b1b594294a0fe4c9a51596ef027efed9268d60827e8ae61fb7545c521a631e33
+    md5: d86baf8740d1a906b9716f2a0bac2f2d
+    sha256: 3a03a5254d2fd29c1e0ffda7250e22991dfbf2c854301fd56c408d97a647cfbd
   category: main
   optional: false
 - name: libglib
-  version: 2.78.3
+  version: 2.78.4
   manager: conda
   platform: osx-64
   dependencies:
-    __osx: '>=10.9'
     gettext: '>=0.21.1,<1.0a0'
-    libcxx: '>=16.0.6'
+    libcxx: '>=16'
     libffi: '>=3.4,<4.0a0'
     libiconv: '>=1.17,<2.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     pcre2: '>=10.42,<10.43.0a0'
-  url: https://conda.anaconda.org/conda-forge/osx-64/libglib-2.78.3-h198397b_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/libglib-2.78.4-hab64008_0.conda
   hash:
-    md5: e18624e441743b0d744116885b70f092
-    sha256: 90e58879873b05617e0678ecfbf47bc740c1a2ed7840b8f7cd1241813b9037db
+    md5: ff7e302784375cfc3157b8120a18124d
+    sha256: 122060ba63fd27e53672dbac7dc0b4f55a6432993446f4ed3c30a69a9457c615
   category: main
   optional: false
 - name: libglib
-  version: 2.78.3
+  version: 2.78.4
   manager: conda
   platform: osx-arm64
   dependencies:
-    __osx: '>=10.9'
     gettext: '>=0.21.1,<1.0a0'
-    libcxx: '>=16.0.6'
+    libcxx: '>=16'
     libffi: '>=3.4,<4.0a0'
     libiconv: '>=1.17,<2.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     pcre2: '>=10.42,<10.43.0a0'
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/libglib-2.78.3-hb438215_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/libglib-2.78.4-h1635a5e_0.conda
   hash:
-    md5: 8c98b7018b434236e2c0f14d7cf3c113
-    sha256: f26afb1003e810e768138b0c849e9408c0ae8635062aeaf7abae381903a84e53
+    md5: 537ff7a85b63d478e563530dfe66a71e
+    sha256: 8229251ab78074d16c372b5995f19f967321328fdf8723feab7efec66fe6cc03
   category: main
   optional: false
 - name: libglib
-  version: 2.78.3
+  version: 2.78.4
   manager: conda
   platform: win-64
   dependencies:
@@ -6320,10 +6846,10 @@ package:
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/libglib-2.78.3-h16e383f_0.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/libglib-2.78.4-h16e383f_0.conda
   hash:
-    md5: c295badd19494ac8476b36e9e9e47ace
-    sha256: 33527a11321609064c649682e709ebede86e24f1264dac1d018aaa00fb3b90bf
+    md5: 72dc4e1cdde0894015567c90f9c4e261
+    sha256: d4350c4c8d7947b4f1b13918e04f07a35d2eb88cc1b6bccefe12eb92bd1aa660
   category: main
   optional: false
 - name: libgomp
@@ -8419,8 +8945,8 @@ package:
   platform: osx-64
   dependencies:
     python: '>=3.9'
-    scikit-learn: '>=1.0'
     numpy: '>=1.23'
+    scikit-learn: '>=1.0'
     scipy: '>=1.8'
     networkx: '>=2.7'
     pandas: '>=1.4,!=1.5.0'
@@ -8436,8 +8962,8 @@ package:
   platform: osx-arm64
   dependencies:
     python: '>=3.9'
-    scikit-learn: '>=1.0'
     numpy: '>=1.23'
+    scikit-learn: '>=1.0'
     scipy: '>=1.8'
     networkx: '>=2.7'
     pandas: '>=1.4,!=1.5.0'
@@ -8453,8 +8979,8 @@ package:
   platform: win-64
   dependencies:
     python: '>=3.9'
-    scikit-learn: '>=1.0'
     numpy: '>=1.23'
+    scikit-learn: '>=1.0'
     scipy: '>=1.8'
     networkx: '>=2.7'
     pandas: '>=1.4,!=1.5.0'
@@ -8521,7 +9047,7 @@ package:
   category: main
   optional: false
 - name: matplotlib-base
-  version: 3.8.2
+  version: 3.8.3
   manager: conda
   platform: linux-64
   dependencies:
@@ -8533,7 +9059,7 @@ package:
     kiwisolver: '>=1.3.1'
     libgcc-ng: '>=12'
     libstdcxx-ng: '>=12'
-    numpy: '>=1.26.0,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     packaging: '>=20.0'
     pillow: '>=8'
     pyparsing: '>=2.3.1'
@@ -8541,66 +9067,65 @@ package:
     python-dateutil: '>=2.7'
     python_abi: 3.12.*
     tk: '>=8.6.13,<8.7.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/matplotlib-base-3.8.2-py312he5832f3_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/matplotlib-base-3.8.3-py312he5832f3_0.conda
   hash:
-    md5: 1bf345f8df6896b5a8016f16188946ba
-    sha256: e635bc4fbdf1d08900b58e7bcbe58e34f9e8e56edc1423fa0487a2b407abcdf3
+    md5: 3b0545901b09b1376b9c0e0ec72409de
+    sha256: d6e01e76397a750db8de24591411fa9daa057948b327966bf2cc0c9fc03f1451
   category: main
   optional: false
 - name: matplotlib-base
-  version: 3.8.2
+  version: 3.8.3
   manager: conda
   platform: osx-64
   dependencies:
-    __osx: '>=10.9'
+    __osx: '>=10.12'
     certifi: '>=2020.06.20'
     contourpy: '>=1.0.1'
     cycler: '>=0.10'
     fonttools: '>=4.22.0'
     freetype: '>=2.12.1,<3.0a0'
     kiwisolver: '>=1.3.1'
-    libcxx: '>=16.0.6'
-    numpy: '>=1.26.0,<2.0a0'
+    libcxx: '>=16'
+    numpy: '>=1.26.4,<2.0a0'
     packaging: '>=20.0'
     pillow: '>=8'
     pyparsing: '>=2.3.1'
     python: '>=3.12,<3.13.0a0'
     python-dateutil: '>=2.7'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-64/matplotlib-base-3.8.2-py312h302682c_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/matplotlib-base-3.8.3-py312h1fe5000_0.conda
   hash:
-    md5: 6a3b7c29d663a9cda13afb8f2638cc46
-    sha256: 4c696c3ef44c621cfda2848a0ebd8fba16b87829f72dc59b312e391375b80552
+    md5: 5f65fc4ce880d4c795e217d563a114ec
+    sha256: 1b86adb0729b816b9cfdd4a681f056edd4a1092ae3b2e54efb1514fc0b77416e
   category: main
   optional: false
 - name: matplotlib-base
-  version: 3.8.2
+  version: 3.8.3
   manager: conda
   platform: osx-arm64
   dependencies:
-    __osx: '>=10.9'
     certifi: '>=2020.06.20'
     contourpy: '>=1.0.1'
     cycler: '>=0.10'
     fonttools: '>=4.22.0'
     freetype: '>=2.12.1,<3.0a0'
     kiwisolver: '>=1.3.1'
-    libcxx: '>=16.0.6'
-    numpy: '>=1.26.0,<2.0a0'
+    libcxx: '>=16'
+    numpy: '>=1.26.4,<2.0a0'
     packaging: '>=20.0'
     pillow: '>=8'
     pyparsing: '>=2.3.1'
     python: '>=3.12,<3.13.0a0'
     python-dateutil: '>=2.7'
     python_abi: 3.12.*
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/matplotlib-base-3.8.2-py312hba9b818_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/matplotlib-base-3.8.3-py312ha6faf65_0.conda
   hash:
-    md5: 1f91c58bfc318e787bf75b8812f36ac1
-    sha256: 4bc2d68ed1a4a5fba56f82d54a60e76d3efbb59e11db5ed32fce58e2662fa20a
+    md5: b5438a4d66b4bb7914027f3e1c34fd9e
+    sha256: 0a30852a2076b17359348510b3f827da986e4d3e89c41f48ce6f6f0c8b5acbc3
   category: main
   optional: false
 - name: matplotlib-base
-  version: 3.8.2
+  version: 3.8.3
   manager: conda
   platform: win-64
   dependencies:
@@ -8610,7 +9135,7 @@ package:
     fonttools: '>=4.22.0'
     freetype: '>=2.12.1,<3.0a0'
     kiwisolver: '>=1.3.1'
-    numpy: '>=1.26.0,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     packaging: '>=20.0'
     pillow: '>=8'
     pyparsing: '>=2.3.1'
@@ -8620,10 +9145,10 @@ package:
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/matplotlib-base-3.8.2-py312h26ecaf7_0.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/matplotlib-base-3.8.3-py312h26ecaf7_0.conda
   hash:
-    md5: d911e61e5c0b3db91f4e46c64874461f
-    sha256: 997faaf5c50cd544f2eb65ae461189e078bc3d5ff1df008ee69fad46f4215f84
+    md5: 61dd1bddda8329454b5e1428646b5fe2
+    sha256: 70a548c7cf8d61d055a5daf5dce3b95e4d0ad698d35f932e1f39c0462eda2898
   category: main
   optional: false
 - name: minizip
@@ -8893,50 +9418,50 @@ package:
   category: main
   optional: false
 - name: nss
-  version: '3.97'
+  version: '3.98'
   manager: conda
   platform: linux-64
   dependencies:
     __glibc: '>=2.17,<3.0.a0'
     libgcc-ng: '>=12'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libstdcxx-ng: '>=12'
     libzlib: '>=1.2.13,<1.3.0a0'
     nspr: '>=4.35,<5.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/nss-3.97-h1d7d5a4_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/nss-3.98-h1d7d5a4_0.conda
   hash:
-    md5: b916d71a3032416e3f9136090d814472
-    sha256: a1a62d415e5b5ddbd799ad6d92b2c4a4351fda00b54d96cac2ce7afa04b2d698
+    md5: 54b56c2fdf973656b748e0378900ec13
+    sha256: a9bc94d03df48014011cf6caaf447f2ef86a5edf7c70d70002ec4b59f5a4e198
   category: main
   optional: false
 - name: nss
-  version: '3.97'
+  version: '3.98'
   manager: conda
   platform: osx-64
   dependencies:
-    libcxx: '>=15'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libcxx: '>=16'
+    libsqlite: '>=3.45.1,<4.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     nspr: '>=4.35,<5.0a0'
-  url: https://conda.anaconda.org/conda-forge/osx-64/nss-3.97-ha05da47_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/nss-3.98-ha05da47_0.conda
   hash:
-    md5: 6408f35df2c8ba0642b13d32915a789b
-    sha256: fe26704cb733d412fafbeaf0cc4c402f9623757bc2241381d7480a22cdeb64e4
+    md5: 79d062716d8e1f77cf806c6fe0f4405c
+    sha256: 3d99dd976aeb8678e4ac5fcbd574e1de50cdc57b742e22855f294c8047d5c68e
   category: main
   optional: false
 - name: nss
-  version: '3.97'
+  version: '3.98'
   manager: conda
   platform: osx-arm64
   dependencies:
-    libcxx: '>=15'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libcxx: '>=16'
+    libsqlite: '>=3.45.1,<4.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     nspr: '>=4.35,<5.0a0'
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/nss-3.97-h5ce2875_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/nss-3.98-h5ce2875_0.conda
   hash:
-    md5: 5d2d69c2cce2c58171648a1fd34d6732
-    sha256: 27786510a52aeb1115c31d8127fcc57fdec38bcef22882dd3bd05d04ca5c393d
+    md5: db0d8f4d11186e4cb3f1a3e0385ca075
+    sha256: eecb5718c43dd68cf8150b1e75c91518dae457348828361034639e9e2ea82c82
   category: main
   optional: false
 - name: numpy
@@ -10421,7 +10946,7 @@ package:
   category: main
   optional: false
 - name: python
-  version: 3.12.1
+  version: 3.12.2
   manager: conda
   platform: linux-64
   dependencies:
@@ -10431,80 +10956,80 @@ package:
     libffi: '>=3.4,<4.0a0'
     libgcc-ng: '>=12'
     libnsl: '>=2.0.1,<2.1.0a0'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libuuid: '>=2.38.1,<3.0a0'
     libxcrypt: '>=4.4.36'
     libzlib: '>=1.2.13,<1.3.0a0'
     ncurses: '>=6.4,<7.0a0'
-    openssl: '>=3.2.0,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     readline: '>=8.2,<9.0a0'
     tk: '>=8.6.13,<8.7.0a0'
     tzdata: ''
     xz: '>=5.2.6,<6.0a0'
     pip: ''
-  url: https://conda.anaconda.org/conda-forge/linux-64/python-3.12.1-hab00c5b_1_cpython.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/python-3.12.2-hab00c5b_0_cpython.conda
   hash:
-    md5: 0bab699354cbd66959550eb9b9866620
-    sha256: d44521b3ffd7edcad75bd55276ae3fb4cb07e63b2aa3545fef62bfda774b8a2b
+    md5: ad7b68400f3a6ebe72b00be093c7f301
+    sha256: ddb7a2d8d78046bda5d7631e6814f9468d2eb054e10f86f4648c9d1fdaa30c0f
   category: main
   optional: false
 - name: python
-  version: 3.12.1
+  version: 3.12.2
   manager: conda
   platform: osx-64
   dependencies:
     bzip2: '>=1.0.8,<2.0a0'
     libexpat: '>=2.5.0,<3.0a0'
     libffi: '>=3.4,<4.0a0'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     ncurses: '>=6.4,<7.0a0'
-    openssl: '>=3.2.0,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     readline: '>=8.2,<9.0a0'
     tk: '>=8.6.13,<8.7.0a0'
     tzdata: ''
     xz: '>=5.2.6,<6.0a0'
     pip: ''
-  url: https://conda.anaconda.org/conda-forge/osx-64/python-3.12.1-h9f0c242_1_cpython.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/python-3.12.2-h9f0c242_0_cpython.conda
   hash:
-    md5: 41d5549764b9f37199e6255e5e9daee6
-    sha256: d55c0875fc6f4228024d1fd0c4fcde8a61fdd4d852a98f3b05f121011a2fd753
+    md5: 0179b8007ba008cf5bec11f3b3853902
+    sha256: 7647ac06c3798a182a4bcb1ff58864f1ef81eb3acea6971295304c23e43252fb
   category: main
   optional: false
 - name: python
-  version: 3.12.1
+  version: 3.12.2
   manager: conda
   platform: osx-arm64
   dependencies:
     bzip2: '>=1.0.8,<2.0a0'
     libexpat: '>=2.5.0,<3.0a0'
     libffi: '>=3.4,<4.0a0'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     ncurses: '>=6.4,<7.0a0'
-    openssl: '>=3.2.0,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     readline: '>=8.2,<9.0a0'
     tk: '>=8.6.13,<8.7.0a0'
     tzdata: ''
     xz: '>=5.2.6,<6.0a0'
     pip: ''
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/python-3.12.1-hdf0ec26_1_cpython.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/python-3.12.2-hdf0ec26_0_cpython.conda
   hash:
-    md5: 7b5d48e25f131864762bfef1914d2014
-    sha256: c9bdc2478a983da8c1b965727889fe58e2ea594c6f280a73c822beab1926d40d
+    md5: 85e91138ae921a2771f57a50120272bd
+    sha256: ccd6c55a286d51d907c878ed2bfa7d1becce0fee71374a9386c5eb90d803ac72
   category: main
   optional: false
 - name: python
-  version: 3.12.1
+  version: 3.12.2
   manager: conda
   platform: win-64
   dependencies:
     bzip2: '>=1.0.8,<2.0a0'
     libexpat: '>=2.5.0,<3.0a0'
     libffi: '>=3.4,<4.0a0'
-    libsqlite: '>=3.44.2,<4.0a0'
+    libsqlite: '>=3.45.1,<4.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
-    openssl: '>=3.2.0,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     tk: '>=8.6.13,<8.7.0a0'
     tzdata: ''
     ucrt: '>=10.0.20348.0'
@@ -10512,10 +11037,10 @@ package:
     vc14_runtime: '>=14.29.30139'
     xz: '>=5.2.6,<6.0a0'
     pip: ''
-  url: https://conda.anaconda.org/conda-forge/win-64/python-3.12.1-h2628c8c_1_cpython.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/python-3.12.2-h2628c8c_0_cpython.conda
   hash:
-    md5: 19f49a5c0aea545792ad88bb40dc1ec9
-    sha256: e3c4d9a961dac0e15b501144b333ede8515bff83aec51f4815c575311053352f
+    md5: be8803e9f75a477df61d4aabea3c1246
+    sha256: b8eda863b48ae4531635e23fd15e759d93212b6204c6847d591e25fa5fd67477
   category: main
   optional: false
 - name: python-dateutil
@@ -10996,7 +11521,7 @@ package:
   category: main
   optional: false
 - name: scikit-learn
-  version: 1.4.0
+  version: 1.4.1.post1
   manager: conda
   platform: linux-64
   dependencies:
@@ -11004,62 +11529,62 @@ package:
     joblib: '>=1.2.0'
     libgcc-ng: '>=12'
     libstdcxx-ng: '>=12'
-    numpy: '>=1.26.3,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
     scipy: ''
     threadpoolctl: '>=2.0.0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/scikit-learn-1.4.0-py312h394d371_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/scikit-learn-1.4.1.post1-py312h394d371_0.conda
   hash:
-    md5: c0dba83584b4fcd54b72e5ae76a2a0a8
-    sha256: 0300cd756b6c19bcd4885368dbb88c77f924ea578452233a36f0e731820c712b
+    md5: 7f50e0cc10407f2033d0305fee78490e
+    sha256: 0e18aec47e6cef8e34865417e2712b3fdacea1982a8b1acb6b1f0c185d9a4f07
   category: main
   optional: false
 - name: scikit-learn
-  version: 1.4.0
+  version: 1.4.1.post1
   manager: conda
   platform: osx-64
   dependencies:
     joblib: '>=1.2.0'
-    libcxx: '>=15'
+    libcxx: '>=16'
     llvm-openmp: '>=17.0.6'
-    numpy: '>=1.26.3,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
     scipy: ''
     threadpoolctl: '>=2.0.0'
-  url: https://conda.anaconda.org/conda-forge/osx-64/scikit-learn-1.4.0-py312h7167a34_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/scikit-learn-1.4.1.post1-py312h7167a34_0.conda
   hash:
-    md5: 523d2fcd0dd23c6a58fe2c4c7be735a1
-    sha256: 28fe6f0c56f0cbbb428b7808646d697efdaa98e3c09c13400b921aab9825d52a
+    md5: 0b8c6fb8f3f06d99cce439d79be6322d
+    sha256: 865a6f53b36f939df9b6e4580577171575fca260d33161c4e7115735a8a2fcdf
   category: main
   optional: false
 - name: scikit-learn
-  version: 1.4.0
+  version: 1.4.1.post1
   manager: conda
   platform: osx-arm64
   dependencies:
     joblib: '>=1.2.0'
-    libcxx: '>=15'
+    libcxx: '>=16'
     llvm-openmp: '>=17.0.6'
-    numpy: '>=1.26.3,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
     scipy: ''
     threadpoolctl: '>=2.0.0'
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/scikit-learn-1.4.0-py312hd4306f4_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/scikit-learn-1.4.1.post1-py312hd4306f4_0.conda
   hash:
-    md5: 09adddeafb8aebe96a5d7e87f1ddcc05
-    sha256: 90d7bd1f275623f754113301e34b9cfcf677f2bd0174c59a185a2ff1d52f2922
+    md5: a61cfeba84450a9e8fa88fce295eb248
+    sha256: 1eaf9801e244562a6c590eae3d6ccf471b1e7f63c5faa717be40e5ee74735f1b
   category: main
   optional: false
 - name: scikit-learn
-  version: 1.4.0
+  version: 1.4.1.post1
   manager: conda
   platform: win-64
   dependencies:
     joblib: '>=1.2.0'
-    numpy: '>=1.26.3,<2.0a0'
+    numpy: '>=1.26.4,<2.0a0'
     python: '>=3.12,<3.13.0a0'
     python_abi: 3.12.*
     scipy: ''
@@ -11067,10 +11592,10 @@ package:
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
-  url: https://conda.anaconda.org/conda-forge/win-64/scikit-learn-1.4.0-py312hcacafb1_0.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/scikit-learn-1.4.1.post1-py312hcacafb1_0.conda
   hash:
-    md5: 51384461e75eedc12fef282a232cbac1
-    sha256: 017716da0c2a51f5e21a937d33807a334fe45d5077ddfc74431b3d1a81c687bf
+    md5: 4d4454b5c8ae82fc0a38895219d26315
+    sha256: 75cdb4d4b66198c591ae5e730d11b573122326dfe80d9d3232bc2d71eb1bbee1
   category: main
   optional: false
 - name: scipy
@@ -11155,51 +11680,51 @@ package:
   category: main
   optional: false
 - name: setuptools
-  version: 69.0.3
+  version: 69.1.0
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.0.3-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.1.0-pyhd8ed1ab_0.conda
   hash:
-    md5: 40695fdfd15a92121ed2922900d0308b
-    sha256: 0fe2a0473ad03dac6c7f5c42ef36a8e90673c88a0350dfefdea4b08d43803db2
+    md5: 6df2be294365eca602cabb4f04a6efe2
+    sha256: 5f022216de7c654c775ac88e431917256e1f43b3620f77152a8054ba60a653e3
   category: main
   optional: false
 - name: setuptools
-  version: 69.0.3
+  version: 69.1.0
   manager: conda
   platform: osx-64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.0.3-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.1.0-pyhd8ed1ab_0.conda
   hash:
-    md5: 40695fdfd15a92121ed2922900d0308b
-    sha256: 0fe2a0473ad03dac6c7f5c42ef36a8e90673c88a0350dfefdea4b08d43803db2
+    md5: 6df2be294365eca602cabb4f04a6efe2
+    sha256: 5f022216de7c654c775ac88e431917256e1f43b3620f77152a8054ba60a653e3
   category: main
   optional: false
 - name: setuptools
-  version: 69.0.3
+  version: 69.1.0
   manager: conda
   platform: osx-arm64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.0.3-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.1.0-pyhd8ed1ab_0.conda
   hash:
-    md5: 40695fdfd15a92121ed2922900d0308b
-    sha256: 0fe2a0473ad03dac6c7f5c42ef36a8e90673c88a0350dfefdea4b08d43803db2
+    md5: 6df2be294365eca602cabb4f04a6efe2
+    sha256: 5f022216de7c654c775ac88e431917256e1f43b3620f77152a8054ba60a653e3
   category: main
   optional: false
 - name: setuptools
-  version: 69.0.3
+  version: 69.1.0
   manager: conda
   platform: win-64
   dependencies:
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.0.3-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.1.0-pyhd8ed1ab_0.conda
   hash:
-    md5: 40695fdfd15a92121ed2922900d0308b
-    sha256: 0fe2a0473ad03dac6c7f5c42ef36a8e90673c88a0350dfefdea4b08d43803db2
+    md5: 6df2be294365eca602cabb4f04a6efe2
+    sha256: 5f022216de7c654c775ac88e431917256e1f43b3620f77152a8054ba60a653e3
   category: main
   optional: false
 - name: shapely
@@ -11363,6 +11888,54 @@ package:
   hash:
     md5: cff1df79c9cff719460eb2dd172568de
     sha256: 2a195b38cb63f03ad9f73a82db52434ebefe216fb70f7ea3defe4ddf263d408a
+  category: main
+  optional: false
+- name: sniffio
+  version: 1.3.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.7'
+  url: https://conda.anaconda.org/conda-forge/noarch/sniffio-1.3.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: dd6cbc539e74cb1f430efbd4575b9303
+    sha256: a3fd30754c20ddb28b777db38345ea00d958f46701f0decd6291a81c0f4eee78
+  category: main
+  optional: false
+- name: sniffio
+  version: 1.3.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: '>=3.7'
+  url: https://conda.anaconda.org/conda-forge/noarch/sniffio-1.3.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: dd6cbc539e74cb1f430efbd4575b9303
+    sha256: a3fd30754c20ddb28b777db38345ea00d958f46701f0decd6291a81c0f4eee78
+  category: main
+  optional: false
+- name: sniffio
+  version: 1.3.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.7'
+  url: https://conda.anaconda.org/conda-forge/noarch/sniffio-1.3.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: dd6cbc539e74cb1f430efbd4575b9303
+    sha256: a3fd30754c20ddb28b777db38345ea00d958f46701f0decd6291a81c0f4eee78
+  category: main
+  optional: false
+- name: sniffio
+  version: 1.3.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.7'
+  url: https://conda.anaconda.org/conda-forge/noarch/sniffio-1.3.0-pyhd8ed1ab_0.tar.bz2
+  hash:
+    md5: dd6cbc539e74cb1f430efbd4575b9303
+    sha256: a3fd30754c20ddb28b777db38345ea00d958f46701f0decd6291a81c0f4eee78
   category: main
   optional: false
 - name: soupsieve
@@ -11586,7 +12159,7 @@ package:
   category: main
   optional: false
 - name: tiledb
-  version: 2.19.1
+  version: 2.20.0
   manager: conda
   platform: linux-64
   dependencies:
@@ -11599,19 +12172,19 @@ package:
     libgcc-ng: '>=12'
     libgoogle-cloud: '>=2.12.0,<2.13.0a0'
     libstdcxx-ng: '>=12'
-    libxml2: '>=2.12.4,<3.0a0'
+    libxml2: '>=2.12.5,<3.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     lz4-c: '>=1.9.3,<1.10.0a0'
-    openssl: '>=3.2.0,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     zstd: '>=1.5.5,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/linux-64/tiledb-2.19.1-h4386cac_0.conda
+  url: https://conda.anaconda.org/conda-forge/linux-64/tiledb-2.20.0-h4386cac_0.conda
   hash:
-    md5: 8d16e7b2529607a12aa6722c7a7c7356
-    sha256: c75ff0cdcf3e3dac837739e056c2dbd74f0b1055ed17ac1523856c44f208e5c1
+    md5: 20101f907b5fab4089b034f827e01b91
+    sha256: abc460ddf0205dfbeb987678ca882fedcf152d91fbfe7acba2a46c10a306d9cd
   category: main
   optional: false
 - name: tiledb
-  version: 2.19.1
+  version: 2.20.0
   manager: conda
   platform: osx-64
   dependencies:
@@ -11622,21 +12195,21 @@ package:
     bzip2: '>=1.0.8,<2.0a0'
     libabseil: '>=20230802.1,<20230803.0a0'
     libcurl: '>=8.5.0,<9.0a0'
-    libcxx: '>=15'
+    libcxx: '>=16'
     libgoogle-cloud: '>=2.12.0,<2.13.0a0'
-    libxml2: '>=2.12.4,<3.0a0'
+    libxml2: '>=2.12.5,<3.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     lz4-c: '>=1.9.3,<1.10.0a0'
-    openssl: '>=3.2.0,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     zstd: '>=1.5.5,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/osx-64/tiledb-2.19.1-h8fd0293_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-64/tiledb-2.20.0-h8fd0293_0.conda
   hash:
-    md5: ae08850e4a0e58203a1cbfb14b452258
-    sha256: ccfd5f791c71c8484fd1b6d6402bc7330ea29c1f1d71abcd4c5fdcbe2daa4659
+    md5: 6585a0f5ff3f277826a392e1a5ab0ee6
+    sha256: 6d1d383dcd6722f99ce26d4e042eb1ea69da4d62256f29b9318d3849d56a359c
   category: main
   optional: false
 - name: tiledb
-  version: 2.19.1
+  version: 2.20.0
   manager: conda
   platform: osx-arm64
   dependencies:
@@ -11646,21 +12219,21 @@ package:
     bzip2: '>=1.0.8,<2.0a0'
     libabseil: '>=20230802.1,<20230803.0a0'
     libcurl: '>=8.5.0,<9.0a0'
-    libcxx: '>=15'
+    libcxx: '>=16'
     libgoogle-cloud: '>=2.12.0,<2.13.0a0'
-    libxml2: '>=2.12.4,<3.0a0'
+    libxml2: '>=2.12.5,<3.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     lz4-c: '>=1.9.3,<1.10.0a0'
-    openssl: '>=3.2.0,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     zstd: '>=1.5.5,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/osx-arm64/tiledb-2.19.1-h49d9ff7_0.conda
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/tiledb-2.20.0-h49d9ff7_0.conda
   hash:
-    md5: dcd5b377b1d7784909acffd3bb6ca282
-    sha256: 9264b07951317c6ce50d5b5e0f02fb4cbddd45cb26de09edb7bd267424adc6e4
+    md5: 7bc3a4c19f431c4fd15bd5eec7ae56df
+    sha256: 326f35e114e993f92c68823faa9bdd8dcd2cd47a0e0a44cc0550fd89fbc05e82
   category: main
   optional: false
 - name: tiledb
-  version: 2.19.1
+  version: 2.20.0
   manager: conda
   platform: win-64
   dependencies:
@@ -11672,18 +12245,18 @@ package:
     libcrc32c: '>=1.1.2,<1.2.0a0'
     libcurl: '>=8.5.0,<9.0a0'
     libgoogle-cloud: '>=2.12.0,<2.13.0a0'
-    libxml2: '>=2.12.4,<3.0a0'
+    libxml2: '>=2.12.5,<3.0a0'
     libzlib: '>=1.2.13,<1.3.0a0'
     lz4-c: '>=1.9.3,<1.10.0a0'
-    openssl: '>=3.2.0,<4.0a0'
+    openssl: '>=3.2.1,<4.0a0'
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30139'
     zstd: '>=1.5.5,<1.6.0a0'
-  url: https://conda.anaconda.org/conda-forge/win-64/tiledb-2.19.1-h2657894_0.conda
+  url: https://conda.anaconda.org/conda-forge/win-64/tiledb-2.20.0-h2657894_0.conda
   hash:
-    md5: 4dda2b1302437c7e06cf0cfca1bb16b1
-    sha256: 01ab52856318cbd7192bafdc9cf5461e143811ba0ed048ea531c0e313d6b4a2d
+    md5: 335edd10e00933380598056887676d94
+    sha256: 28e3150c78ed6f1b70a09f58bd36a51b46db3bb765152a3a03c3a78e214195fa
   category: main
   optional: false
 - name: tk
@@ -11783,6 +12356,54 @@ package:
   hash:
     md5: 5844808ffab9ebdb694585b50ba02a96
     sha256: 4cd48aba7cd026d17e86886af48d0d2ebc67ed36f87f6534f4b67138f5a5a58f
+  category: main
+  optional: false
+- name: typing_extensions
+  version: 4.9.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.9.0-pyha770c72_0.conda
+  hash:
+    md5: a92a6440c3fe7052d63244f3aba2a4a7
+    sha256: f3c5be8673bfd905c4665efcb27fa50192f24f84fa8eff2f19cba5d09753d905
+  category: main
+  optional: false
+- name: typing_extensions
+  version: 4.9.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.9.0-pyha770c72_0.conda
+  hash:
+    md5: a92a6440c3fe7052d63244f3aba2a4a7
+    sha256: f3c5be8673bfd905c4665efcb27fa50192f24f84fa8eff2f19cba5d09753d905
+  category: main
+  optional: false
+- name: typing_extensions
+  version: 4.9.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.9.0-pyha770c72_0.conda
+  hash:
+    md5: a92a6440c3fe7052d63244f3aba2a4a7
+    sha256: f3c5be8673bfd905c4665efcb27fa50192f24f84fa8eff2f19cba5d09753d905
+  category: main
+  optional: false
+- name: typing_extensions
+  version: 4.9.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.8'
+  url: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.9.0-pyha770c72_0.conda
+  hash:
+    md5: a92a6440c3fe7052d63244f3aba2a4a7
+    sha256: f3c5be8673bfd905c4665efcb27fa50192f24f84fa8eff2f19cba5d09753d905
   category: main
   optional: false
 - name: tzcode
@@ -11942,59 +12563,59 @@ package:
   category: main
   optional: false
 - name: urllib3
-  version: 2.2.0
+  version: 2.2.1
   manager: conda
   platform: linux-64
   dependencies:
     brotli-python: '>=1.0.9'
     pysocks: '>=1.5.6,<2.0,!=1.5.7'
     python: '>=3.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.2.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.2.1-pyhd8ed1ab_0.conda
   hash:
-    md5: 6a7e0694921f668a030d52f0c47baebd
-    sha256: 61a8a3bd36d235c349aedaf1aa6a79cce15d6fe89dca4bb593b596d0211513c6
+    md5: 08807a87fa7af10754d46f63b368e016
+    sha256: d4009dcc9327684d6409706ce17656afbeae690d8522d3c9bc4df57649a352cd
   category: main
   optional: false
 - name: urllib3
-  version: 2.2.0
+  version: 2.2.1
   manager: conda
   platform: osx-64
   dependencies:
     python: '>=3.7'
     brotli-python: '>=1.0.9'
     pysocks: '>=1.5.6,<2.0,!=1.5.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.2.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.2.1-pyhd8ed1ab_0.conda
   hash:
-    md5: 6a7e0694921f668a030d52f0c47baebd
-    sha256: 61a8a3bd36d235c349aedaf1aa6a79cce15d6fe89dca4bb593b596d0211513c6
+    md5: 08807a87fa7af10754d46f63b368e016
+    sha256: d4009dcc9327684d6409706ce17656afbeae690d8522d3c9bc4df57649a352cd
   category: main
   optional: false
 - name: urllib3
-  version: 2.2.0
+  version: 2.2.1
   manager: conda
   platform: osx-arm64
   dependencies:
     python: '>=3.7'
     brotli-python: '>=1.0.9'
     pysocks: '>=1.5.6,<2.0,!=1.5.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.2.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.2.1-pyhd8ed1ab_0.conda
   hash:
-    md5: 6a7e0694921f668a030d52f0c47baebd
-    sha256: 61a8a3bd36d235c349aedaf1aa6a79cce15d6fe89dca4bb593b596d0211513c6
+    md5: 08807a87fa7af10754d46f63b368e016
+    sha256: d4009dcc9327684d6409706ce17656afbeae690d8522d3c9bc4df57649a352cd
   category: main
   optional: false
 - name: urllib3
-  version: 2.2.0
+  version: 2.2.1
   manager: conda
   platform: win-64
   dependencies:
     python: '>=3.7'
     brotli-python: '>=1.0.9'
     pysocks: '>=1.5.6,<2.0,!=1.5.7'
-  url: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.2.0-pyhd8ed1ab_0.conda
+  url: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.2.1-pyhd8ed1ab_0.conda
   hash:
-    md5: 6a7e0694921f668a030d52f0c47baebd
-    sha256: 61a8a3bd36d235c349aedaf1aa6a79cce15d6fe89dca4bb593b596d0211513c6
+    md5: 08807a87fa7af10754d46f63b368e016
+    sha256: d4009dcc9327684d6409706ce17656afbeae690d8522d3c9bc4df57649a352cd
   category: main
   optional: false
 - name: vc
@@ -12140,6 +12761,66 @@ package:
   hash:
     md5: 30878ecc4bd36e8deeea1e3c151b2e0b
     sha256: a11ae693a0645bf6c7b8a47bac030be9c0967d0b1924537b9ff7458e832c0511
+  category: main
+  optional: false
+- name: xarray
+  version: 2024.2.0
+  manager: conda
+  platform: linux-64
+  dependencies:
+    numpy: '>=1.23'
+    packaging: '>=22'
+    pandas: '>=1.5'
+    python: '>=3.9'
+  url: https://conda.anaconda.org/conda-forge/noarch/xarray-2024.2.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 8e25aab3323476d4fd0b5f6bad05d403
+    sha256: 4b0a8143f5c501246214823fe543e9d0749c950fdbdd39de6d8cd6209da2259f
+  category: main
+  optional: false
+- name: xarray
+  version: 2024.2.0
+  manager: conda
+  platform: osx-64
+  dependencies:
+    python: '>=3.9'
+    numpy: '>=1.23'
+    packaging: '>=22'
+    pandas: '>=1.5'
+  url: https://conda.anaconda.org/conda-forge/noarch/xarray-2024.2.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 8e25aab3323476d4fd0b5f6bad05d403
+    sha256: 4b0a8143f5c501246214823fe543e9d0749c950fdbdd39de6d8cd6209da2259f
+  category: main
+  optional: false
+- name: xarray
+  version: 2024.2.0
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    python: '>=3.9'
+    numpy: '>=1.23'
+    packaging: '>=22'
+    pandas: '>=1.5'
+  url: https://conda.anaconda.org/conda-forge/noarch/xarray-2024.2.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 8e25aab3323476d4fd0b5f6bad05d403
+    sha256: 4b0a8143f5c501246214823fe543e9d0749c950fdbdd39de6d8cd6209da2259f
+  category: main
+  optional: false
+- name: xarray
+  version: 2024.2.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    python: '>=3.9'
+    numpy: '>=1.23'
+    packaging: '>=22'
+    pandas: '>=1.5'
+  url: https://conda.anaconda.org/conda-forge/noarch/xarray-2024.2.0-pyhd8ed1ab_0.conda
+  hash:
+    md5: 8e25aab3323476d4fd0b5f6bad05d403
+    sha256: 4b0a8143f5c501246214823fe543e9d0749c950fdbdd39de6d8cd6209da2259f
   category: main
   optional: false
 - name: xerces-c
