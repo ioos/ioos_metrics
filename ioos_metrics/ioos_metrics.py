@@ -408,7 +408,6 @@ def update_metrics():
         "Federal Partners": federal_partners,
         "HAB Pilot Projects": hab_pilot_projects,
         "IOOS Core Variables": ioos_core_variables,
-        "IOOS Core Variables": ioos_core_variables,
         "IOOS": ioos,
         "MBON Projects": mbon_projects,
         "Metadata Records": metadata_records,
