@@ -1,25 +1,40 @@
-"""
-Code extracted from IOOS_BTN.ipynb
+"""Code extracted from IOOS_BTN.ipynb."""
 
-"""
-
+import functools
 import io
-import warnings
+import logging
 
+import joblib
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
+from gliderpy.fetchers import GliderDataFetcher
 
+from ioos_metrics.national_platforms import (
+    get_cbibs,
+    get_cdip,
+    get_coops,
+    get_ndbc,
+    get_nerrs,
+    get_oap,
+)
+
+logging.basicConfig(
+    filename="metric.log",
+    encoding="utf-8",
+    level=logging.DEBUG,
+)
+
+ua = UserAgent()
 _HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36",
+    "User-Agent": ua.random,
 }
 
 
+@functools.lru_cache(maxsize=128)
 def previous_metrics():
-    """
-    Loads the previous metrics as a DataFrame for updating.
-
-    """
+    """Loads the previous metrics as a DataFrame for updating."""
     df = pd.read_csv(
         "https://github.com/ioos/ioos_metrics/raw/main/ioos_btn_metrics.csv",
     )
@@ -45,27 +60,48 @@ def previous_metrics():
     return df
 
 
+def _compare_metrics(column, num) -> str:
+    """Compares last stored metric against the new one and report if it is up, down, or the same."""
+    last_row = previous_metrics().iloc[-1]
+    date = last_row["date_UTC"]
+    old = last_row[column]
+    if old == num:
+        msg = f"[{date}] : {column} equal {num} = {old}."
+    elif num < old:
+        msg = f"[{date}] : {column} down {num} < {old}."
+    elif num > old:
+        msg = f"[{date}] : {column} up {num} > {old}."
+    else:
+        msg = f"[{date}] : {column} failed."
+    return msg
+
+
+@functools.lru_cache(maxsize=128)
 def federal_partners():
-    """
-    ICOOS Act/COORA
+    """ICOOS Act/COORA.
 
     Typically 17, from https://ioos.noaa.gov/community/national#federal.
 
     """
-
     url = "https://ioos.noaa.gov/community/national#federal"
 
-    html = requests.get(url, headers=_HEADERS).text
+    html = requests.get(url, headers=_HEADERS, timeout=10).text
 
     df = pd.read_html(io.StringIO(html))
-    df_clean = df[1].drop(columns=[0, 2])
-    df_fed_partners = pd.concat([df_clean[1], df_clean[3]]).dropna().reset_index()
-    return df_fed_partners.shape[0]
+    df = df[1].drop(columns=[0, 2])
+    df = pd.concat([df[1], df[3]]).dropna().reset_index()
+    logging.info(f"{df[0].to_string()=}")
+    return df.shape[0]
 
 
-def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
-    """
-    NGDAC Glider Days
+@functools.lru_cache(maxsize=128)
+def ngdac_gliders_fast():
+    """NGDAC Glider Days.
+
+    This version uses the AllDatasets entry to compute the glider days.
+    It will include NaNs and, b/c of that, will return an "overestimation" for that metric.
+    One could argue that this is correct b/c a glider day at sea, with or without data, is a glider day.
+    However, for an "accurate" glider day estimation that uses only where data is collected, use ngdac_gliders.
 
     Gliders monitor water currents, temperature, and conditions that reveal effects from storms,
     impacts on fisheries, and the quality of our water.
@@ -81,7 +117,8 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
 
     Conditions on our calculations:
     * drops all datasets with `datasetID` containing `delayed`.
-    * duration is calculated based on the metadata ERDDAP generates (time_coverage) which usually over-estimate a bit b/c it includes empty data (NaN).
+    * duration is calculated based on the metadata ERDDAP generates
+      (time_coverage) which usually over-estimate a bit b/c it includes empty data (NaN).
       Note that data with NaN can be real glider day with lost data. Which is OK for this metric.
 
     """
@@ -91,24 +128,20 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
 
     # We don't want allDatasets in our numbers.
     df = df.loc[~(df["datasetID"] == "allDatasets")]
-    df.describe().T["count"]
 
     # Check if any value is NaN and report it.
-    if df.isnull().sum().sum():
-        rows = df.loc[df.isnull().sum(axis=1).astype(bool)]
-        warnings.warn(f"The following rows have missing data:\n{rows}")
+    if df.isna().sum().sum():
+        rows = df.loc[df.isna().sum(axis=1).astype(bool)]
+        logging.warning(f"The following rows have missing data:\n{rows}")
 
-    df.dropna(
+    df = df.dropna(
         axis=0,
-        inplace=True,
     )
 
     # drop delayed datasets
-    df = df.loc[df["datasetID"].str.contains("delayed") == False]
+    df = df.loc[~df["datasetID"].str.contains("delayed")]
 
-    df[["minTime (UTC)", "maxTime (UTC)"]] = df[
-        ["minTime (UTC)", "maxTime (UTC)"]
-    ].apply(pd.to_datetime)
+    df[["minTime (UTC)", "maxTime (UTC)"]] = df[["minTime (UTC)", "maxTime (UTC)"]].apply(pd.to_datetime)
 
     df = df["maxTime (UTC)"].apply(lambda x: x.ceil("D")) - df["minTime (UTC)"].apply(
         lambda x: x.floor("D"),
@@ -116,90 +149,412 @@ def ngdac_gliders(start_date="2000-01-01", end_date="2023-12-31"):
     return df.sum().days
 
 
-def comt():
+@functools.lru_cache(maxsize=128)
+def ngdac_gliders():
+    """Same as ngdac_gliders but loops over all datasets to return a more accurate estimate for this metric.
+    This approach is slower but can also compute more refined metrics and other variables, like glider profiles.
+
     """
-    The COMT serves as a conduit between the federal operational and research communities and allows sharing of numerical models,
+
+    def _extra_info(info_df, attribute_name) -> str:
+        """Get 'Attribute Name' 'Value' metadata."""
+        return info_df.loc[info_df["Attribute Name"] == attribute_name]["Value"].squeeze()
+
+    def _metadata(info_df) -> dict:
+        """Build the metadata a specific dataset_id."""
+        return {
+            "wmo_id": _extra_info(info_df, attribute_name="wmo_id"),
+            "time_coverage_start": _extra_info(info_df, attribute_name="time_coverage_start"),
+            "time_coverage_end": _extra_info(info_df, attribute_name="time_coverage_end"),
+            "glider": dataset_id.split("-")[0],
+            "geospatial_lat_min": _extra_info(info_df, attribute_name="geospatial_lat_min"),
+            "geospatial_lat_max": _extra_info(info_df, attribute_name="geospatial_lat_max"),
+            "geospatial_lon_min": _extra_info(info_df, attribute_name="geospatial_lon_min"),
+            "geospatial_lon_max": _extra_info(info_df, attribute_name="geospatial_lon_max"),
+            "institution": _extra_info(info_df, attribute_name="institution"),
+            "sea_name": _extra_info(info_df, attribute_name="sea_name"),
+            "acknowledgment": _extra_info(info_df, attribute_name="acknowledgment"),
+        }
+
+    def _computed_metadata(dataset_id) -> dict:
+        """Download the minimum amount of data possible for the computed metadata,
+        We cannot get first and last b/c the profile_id is not a contiguous sequence.
+        """
+        glider_grab.fetcher.dataset_id = dataset_id
+        glider_grab.fetcher.variables = [
+            "profile_id",
+            "latitude",
+            "longitude",
+            "time",
+        ]
+        df = glider_grab.to_pandas()
+        df = df.sort_index()
+        days = df.index[-1].ceil("D") - df.index[0].floor("D")
+        return {
+            "deployment_lat": df["latitude"].iloc[0],
+            "deployment_lon": df["longitude"].iloc[0],
+            "num_profiles": len(df),
+            # Profiles are not unique! This will results in a smaller profile count.
+            # "num_profiles": len(set(df['profile_id']))
+            "days": days,
+        }
+
+    glider_grab = GliderDataFetcher()
+
+    df = glider_grab.query(
+        min_lat=-90.0,
+        max_lat=90.0,
+        min_lon=-180,
+        max_lon=180,
+        min_time="2000-01-01T00:00:00",
+        max_time="2023-12-31T23:59:59",
+    )
+
+    metadata = {}
+    for _, row in list(df.iterrows()):
+        dataset_id = row["Dataset ID"]
+        info_url = row["info_url"].replace("html", "csv")
+        info_df = pd.read_csv(info_url)
+        info = _metadata(info_df)
+        info.update(_computed_metadata(dataset_id=dataset_id))
+        metadata.update({dataset_id: info})
+    metadata = pd.DataFrame(metadata).T
+    return metadata["days"].sum().days
+
+
+@functools.lru_cache(maxsize=128)
+def comt():
+    """The COMT serves as a conduit between the federal operational
+    and research communities and allows sharing of numerical models,
     observations and software tools.
-    The COMT supports integration, comparison, scientific analyses and archiving of data and model output needed to elucidate,
-    prioritize, and resolve federal and regional operational coastal ocean issues associated with a range of existing and emerging coastal oceanic,
+    The COMT supports integration, comparison,
+    scientific analyses and archiving of data and model output needed to elucidate,
+    prioritize, and resolve federal and regional operational coastal ocean issues associated with
+    a range of existing and emerging coastal oceanic,
     hydrologic, and ecological models.
-    The Testbed has enabled significant community building (within the modeling community as well as enhancing academic and federal operational relations) which has dramatically improved model development.
+    The Testbed has enabled significant community building
+    (within the modeling community as well as enhancing academic and federal operational relations)
+    which has dramatically improved model development.
 
     Number of Active Projects via personal communication from COMT program manager.
     """
-
     url = "https://ioos.noaa.gov/project/comt/"
 
-    html = requests.get(url, headers=_HEADERS).text
+    html = requests.get(url, headers=_HEADERS, timeout=10).text
 
     soup = BeautifulSoup(html, "html.parser")
 
     for tag in soup.find_all("h2"):
         if tag.text == "Current Projects":
+            logging.info(f"{tag.next_sibling.find_all('li')=}")
             comt = len(tag.next_sibling.find_all("li"))
 
     return comt
 
 
+@functools.lru_cache(maxsize=128)
 def regional_associations():
+    """Finds the current IOOS Regional Associations."""
     ras = 0
     url = "https://ioos.noaa.gov/regions/regions-at-a-glance/"
 
-    html = requests.get(url, headers=_HEADERS).text
+    html = requests.get(url, headers=_HEADERS, timeout=10).text
     soup = BeautifulSoup(html, "html.parser")
 
     for tag in soup.find_all("a"):
         if tag.find("strong") is not None:
-            ra = tag.find("strong").text
-            # TODO: change to log
-            # print(f"Found RA {ra}")
+            logging.info(f"{tag.find('strong').text=}")
             ras += 1
 
     return ras
 
 
-def update_metrics():
-    """
-    Load previous metrics and update the spreadsheet.
+@functools.lru_cache(maxsize=128)
+def regional_platforms():
+    """Regional platforms are calculated from the annual IOOS asset inventory submitted by each Regional Association.
+    More information about the IOOS asset inventory can be found at https://github.com/ioos/ioos-asset-inventory.
+
+    The data from 2020 can be found
+    [here](https://github.com/ioos/ioos-asset-inventory/tree/main/2020)
+    and is available on [ERDDAP](http://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.html).
 
     """
+    url = "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.json?station_long_name&distinct()"
+    df = pd.read_json(url)
+    return len(df.loc["rows"].iloc[0])
+
+
+@functools.lru_cache(maxsize=128)
+def atn_deployments():
+    """See Deployments at https://portal.atn.ioos.us/#."""
+    headers = {"Accept": "application/json"}
+
+    raw_payload = requests.get(
+        "https://search.axds.co/v2/search?portalId=99",
+        headers=headers,
+        timeout=10,
+    )
+    json_payload = raw_payload.json()
+    for plt in json_payload["types"]:
+        if plt["id"] == "platform2":
+            atn = plt["count"]
+            break
+    return atn
+
+
+@functools.lru_cache(maxsize=128)
+def ott_projects():
+    """The IOOS Ocean Technology Transition project sponsors the transition of emerging marine observing technologies,
+    for which there is an existing operational requirement
+    and a demonstrated commitment to integration and use by the ocean observing community,
+    to operational mode.
+    Each year IOOS supports 2-4 projects.
+    The number here reflects the total number projects supported by this effort.
+
+    These are the current active OTT projects which was provided by the OTT Program Manager.
+    Hopefully, we can find a good place to harvest these numbers from.
+
+    For now, we have the
+    [website](https://ioos.noaa.gov/project/ocean-technology-transition/)
+    and personal communication that there are 8 live projects.
+
+    """
+    url = "https://ioos.noaa.gov/project/ocean-technology-transition/"
+
+    html = requests.get(url, headers=_HEADERS, timeout=10).text
+    soup = BeautifulSoup(html, "html.parser")
+    table = soup.find(attrs={"class": "fg-text-dark ffb-one-desc-2-2"})
+    table = str(table)
+
+    df = pd.read_html(
+        io.StringIO(table),
+        header=0,
+    )
+
+    ott_projects = 0
+    for entry in df[0]:
+        logging.info(f"{df[0][entry][0].count('new in')=}")
+        ott_projects += df[0][entry][0].count("new in")
+    return ott_projects
+
+
+@functools.lru_cache(maxsize=128)
+def qartod_manuals():
+    """As of the last update there are twelve QARTOD manuals in-place for IOOS.
+    These manuals establish authoritative QA/QC procedures for oceanographic data.
+
+    The five year plan lists 16 manuals/papers.
+    There's 13 QC manuals plus the Flags document,
+    the QA paper and the Glider DAC paper.
+    The Glider DAC paper is an implementation plan of the TS QC manual,
+    and it's posted under the Implementation tab on the QARTOD home page,
+    at https://cdn.ioos.noaa.gov/media/2017/12/Manual-for-QC-of-Glider-Data_05_09_16.pdf.
+
+
+    https://ioos.noaa.gov/project/qartod/
+
+    """
+    url = "https://ioos.noaa.gov/project/qartod/"
+
+    soup = BeautifulSoup(
+        requests.get(url, headers=_HEADERS, timeout=10).text,
+        "html.parser",
+    )
+    qartod = 0
+    for tag in soup.find_all("li"):
+        if "Real-Time Quality Control of" in tag.text:
+            logging.info(f"{tag.text=}")
+            qartod += 1
+
+    return qartod
+
+
+@functools.lru_cache(maxsize=128)
+def ioos_core_variables():
+    """The IOOS Core Variables are presented on
+    [this website](https://www.iooc.us/task-teams/core-ioos-variables/).
+
+    """
+    url = "https://mmisw.org/ont/api/v0/ont?format=rj&iri=http://mmisw.org/ont/ioos/core_variable"
+
+    df = pd.read_json(url, orient="index")
+
+    # Drop the rows where 'name' doesn't exist.
+    df = df.dropna(
+        axis="index",
+        how="any",
+        subset="http://mmisw.org/ont/ioos/core_variable/name",
+    )
+
+    return len(df.index.tolist())
+
+
+@functools.lru_cache(maxsize=128)
+def metadata_records():
+    """These are the number of metadata records currently available through the
+    [IOOS Catalog](https://data.ioos.us).
+    Previously the number of records was on the order of 8,600.
+    Below are three different mechanisms to calculate this metric,
+    however they do differ and the reason for that difference is unclear.
+
+    """
+    from ckanapi import RemoteCKAN
+
+    url = "https://data.ioos.us"
+    user_agent = "ckanapiioos/1.0 (+https://ioos.us/)"
+
+    ioos_catalog = RemoteCKAN(url, user_agent=user_agent)
+    datasets = ioos_catalog.action.package_search()
+    return datasets["count"]
+
+
+@functools.lru_cache(maxsize=128)
+def ioos() -> int:
+    """Represents the one IOOS Office."""
+    return 1
+
+
+@functools.lru_cache(maxsize=128)
+def mbon_projects():
+    """Living marine resources are essential to the health and recreational needs of billions of people,
+    yet marine biodiversity and ecosystem processes remain major frontiers in ocean observing.
+    IOOS has a critical role in implementing operational,
+    sustained programs to observe biology and catalogue biodiversity to ensure these data are available for science,
+    management, and the public.
+    IOOS is leading development of the Marine Biodiversity Observation Network,
+    with core funding from NOAA, NASA and BOEM.
+    MBON connects regional networks of scientists, resource managers,
+    and users and integrates data from existing long-term programs to understand human-
+    and climate-induced change and its impacts on marine life.
+    MBON partners are pioneering application of new remote sensing methods, imaging,
+    molecular approaches (eDNA and omics),
+    and other technologies and integrating these with traditional research methods
+    and coordinated experiments to understand changing patterns of biodiversity.
+
+    These are the currently funded MBON projects.
+    At this time, we are manually checking https://marinebon.org/ and counting the number of U.S. projects.
+
+    We hope to be able to use the resources
+    [here](https://github.com/marinebon/www_marinebon2/tree/master/content/project)
+    to automatically harvest these metrics in the future.
+
+    """
+    url = "https://ioos.noaa.gov/project/mbon/"
+    html = requests.get(url, headers=_HEADERS, timeout=10).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    mbon_projects = 0
+    for tag in soup.find_all("h3"):
+        if "class" in tag.attrs:
+            continue  # we don't need the other headers
+        mbon_projects += 1
+
+    return mbon_projects
+
+
+@functools.lru_cache(maxsize=128)
+def hab_pilot_projects():
+    """These are the National Harmful Algal Bloom Observing Network Pilot Project awards.
+    Currently these were calculated from the
+    [award announcement pdf](https://cdn.ioos.noaa.gov/media/2021/10/NHABON-Funding-Awards-FY21_v2.pdf)
+    which states that there are 9 total.
+
+    Might be able to parse the pdf and calculate this on the fly.
+
+    """
+    from pdfminer.high_level import extract_text
+
+    url = "https://cdn.ioos.noaa.gov/media/2022/10/NHABON-Funding-Awards-FY22.pdf"
+
+    data = requests.get(url, timeout=10)
+
+    with io.BytesIO(data.content) as f:
+        pdf = extract_text(f)
+
+    content = pdf.split("\n")
+
+    nhabon_projects = sum("Funded amount" in s for s in content)
+    return nhabon_projects + 1  # Gulf of Mexico project
+
+
+@functools.lru_cache(maxsize=128)
+def hf_radar_installations():
+    """The previous number of 181 included all locations where
+    a HFR station had ever been sighted as part of the IOOS National Network,
+    but doesn't appear to me to have accounted for temporary installations,
+    HFRs unfunded by IOOS operated by international partners,
+    or instances where an HFR being relocated from one site to another caused it to be double-counted.
+    Even the number 165 represents a "high water mark" for simultaneously operating HFRs,
+    since HFRs routinely are taken offline for periods of time,
+    for both planned preventative maintenance and in response to other exigent issues.
+
+    From http://hfrnet.ucsd.edu/sitediag/stationList.php
+
+    """
+    # This is a hardcoded number at the moment!
+    return 165
+
+
+def update_metrics(*, debug=False):
+    """Load previous metrics and update the spreadsheet."""
     df = previous_metrics()
-
-    federal_partners_number = federal_partners()
-    glider_days = ngdac_gliders()
-    comt_number = comt()
-    ras = regional_associations()
-
-    _TODO = [
-        # "NGDAC Glider Days", (TODO: change to data days)
-        "HF Radar Stations",  # It is a hardcoded number at the moment
-        "National Platforms",
-        "Regional Platforms",
-        "ATN Deployments",
-        "MBON Projects",
-        "OTT Projects",
-        "HAB Pilot Projects",
-        "QARTOD Manuals",
-        "IOOS Core Variables",
-        "Metadata Records",
-        "IOOS",
-    ]
-
     today = pd.Timestamp.strftime(pd.Timestamp.today(tz="UTC"), "%Y-%m-%d")
-    new_metric_row = pd.DataFrame(
-        [today, federal_partners_number, glider_days, comt_number, ras],
-        index=[
-            "date_UTC",
-            "Federal Partners",
-            "NGDAC Glider Days",
-            "COMT Projects",
-            "Regional Associations",
-        ],
-    ).T
+
+    new_row = {
+        "date_UTC": today,
+    }
+
+    functions = {
+        "ATN Deployments": atn_deployments,
+        "COMT Projects": comt,
+        "Federal Partners": federal_partners,
+        "HAB Pilot Projects": hab_pilot_projects,
+        "HF Radar Stations": hf_radar_installations,
+        "IOOS Core Variables": ioos_core_variables,
+        "IOOS": ioos,
+        "MBON Projects": mbon_projects,
+        "Metadata Records": metadata_records,
+        "NGDAC Glider Days": ngdac_gliders,
+        "OTT Projects": ott_projects,
+        "QARTOD Manuals": qartod_manuals,
+        "Regional Associations": regional_associations,
+        "Regional Platforms": regional_platforms,
+    }
+    # We do the national platforms separately b/c this one hits multiple services.
+    national_platforms_functions = [get_cbibs, get_cdip, get_coops, get_ndbc, get_nerrs, get_oap]
+
+    # We cannot write the log in parallel. When debugging we should run the queries in seral mode.
+    if debug:
+        for column, function in functions.items():
+            try:
+                num = function()
+            except Exception:
+                logging.exception(f"{function=} failed.")
+                num = None
+            new_row.update({column: num})
+            # Log status.
+            message = _compare_metrics(column=column, num=num)
+            logging.info(f"{message}")
+
+        national_platforms = [function() for function in national_platforms_functions]
+        new_row.update({"National Platforms": national_platforms})
+    else:
+        cpu_count = joblib.cpu_count()
+        parallel = joblib.Parallel(n_jobs=cpu_count, return_as="generator")
+
+        values = parallel(joblib.delayed(function)() for function in functions.values())
+        columns = dict(zip(functions.keys(), values, strict=False))
+        new_row.update(columns)
+
+        national_platforms = sum(parallel(joblib.delayed(function)() for function in national_platforms_functions))
+        new_row.update({"National Platforms": national_platforms})
+
+    new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
+
     # only update numbers if it's a new day
     if today not in df["date_UTC"].to_list():
         df = pd.concat(
-            [df, new_metric_row],
+            [df, new_row],
             ignore_index=True,
             axis=0,
         )

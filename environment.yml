@@ -4,16 +4,15 @@ channels:
 dependencies:
   - python=3.12
   - bs4
-  - eccodes
-  - fiscalyear
+  - ckanapi
+  - fake-useragent
   - geopandas>=0.13.2
-  - jinja2
-  - jupyter
+  - gliderpy
+  - html5lib
+  - joblib
   - lxml
-  - owslib
   - pandas
-  - pdbufr
+  - pdfminer.six
+  - pyarrow
   - pytest
   - requests
-  - suds
-  - pyarrow
