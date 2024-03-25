@@ -2,7 +2,7 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: Create and Deploy Prod HTML site
-# Includes building automatically when either of the relavent JSON files update on the main branch or on the push of a button
+# Includes building automatically when either of the relevant JSON files update on the main branch or on the push of a button
 on:
   workflow_dispatch:
   push:
