@@ -5,18 +5,12 @@ dependencies:
   - python=3.12
   - bs4
   - ckanapi
-  - eccodes
   - fake-useragent
-  - fiscalyear
   - geopandas>=0.13.2
-  - jinja2
-  - jupyter
+  - joblib
   - lxml
-  - owslib
   - pandas
-  - pdbufr
   - pdfminer.six
   - pyarrow
   - pytest
   - requests
-  - suds
