@@ -59,6 +59,8 @@ def _compare_metrics(column, num):
     """
     last_row = previous_metrics().iloc[-1]
     date = last_row["date_UTC"]
+    if num is None:
+        return f"[{date}] : {column} failed."
     old = last_row[column]
     if old == num:
         return f"[{date}] : {column} equal {num} = {old}."
@@ -212,7 +214,8 @@ def atn_deployments():
     headers = {"Accept": "application/json"}
 
     raw_payload = requests.get(
-        "https://search.axds.co/v2/search?portalId=99", headers=headers
+        "https://search.axds.co/v2/search?portalId=99",
+        headers=headers,
     )
     json_payload = raw_payload.json()
     for plt in json_payload["types"]:
@@ -296,7 +299,9 @@ def ioos_core_variables():
 
     # Drop the rows where 'name' doesn't exist.
     df = df.dropna(
-        axis="index", how="any", subset="http://mmisw.org/ont/ioos/core_variable/name"
+        axis="index",
+        how="any",
+        subset="http://mmisw.org/ont/ioos/core_variable/name",
     )
 
     return len(df.index.tolist())
