@@ -1,6 +1,7 @@
 name: Collect quarterly metrics
 
 on:
+  pull_request:
   push:
      branches:
        - main
