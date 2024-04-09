@@ -42,12 +42,6 @@ def test_ngdac_gliders_fast(df_previous_metrics):
     assert num >= df_previous_metrics["NGDAC Glider Days"].iloc[-1]
 
 
-def test_ngdac_gliders(df_previous_metrics):
-    num = ioos_metrics.ngdac_gliders()
-    # New count should always be >= than the previous one.
-    assert num >= df_previous_metrics["NGDAC Glider Days"].iloc[-1]
-
-
 def test_ioos():
     num = ioos_metrics.ioos()
     assert num == 1
