@@ -554,7 +554,7 @@ def update_metrics(*, debug=False):
         "IOOS": ioos,
         "MBON Projects": mbon_projects,
         "Metadata Records": metadata_records,
-        "NGDAC Glider Days": ngdac_gliders,
+        "NGDAC Glider Days": ngdac_gliders_fast,
         "OTT Projects": ott_projects,
         "QARTOD Manuals": qartod_manuals,
         "Regional Associations": regional_associations,
