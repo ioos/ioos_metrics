@@ -98,7 +98,7 @@ def federal_partners():
 
 
 @functools.lru_cache(maxsize=128)
-def ngdac_gliders_fast():
+def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time="2023-12-31T23:59:59Z") -> int:
     """NGDAC Glider Days.
 
     This version uses the AllDatasets entry to compute the glider days.
@@ -146,6 +146,11 @@ def ngdac_gliders_fast():
 
     df[["minTime (UTC)", "maxTime (UTC)"]] = df[["minTime (UTC)", "maxTime (UTC)"]].apply(pd.to_datetime)
 
+    min_time = pd.to_datetime(min_time)
+    max_time = pd.to_datetime(max_time)
+
+    df = df.loc[(df["minTime (UTC)"] >= min_time) & (df["maxTime (UTC)"] <= max_time)]
+
     df = df["maxTime (UTC)"].apply(lambda x: x.ceil("D")) - df["minTime (UTC)"].apply(
         lambda x: x.floor("D"),
     )
@@ -153,7 +158,15 @@ def ngdac_gliders_fast():
 
 
 @functools.lru_cache(maxsize=128)
-def ngdac_gliders():
+def _ngdac_gliders(  # noqa: PLR0913
+    *,
+    min_time="2000-01-01T00:00:00",
+    max_time="2023-12-31T23:59:59",
+    min_lat=-90.0,
+    max_lat=90.0,
+    min_lon=-180,
+    max_lon=180,
+) -> pd.DataFrame:
     """Same as ngdac_gliders but loops over all datasets to return a more accurate estimate for this metric.
     This approach is slower but can also compute more refined metrics and other variables, like glider profiles.
 
@@ -223,12 +236,13 @@ def ngdac_gliders():
     glider_grab = GliderDataFetcher()
 
     df = glider_grab.query(
-        min_lat=-90.0,
-        max_lat=90.0,
-        min_lon=-180,
-        max_lon=180,
-        min_time="2000-01-01T00:00:00",
-        max_time="2023-12-31T23:59:59",
+        min_lat=min_lat,
+        max_lat=max_lat,
+        min_lon=min_lon,
+        max_lon=max_lon,
+        min_time=min_time,
+        max_time=max_time,
+        delayed=False,  # We do not want delayed gliders.
     )
 
     metadata = {}
@@ -239,7 +253,12 @@ def ngdac_gliders():
         info = _metadata(info_df)
         info.update(_computed_metadata(dataset_id=dataset_id))
         metadata.update({dataset_id: info})
-    metadata = pd.DataFrame(metadata).T
+    return pd.DataFrame(metadata).T
+
+
+def ngdac_gliders():
+    """Runs _ngdac_gliders for the whole server and returns only the glider days to compare with ngdac_gliders_fast."""
+    metadata = _ngdac_gliders()
     return metadata["days"].sum().days
 
 
