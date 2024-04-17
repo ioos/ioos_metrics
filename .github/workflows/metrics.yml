@@ -46,12 +46,24 @@ jobs:
           && python gts_regional_metrics.py
           && python gts_atn_metrics.py
 
-      - name: Commit and push if it changed
+      - name: Create Pull Request
         if: github.ref == 'refs/heads/main'
-        run: >
-          git config user.name "Automated"
-          && git config user.email "actions@users.noreply.github.com"
-          && git add -A
-          && timestamp=$(date -u)
-          && git commit -m "Latest data: ${timestamp}" || exit 0
-          && git push
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Latest data: $(date -u)"
+          branch: update-webpage
+          delete-branch: true
+          title: "[metrics-ci] webpage auto-update"
+          body: |
+            Metrics Webpage auto-udpate.
+          labels: |
+            New: Pull Request
+            Bot
+
+      - name: Check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
