@@ -65,7 +65,7 @@ def _compare_metrics(column, num) -> str:
     last_row = previous_metrics().iloc[-1]
     date = last_row["date_UTC"]
     if num is None:
-        msg = f"[{date}] : {column} failed."
+        return f"[{date}] : {column} failed."
 
     old = last_row[column]
     if old == num:
@@ -576,7 +576,7 @@ def update_metrics(*, debug=False):
             try:
                 num = function()
             except Exception:
-                logging.exception(f"{function=} failed.")
+                logging.exception(f"{column=} failed.")
                 num = None
             new_row.update({column: num})
             # Log status.
