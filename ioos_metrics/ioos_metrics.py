@@ -11,14 +11,7 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from gliderpy.fetchers import GliderDataFetcher
 
-from ioos_metrics.national_platforms import (
-    get_cbibs,
-    get_cdip,
-    get_coops,
-    get_ndbc,
-    get_nerrs,
-    get_oap,
-)
+from ioos_metrics.national_platforms import national_platforms
 
 logging.basicConfig(
     filename="metric.log",
@@ -554,21 +547,13 @@ def update_metrics(*, debug=False):
         "IOOS": ioos,
         "MBON Projects": mbon_projects,
         "Metadata Records": metadata_records,
+        "National Platforms": national_platforms,
         "NGDAC Glider Days": ngdac_gliders_fast,
         "OTT Projects": ott_projects,
         "QARTOD Manuals": qartod_manuals,
         "Regional Associations": regional_associations,
         "Regional Platforms": regional_platforms,
     }
-    # We do the national platforms separately b/c this one hits multiple services.
-    national_platforms_functions = [
-        get_cbibs,
-        get_cdip,
-        get_coops,
-        get_ndbc,
-        get_nerrs,
-        get_oap,
-    ]
 
     # We cannot write the log in parallel. When debugging we should run the queries in seral mode.
     if debug:
@@ -582,9 +567,6 @@ def update_metrics(*, debug=False):
             # Log status.
             message = _compare_metrics(column=column, num=num)
             logging.info(f"{message}")
-
-        national_platforms = [function() for function in national_platforms_functions]
-        new_row.update({"National Platforms": national_platforms})
     else:
         cpu_count = joblib.cpu_count()
         parallel = joblib.Parallel(n_jobs=cpu_count, return_as="generator")
@@ -592,11 +574,6 @@ def update_metrics(*, debug=False):
         values = parallel(joblib.delayed(function)() for function in functions.values())
         columns = dict(zip(functions.keys(), values, strict=False))
         new_row.update(columns)
-
-        national_platforms = sum(
-            parallel(joblib.delayed(function)() for function in national_platforms_functions),
-        )
-        new_row.update({"National Platforms": national_platforms})
 
     new_row = pd.DataFrame.from_dict(data=new_row, orient="index").T
 

@@ -167,3 +167,8 @@ def get_cdip():
     df = table_list[0]
 
     return df["Stn"].unique().size
+
+
+def national_platforms() -> int:
+    """Adds all the national platforms metrics."""
+    return get_cbibs() + get_cdip() + get_coops() + get_ndbc() + get_nerrs() + get_oap()
