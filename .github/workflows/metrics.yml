@@ -62,7 +62,6 @@ jobs:
           body: |
             Metrics Webpage auto-udpate.
           labels: |
-            New: Pull Request
             Bot
 
       - name: Check outputs
