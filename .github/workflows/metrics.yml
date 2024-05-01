@@ -46,20 +46,22 @@ jobs:
           && python gts_regional_metrics.py
           && python gts_atn_metrics.py
 
+      - name: Get current date
+        run: echo "NOW=$(date -u)" >> ${GITHUB_ENV}
+
       - name: Create Pull Request
         if: github.ref == 'refs/heads/main'
         id: cpr
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Latest data: $(date -u)"
+          commit-message: "Latest data: ${{ env.NOW }}"
           branch: update-webpage
           delete-branch: true
           title: "[metrics-ci] webpage auto-update"
           body: |
             Metrics Webpage auto-udpate.
           labels: |
-            New: Pull Request
             Bot
 
       - name: Check outputs
