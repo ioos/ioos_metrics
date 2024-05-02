@@ -27,11 +27,7 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
-logging.basicConfig(
-    filename="national_platforms.log",
-    encoding="utf-8",
-    level=logging.DEBUG,
-)
+logger = logging.getLogger(__name__)
 
 ua = UserAgent()
 _HEADERS = {
@@ -53,7 +49,8 @@ def get_coops():
         timeout=10,
     ).text
 
-    return sum(1 for _ in re.finditer(r"\b%s\b" % re.escape("station name"), xml))
+    station_name = re.escape("station name")
+    return sum(1 for _ in re.finditer(rf"\b{station_name}\b", xml))
 
 
 @functools.lru_cache(maxsize=128)

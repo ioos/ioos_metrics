@@ -13,10 +13,11 @@ from gliderpy.fetchers import GliderDataFetcher
 
 from ioos_metrics.national_platforms import national_platforms
 
+logger = logging.getLogger(__name__)
 logging.basicConfig(
-    filename="metric.log",
+    filename="metrics.log",
     encoding="utf-8",
-    level=logging.DEBUG,
+    level=logging.INFO,
 )
 
 ua = UserAgent()
@@ -86,7 +87,7 @@ def federal_partners():
     df = pd.read_html(io.StringIO(html))
     df_clean = df[1].drop(columns=[0, 2])
     df_fed_partners = pd.concat([df_clean[1], df_clean[3]]).dropna().reset_index()
-    logging.info(f"{df_fed_partners[0].to_string()=}")
+    logger.info(f"{df_fed_partners[0].to_string()=}")
     return df_fed_partners.shape[0]
 
 
@@ -128,7 +129,7 @@ def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time="2023-12-31T23:
     # Check if any value is NaN and report it.
     if df.isna().sum().sum():
         rows = df.loc[df.isna().sum(axis=1).astype(bool)]
-        logging.warning(f"The following rows have missing data:\n{rows}")
+        logger.warning(f"The following rows have missing data:\n{rows}")
 
     df = df.dropna(
         axis=0,
@@ -279,7 +280,7 @@ def comt():
 
     for tag in soup.find_all("h2"):
         if tag.text == "Current Projects":
-            logging.info(f"{tag.next_sibling.find_all('li')=}")
+            logger.info(f"{tag.next_sibling.find_all('li')=}")
             comt = len(tag.next_sibling.find_all("li"))
 
     return comt
@@ -296,7 +297,7 @@ def regional_associations():
 
     for tag in soup.find_all("a"):
         if tag.find("strong") is not None:
-            logging.info(f"{tag.find('strong').text=}")
+            logger.info(f"{tag.find('strong').text=}")
             ras += 1
 
     return ras
@@ -366,7 +367,7 @@ def ott_projects():
 
     ott_projects = 0
     for entry in df[0]:
-        logging.info(f"{df[0][entry][0].count('new in')=}")
+        logger.info(f"{df[0][entry][0].count('new in')=}")
         ott_projects += df[0][entry][0].count("new in")
     return ott_projects
 
@@ -396,7 +397,7 @@ def qartod_manuals():
     qartod = 0
     for tag in soup.find_all("li"):
         if "Real-Time Quality Control of" in tag.text:
-            logging.info(f"{tag.text=}")
+            logger.info(f"{tag.text=}")
             qartod += 1
 
     return qartod
@@ -561,12 +562,12 @@ def update_metrics(*, debug=False):
             try:
                 num = function()
             except Exception:
-                logging.exception(f"{column=} failed.")
+                logger.exception(f"{column=} failed.")
                 num = None
             new_row.update({column: num})
             # Log status.
             message = _compare_metrics(column=column, num=num)
-            logging.info(f"{message}")
+            logger.info(f"{message}")
     else:
         cpu_count = joblib.cpu_count()
         parallel = joblib.Parallel(n_jobs=cpu_count, return_as="generator")
