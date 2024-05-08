@@ -28,7 +28,8 @@ lint.ignore = [
 ]
 # nbqa-ruff acts on converted .py so we cannot glob .ipynb :-/
 # https://github.com/nbQA-dev/nbQA/issues/823
-"IOOS_BTN*" = [
+"run_metrics*" = [
+    "INP001",  # is part of an implicit namespace package
     "D100",  # Missing docstring in public module
     "E402",  # Module level import not at top of file
     "FBT003",  # Boolean positional value in function call
