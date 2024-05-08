@@ -4,12 +4,14 @@ import functools
 import io
 import logging
 
+import httpx
 import joblib
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from gliderpy.fetchers import GliderDataFetcher
+from shapely.geometry import LineString
 
 from ioos_metrics.national_platforms import national_platforms
 
@@ -152,23 +154,20 @@ def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time="2023-12-31T23:
 
 
 @functools.lru_cache(maxsize=128)
-def _ngdac_gliders(  # noqa: PLR0913
-    *,
-    min_time="2000-01-01T00:00:00",
-    max_time="2023-12-31T23:59:59",
-    min_lat=-90.0,
-    max_lat=90.0,
-    min_lon=-180,
-    max_lon=180,
-) -> pd.DataFrame:
-    """Same as ngdac_gliders but loops over all datasets to return a more accurate estimate for this metric.
-    This approach is slower but can also compute more refined metrics and other variables, like glider profiles.
+def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) -> pd.DataFrame:  # noqa: PLR0913
+    """Loops over all datasets found within the bounding box and time-range,
+    and returns a more accurate estimate for this metric.
 
+    This approach can compute more refined metrics and other variables,
+    like glider profiles and hurricane overlaps.
     """
 
     def _extra_info(info_df, attribute_name) -> str:
         """Get 'Attribute Name' 'Value' metadata."""
-        return info_df.loc[info_df["Attribute Name"] == attribute_name]["Value"].squeeze()
+        att = info_df.loc[info_df["Attribute Name"] == attribute_name]["Value"].squeeze()
+        if hasattr(att, "empty"):
+            att = "unknown"
+        return att
 
     def _metadata(info_df) -> dict:
         """Build the metadata a specific dataset_id."""
@@ -201,12 +200,18 @@ def _ngdac_gliders(  # noqa: PLR0913
             ),
             "institution": _extra_info(info_df, attribute_name="institution"),
             "sea_name": _extra_info(info_df, attribute_name="sea_name"),
-            "acknowledgment": _extra_info(info_df, attribute_name="acknowledgment"),
+            "acknowledgment": _extra_info(
+                info_df,
+                attribute_name="acknowledgment",
+            ),
         }
 
     def _computed_metadata(dataset_id) -> dict:
-        """Download the minimum amount of data possible for the computed metadata,
-        We cannot get first and last b/c the profile_id is not a contiguous sequence.
+        """Download the minimum amount of data possible for the computed
+        metadata.
+
+        Note that we cannot get first and last b/c the profile_id is not a
+        contiguous sequence.
         """
         glider_grab.fetcher.dataset_id = dataset_id
         glider_grab.fetcher.variables = [
@@ -222,7 +227,7 @@ def _ngdac_gliders(  # noqa: PLR0913
             "deployment_lat": df["latitude"].iloc[0],
             "deployment_lon": df["longitude"].iloc[0],
             "num_profiles": len(df),
-            # Profiles are not unique! This will results in a smaller profile count.
+            # Profiles are not unique! Cannot use this!!
             # "num_profiles": len(set(df['profile_id']))
             "days": days,
         }
@@ -240,12 +245,33 @@ def _ngdac_gliders(  # noqa: PLR0913
     )
 
     metadata = {}
+    glider_grab.fetcher.variables = ["longitude", "latitude"]
     for _, row in list(df.iterrows()):
         dataset_id = row["Dataset ID"]
+
+        glider_grab.fetcher.dataset_id = dataset_id
+        track = glider_grab.fetcher.to_pandas(distinct=True)
+        track = LineString(
+            (lon, lat)
+            for (lon, lat) in zip(
+                track["longitude (degrees_east)"],
+                track["latitude (degrees_north)"],
+                strict=False,
+            )
+        )
+
         info_url = row["info_url"].replace("html", "csv")
         info_df = pd.read_csv(info_url)
         info = _metadata(info_df)
-        info.update(_computed_metadata(dataset_id=dataset_id))
+        try:
+            info.update(_computed_metadata(dataset_id=dataset_id))
+        except (httpx.HTTPError, httpx.HTTPStatusError):
+            print(  # noqa: T201
+                f"Could not fetch glider {dataset_id=}. "
+                "This could be a server side error and the metrics will be incomplete!",
+            )
+            continue
+        info.update({"track": track})
         metadata.update({dataset_id: info})
     return pd.DataFrame(metadata).T
 
