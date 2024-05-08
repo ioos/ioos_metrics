@@ -28,10 +28,25 @@ lint.ignore = [
 ]
 # nbqa-ruff acts on converted .py so we cannot glob .ipynb :-/
 # https://github.com/nbQA-dev/nbQA/issues/823
-"run_metrics*" = [
+"IOOS_BTN*" = [
     "D100",  # Missing docstring in public module
     "E402",  # Module level import not at top of file
     "FBT003",  # Boolean positional value in function call
+]
+"glider_metrics*" = [
+    "ANN001",  # Missing type annotation for function argument
+    "ANN202", # Missing return type annotation for private function
+    "ANN201",  # Missing return type annotation for public function
+    "B018",  # Found useless expression. Either assign it to a variable or remove it
+    "D100",  # Missing docstring in public module
+    "D103",  # Missing docstring in public function
+    "E402",  # Module level import not at top of file
+    "ERA001",  # Found commented-out code
+    "FBT003",  # Boolean positional value in function call
+    "INP001",  # File is part of an implicit namespace package
+    "PD901",  # Avoid using the generic variable name `df` for DataFrames
+    "S603",  # `subprocess` call: check for execution of untrusted input
+    "T201",  # `print` found"
 ]
 [lint.pycodestyle]
 max-doc-length = 180
