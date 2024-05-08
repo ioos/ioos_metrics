@@ -9,6 +9,7 @@ prune *.egg-info
 prune gts
 prune website
 prune tests
+prune notebooks
 
 exclude *.ipynb
 exclude btn_metrics.py
