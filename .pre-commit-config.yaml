@@ -1,7 +1,7 @@
 exclude: |
     (?x)^(
-        GTS_Totals_weather_act.ipynb|
-        IOOS_BTN.ipynb|
+        notebooks/GTS_Totals_weather_act.ipynb|
+        notebooks/IOOS_BTN.ipynb|
         btn_metrics.py|
         gts_atn_metrics.py|
         read_bufr.py|
@@ -22,6 +22,12 @@ repos:
   rev: v2.2.6
   hooks:
     - id: codespell
+      exclude: >
+          (?x)^(
+              .*\.yaml
+          )$
+      args:
+        - --ignore-words-list=pres,noo
 
 - repo: https://github.com/asottile/add-trailing-comma
   rev: v3.1.0
