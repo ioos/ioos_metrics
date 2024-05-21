@@ -577,6 +577,8 @@ def mbon_stats():
 
     df_gbif = pd.DataFrame()
 
+    base_url = 'https://api.gbif.org'
+
     for title in df_meta['title']:
         string = title
         query = '{}/v1/dataset/search?q={}'.format(base_url, urllib.parse.quote(string))
