@@ -16,5 +16,6 @@ dependencies:
   - pdfminer.six
   - pyarrow
   - pytest
+  - pyobis
   - requests
   - suds
