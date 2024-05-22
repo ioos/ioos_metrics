@@ -555,25 +555,27 @@ def hf_radar_installations():
     return 165
 
 def mbon_stats():
-
+    """
+    This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity Information
+    System (OBIS) and the Global Biodiversity Information Framework (GBIF).
+    :return:
+    """
     import pyobis
+    import numpy as np
+    import urllib.parse
+
     institution_id = 23070
-
     query = pyobis.dataset.search(instituteid=institution_id)
-
     df = pd.DataFrame(query.execute())
 
     df_meta = pd.DataFrame.from_records(df["results"])
 
-    import numpy as np
-
-    df_downloads = pd.DataFrame.from_records(df_meta['downloads'])
+    df_meta.rename(columns={'id':'obis_uuid'},inplace=True)
+    #df_downloads = pd.DataFrame.from_records(df_meta['downloads'])
 
     # df_downloads.rename(columns={'index':'year'}, inplace=True)
 
-    df_downloads.fillna(value=np.nan)
-
-    import urllib.parse
+    #df_downloads.fillna(value=np.nan)
 
     df_gbif = pd.DataFrame()
 
@@ -584,7 +586,7 @@ def mbon_stats():
         query = '{}/v1/dataset/search?q={}'.format(base_url, urllib.parse.quote(string))
         df = pd.read_json(query, orient='index').T
 
-        key = df['results'].values[0][0]['key']
+        gbif_key = df['results'].values[0][0]['key']
 
         # build a DataFrame with the info we need more accessible
         df_gbif = pd.concat([df_gbif, pd.DataFrame({
@@ -595,26 +597,29 @@ def mbon_stats():
 
     topics = []
 
+    dict_out = {}
+
+    for i in df_gbif['key'].tolist():
+        dict_out[i] = {}
+
     for key in df_gbif['key']:
         url = 'https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={}'.format(key)
         print(url)
-        df2 = pd.read_csv(url)  # summary of citations
+
+        df2 = pd.read_csv(url)  # count number of citations
+        df2['number_of_citations'] = df2.shape[0]
+
+        dict_out[key]['liturature'] = df2
+        dict_out[key]['number_of_citations'] = df2.shape[0]
+        dict_out[key]['title'] = df_gbif.loc[df_gbif['key'] == key, 'title'].to_string()
+        dict_out[key]['doi'] = df_gbif.loc[df_gbif['key'] == key, 'doi'].to_string()
+
         df_gbif.loc[df_gbif['key'] == key, 'number_of_citations'] = df2.shape[0]
 
         # df_gbif.loc[df_gbif['key']==key,'topics'] = df_gbif.loc[df_gbif['key']==key,'topics'].astype('O')
         # df_gbif.loc[df_gbif['key']==key,'topics'] = df2['topics'].to_list()
 
-        topics.append(df2['topics'].tolist())
-
-    flat_list = [
-        x
-        for xs in topics
-        for x in xs
-    ]
-
-    unique_topics = sorted(set(flat_list))
-
-    return df_gbif
+    return df_gbif, df2, dict_out
 
 
 
