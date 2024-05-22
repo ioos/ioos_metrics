@@ -568,7 +568,7 @@ def mbon_stats():
     query = pyobis.dataset.search(instituteid=institution_id)
     df = pd.DataFrame(query.execute())
     df_obis = pd.DataFrame.from_records(df["results"])
-    df_obis.columns = ['obis_' + str(col) for col in df_obis.columns]
+    df_obis.columns = [f'obis_{col}' for col in df_obis.columns]
 
     df_mapping = pd.DataFrame()
     base_url = 'https://api.gbif.org'
