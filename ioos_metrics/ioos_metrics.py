@@ -562,7 +562,6 @@ def mbon_stats():
     :return:
     """
     import pyobis
-    import numpy as np
     import urllib.parse
 
     # collect dataset information from OBIS
@@ -591,11 +590,9 @@ def mbon_stats():
 
     df_gbif = pd.DataFrame()
     for key in df_mapping['gbif_uuid']:
+
         url = 'https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={}'.format(key)
-        print(url)
-
         df2 = pd.read_csv(url)  # collect liturature cited information
-
         df2.columns = ['literature_' + str(col) for col in df2.columns]
         df2['gbif_uuid'] = key
 
