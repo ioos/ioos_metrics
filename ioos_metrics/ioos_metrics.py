@@ -576,7 +576,7 @@ def mbon_stats():
     # create a mapping table
     for title in df_obis['obis_title']:
         string = title
-        query = '{}/v1/dataset/search?q={}'.format(base_url, urllib.parse.quote(string))
+        query = f'{base_url}/v1/dataset/search?q={urllib.parse.quote(string)}'
         df = pd.read_json(query, orient='index').T
 
         # build a DataFrame with the info we need more accessible
