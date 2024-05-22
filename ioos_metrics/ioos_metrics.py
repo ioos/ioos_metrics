@@ -556,70 +556,57 @@ def hf_radar_installations():
 
 def mbon_stats():
     """
-    This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity Information
-    System (OBIS) and the Global Biodiversity Information Framework (GBIF).
+    This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity
+    Information System (OBIS) and the Global Biodiversity Information Framework (GBIF). The function returns a
+    dataframe with rows corresponding to each dataset.
     :return:
     """
     import pyobis
     import numpy as np
     import urllib.parse
 
+    # collect dataset information from OBIS
     institution_id = 23070
     query = pyobis.dataset.search(instituteid=institution_id)
     df = pd.DataFrame(query.execute())
+    df_obis = pd.DataFrame.from_records(df["results"])
+    df_obis.columns = ['obis_' + str(col) for col in df_obis.columns]
 
-    df_meta = pd.DataFrame.from_records(df["results"])
-
-    df_meta.rename(columns={'id':'obis_uuid'},inplace=True)
-    #df_downloads = pd.DataFrame.from_records(df_meta['downloads'])
-
-    # df_downloads.rename(columns={'index':'year'}, inplace=True)
-
-    #df_downloads.fillna(value=np.nan)
-
-    df_gbif = pd.DataFrame()
-
+    df_mapping = pd.DataFrame()
     base_url = 'https://api.gbif.org'
-
-    for title in df_meta['title']:
+    # iterate through each OBIS dataset to gather uuid from GBIF
+    # create a mapping table
+    for title in df_obis['obis_title']:
         string = title
         query = '{}/v1/dataset/search?q={}'.format(base_url, urllib.parse.quote(string))
         df = pd.read_json(query, orient='index').T
 
-        gbif_key = df['results'].values[0][0]['key']
-
         # build a DataFrame with the info we need more accessible
-        df_gbif = pd.concat([df_gbif, pd.DataFrame({
-            'key': df['results'].values[0][0]['key'],
+        df_mapping = pd.concat([df_mapping, pd.DataFrame({
+            'gbif_uuid': df['results'].values[0][0]['key'],
             'title': [df['results'].values[0][0]['title']],
+            'obis_id': [df_obis.loc[df_obis['obis_title']==title,'obis_id'].to_string(index=False)],
             'doi': [df['results'].values[0][0]['doi']]
         })], ignore_index=True)
 
-    topics = []
-
-    dict_out = {}
-
-    for i in df_gbif['key'].tolist():
-        dict_out[i] = {}
-
-    for key in df_gbif['key']:
+    df_gbif = pd.DataFrame()
+    for key in df_mapping['gbif_uuid']:
         url = 'https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={}'.format(key)
         print(url)
 
-        df2 = pd.read_csv(url)  # count number of citations
-        df2['number_of_citations'] = df2.shape[0]
+        df2 = pd.read_csv(url)  # collect liturature cited information
 
-        dict_out[key]['liturature'] = df2
-        dict_out[key]['number_of_citations'] = df2.shape[0]
-        dict_out[key]['title'] = df_gbif.loc[df_gbif['key'] == key, 'title'].to_string()
-        dict_out[key]['doi'] = df_gbif.loc[df_gbif['key'] == key, 'doi'].to_string()
+        df2.columns = ['literature_' + str(col) for col in df2.columns]
+        df2['gbif_uuid'] = key
 
-        df_gbif.loc[df_gbif['key'] == key, 'number_of_citations'] = df2.shape[0]
+        df_gbif = pd.concat([df2,df_gbif], ignore_index=True)
 
-        # df_gbif.loc[df_gbif['key']==key,'topics'] = df_gbif.loc[df_gbif['key']==key,'topics'].astype('O')
-        # df_gbif.loc[df_gbif['key']==key,'topics'] = df2['topics'].to_list()
+    # merge the OBIS and GBIF data frames together
+    df_obis = df_obis.merge(df_mapping, on='obis_id')
 
-    return df_gbif, df2, dict_out
+    df_out = df_gbif.merge(df_obis, on='gbif_uuid')
+
+    return df_out
 
 
 
