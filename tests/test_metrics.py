@@ -73,3 +73,24 @@ def test_update_metrics():
     """Runs update_metrics in debug to log any possibles issues with the scrapping."""
     df = update_metrics(debug=True)
     df.to_csv("updated_metrics.csv")
+
+def test_mbon_stats():
+    df = ioos_metrics.mbon_stats()
+    columns = ['literature_title', 'literature_authors', 'literature_source',
+               'literature_discovered', 'literature_published',
+               'literature_open_access', 'literature_peer_review',
+               'literature_citation_type', 'literature_countries_of_coverage',
+               'literature_countries_of_researcher', 'literature_keywords',
+               'literature_literature_type', 'literature_websites',
+               'literature_identifiers', 'literature_id', 'literature_abstract',
+               'literature_topics', 'literature_added', 'literature_gbif_download_key',
+               'gbif_uuid', 'obis_id', 'obis_url', 'obis_archive', 'obis_published',
+               'obis_created', 'obis_updated', 'obis_core', 'obis_extensions',
+               'obis_statistics', 'obis_extent', 'obis_title', 'obis_citation',
+               'obis_citation_id', 'obis_abstract', 'obis_intellectualrights',
+               'obis_feed', 'obis_institutes', 'obis_contacts', 'obis_nodes',
+               'obis_keywords', 'obis_downloads', 'obis_records', 'title', 'doi']
+
+    assert isinstance(df, pd.DataFrame)
+    assert all([col in df.columns for col in columns])
+    assert not df.empty

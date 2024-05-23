@@ -554,6 +554,59 @@ def hf_radar_installations():
     # This is a hardcoded number at the moment!
     return 165
 
+@functools.lru_cache(maxsize=128)
+def mbon_stats():
+    """
+    This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity
+    Information System (OBIS) and the Global Biodiversity Information Framework (GBIF). The function returns a
+    dataframe with rows corresponding to each paper citing a dataset.
+    """
+    import pyobis
+    import urllib.parse
+
+    # collect dataset information from OBIS
+    institution_id = 23070
+    query = pyobis.dataset.search(instituteid=institution_id)
+    df = pd.DataFrame(query.execute())
+    df_obis = pd.DataFrame.from_records(df["results"])
+    df_obis.columns = [f'obis_{col}' for col in df_obis.columns]
+
+    df_mapping = pd.DataFrame()
+    base_url = 'https://api.gbif.org'
+    # iterate through each OBIS dataset to gather uuid from GBIF
+    # create a mapping table
+    for title in df_obis['obis_title']:
+        string = title
+        query = f'{base_url}/v1/dataset/search?q={urllib.parse.quote(string)}'
+        df = pd.read_json(query, orient='index').T
+
+        # build a DataFrame with the info we need more accessible
+        df_mapping = pd.concat([df_mapping, pd.DataFrame({
+            'gbif_uuid': df['results'].values[0][0]['key'],
+            'title': [df['results'].values[0][0]['title']],
+            'obis_id': [df_obis.loc[df_obis['obis_title']==title,'obis_id'].to_string(index=False)],
+            'doi': [df['results'].values[0][0]['doi']]
+        })], ignore_index=True)
+
+    df_gbif = pd.DataFrame()
+    for key in df_mapping['gbif_uuid']:
+
+        url = 'https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={}'.format(key)
+        df2 = pd.read_csv(url)  # collect liturature cited information
+        df2.columns = ['literature_' + str(col) for col in df2.columns]
+        df2['gbif_uuid'] = key
+
+        df_gbif = pd.concat([df2,df_gbif], ignore_index=True)
+
+    # merge the OBIS and GBIF data frames together
+    df_obis = df_obis.merge(df_mapping, on='obis_id')
+
+    df_out = df_gbif.merge(df_obis, on='gbif_uuid')
+
+    return df_out
+
+
+
 
 def update_metrics(*, debug=False):
     """Load previous metrics and update the spreadsheet."""
