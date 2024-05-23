@@ -554,6 +554,7 @@ def hf_radar_installations():
     # This is a hardcoded number at the moment!
     return 165
 
+@functools.lru_cache(maxsize=128)
 def mbon_stats():
     """
     This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity
