@@ -588,6 +588,7 @@ def mbon_stats():
             'doi': [df['results'].values[0][0]['doi']]
         })], ignore_index=True)
 
+
     df_gbif = pd.DataFrame()
     for key in df_mapping['gbif_uuid']:
 
@@ -600,6 +601,15 @@ def mbon_stats():
 
     # merge the OBIS and GBIF data frames together
     df_obis = df_obis.merge(df_mapping, on='obis_id')
+
+    # add gbif download stats
+
+    for key in df_obis['gbif_uuid']:
+        url = f'https://api.gbif.org/v1/occurrence/download/statistics/export?datasetKey={key}'
+        df2 = pd.read_csv(url,sep='\t')
+        df2_group = df2.groupby('year').agg({'number_downloads':'sum'})
+
+        df_obis.loc[df_obis['gbif_uuid']==key,'gbif_downloads'] = str(df2_group.to_dict())
 
     df_out = df_gbif.merge(df_obis, on='gbif_uuid')
 

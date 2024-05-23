@@ -89,7 +89,8 @@ def test_mbon_stats():
                'obis_statistics', 'obis_extent', 'obis_title', 'obis_citation',
                'obis_citation_id', 'obis_abstract', 'obis_intellectualrights',
                'obis_feed', 'obis_institutes', 'obis_contacts', 'obis_nodes',
-               'obis_keywords', 'obis_downloads', 'obis_records', 'title', 'doi']
+               'obis_keywords', 'obis_downloads', 'obis_records', 'title', 'doi',
+               'gbif_downloads']
 
     assert isinstance(df, pd.DataFrame)
     assert all([col in df.columns for col in columns])
