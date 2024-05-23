@@ -73,3 +73,8 @@ def test_update_metrics():
     """Runs update_metrics in debug to log any possibles issues with the scrapping."""
     df = update_metrics(debug=True)
     df.to_csv("updated_metrics.csv")
+
+def test_mbon_stats():
+    df = ioos_metrics.mbon_stats()
+    assert isinstance(df, pd.DataFrame)
+    assert not df.empty

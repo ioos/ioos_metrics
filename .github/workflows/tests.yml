@@ -16,7 +16,7 @@ jobs:
       uses: mamba-org/setup-micromamba@v1
       with:
         init-shell: bash
-        environment-file: conda-lock.yml
+        environment-file: environment.yml
         environment-name: TEST
 
     - name: Tests
