@@ -558,7 +558,7 @@ def mbon_stats():
     """
     This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity
     Information System (OBIS) and the Global Biodiversity Information Framework (GBIF). The function returns a
-    dataframe with rows corresponding to each dataset.
+    dataframe with rows corresponding to each paper citing a dataset.
     """
     import pyobis
     import urllib.parse
