@@ -11,7 +11,7 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from gliderpy.fetchers import GliderDataFetcher
-from shapely.geometry import LineString
+from shapely.geometry import LineString, Point
 
 from ioos_metrics.national_platforms import national_platforms
 
@@ -206,6 +206,18 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
             ),
         }
 
+    def _make_track_geom(df) -> "pd.DataFrame":
+        geom = Point if df.shape[0] == 1 else LineString
+
+        return geom(
+            (lon, lat)
+            for (lon, lat) in zip(
+                df["longitude (degrees_east)"],
+                df["latitude (degrees_north)"],
+                strict=False,
+            )
+        )
+
     def _computed_metadata(dataset_id) -> dict:
         """Download the minimum amount of data possible for the computed
         metadata.
@@ -220,16 +232,20 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
             "longitude",
             "time",
         ]
-        df = glider_grab.to_pandas()
+        df = glider_grab.fetcher.to_pandas(distinct=True)
+        df["time (UTC)"] = pd.to_datetime(df["time (UTC)"])
+        df = df.set_index("time (UTC)")
         df = df.sort_index()
+        track = _make_track_geom(df)
         days = df.index[-1].ceil("D") - df.index[0].floor("D")
         return {
-            "deployment_lat": df["latitude"].iloc[0],
-            "deployment_lon": df["longitude"].iloc[0],
+            "deployment_lat": df["latitude (degrees_north)"].iloc[0],
+            "deployment_lon": df["longitude (degrees_east)"].iloc[0],
             "num_profiles": len(df),
             # Profiles are not unique! Cannot use this!!
             # "num_profiles": len(set(df['profile_id']))
             "days": days,
+            "track": track,
         }
 
     glider_grab = GliderDataFetcher()
@@ -245,21 +261,8 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
     )
 
     metadata = {}
-    glider_grab.fetcher.variables = ["longitude", "latitude"]
     for _, row in list(df.iterrows()):
         dataset_id = row["Dataset ID"]
-
-        glider_grab.fetcher.dataset_id = dataset_id
-        track = glider_grab.fetcher.to_pandas(distinct=True)
-        track = LineString(
-            (lon, lat)
-            for (lon, lat) in zip(
-                track["longitude (degrees_east)"],
-                track["latitude (degrees_north)"],
-                strict=False,
-            )
-        )
-
         info_url = row["info_url"].replace("html", "csv")
         info_df = pd.read_csv(info_url)
         info = _metadata(info_df)
@@ -271,7 +274,6 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
                 "This could be a server side error and the metrics will be incomplete!",
             )
             continue
-        info.update({"track": track})
         metadata.update({dataset_id: info})
     return pd.DataFrame(metadata).T
 
@@ -554,68 +556,73 @@ def hf_radar_installations():
     # This is a hardcoded number at the moment!
     return 165
 
+
 @functools.lru_cache(maxsize=128)
 def mbon_stats():
-    """
-    This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity
+    """This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity
     Information System (OBIS) and the Global Biodiversity Information Framework (GBIF). The function returns a
     dataframe with rows corresponding to each paper citing a dataset.
     """
-    import pyobis
     import urllib.parse
+
+    import pyobis
 
     # collect dataset information from OBIS
     institution_id = 23070
     query = pyobis.dataset.search(instituteid=institution_id)
     df = pd.DataFrame(query.execute())
     df_obis = pd.DataFrame.from_records(df["results"])
-    df_obis.columns = [f'obis_{col}' for col in df_obis.columns]
+    df_obis.columns = [f"obis_{col}" for col in df_obis.columns]
 
     df_mapping = pd.DataFrame()
-    base_url = 'https://api.gbif.org'
+    base_url = "https://api.gbif.org"
     # iterate through each OBIS dataset to gather uuid from GBIF
     # create a mapping table
-    for title in df_obis['obis_title']:
+    for title in df_obis["obis_title"]:
         string = title
-        query = f'{base_url}/v1/dataset/search?q={urllib.parse.quote(string)}'
-        df = pd.read_json(query, orient='index').T
+        query = f"{base_url}/v1/dataset/search?q={urllib.parse.quote(string)}"
+        df = pd.read_json(query, orient="index").T
 
         # build a DataFrame with the info we need more accessible
-        df_mapping = pd.concat([df_mapping, pd.DataFrame({
-            'gbif_uuid': df['results'].values[0][0]['key'],
-            'title': [df['results'].values[0][0]['title']],
-            'obis_id': [df_obis.loc[df_obis['obis_title']==title,'obis_id'].to_string(index=False)],
-            'doi': [df['results'].values[0][0]['doi']]
-        })], ignore_index=True)
-
+        df_mapping = pd.concat(
+            [
+                df_mapping,
+                pd.DataFrame(
+                    {
+                        "gbif_uuid": df["results"].values[0][0]["key"],
+                        "title": [df["results"].values[0][0]["title"]],
+                        "obis_id": [df_obis.loc[df_obis["obis_title"] == title, "obis_id"].to_string(index=False)],
+                        "doi": [df["results"].values[0][0]["doi"]],
+                    },
+                ),
+            ],
+            ignore_index=True,
+        )
 
     df_gbif = pd.DataFrame()
-    for key in df_mapping['gbif_uuid']:
-
-        url = 'https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={}'.format(key)
+    for key in df_mapping["gbif_uuid"]:
+        url = f"https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={key}"
         df2 = pd.read_csv(url)  # collect liturature cited information
-        df2.columns = ['literature_' + str(col) for col in df2.columns]
-        df2['gbif_uuid'] = key
+        df2.columns = ["literature_" + str(col) for col in df2.columns]
+        df2["gbif_uuid"] = key
 
-        df_gbif = pd.concat([df2,df_gbif], ignore_index=True)
+        df_gbif = pd.concat([df2, df_gbif], ignore_index=True)
 
     # merge the OBIS and GBIF data frames together
-    df_obis = df_obis.merge(df_mapping, on='obis_id')
+    df_obis = df_obis.merge(df_mapping, on="obis_id")
 
     # add gbif download stats
 
-    for key in df_obis['gbif_uuid']:
-        url = f'https://api.gbif.org/v1/occurrence/download/statistics/export?datasetKey={key}'
-        df2 = pd.read_csv(url,sep='\t')
-        df2_group = df2.groupby('year').agg({'number_downloads':'sum'})
+    for key in df_obis["gbif_uuid"]:
+        url = f"https://api.gbif.org/v1/occurrence/download/statistics/export?datasetKey={key}"
+        df2 = pd.read_csv(url, sep="\t")
+        df2_group = df2.groupby("year").agg({"number_downloads": "sum"})
 
-        df_obis.loc[df_obis['gbif_uuid']==key,'gbif_downloads'] = str(df2_group.to_dict())
+        df_obis.loc[df_obis["gbif_uuid"] == key, "gbif_downloads"] = str(df2_group.to_dict())
 
-    df_out = df_gbif.merge(df_obis, on='gbif_uuid')
+    df_out = df_gbif.merge(df_obis, on="gbif_uuid")
 
     return df_out
-
-
 
 
 def update_metrics(*, debug=False):
