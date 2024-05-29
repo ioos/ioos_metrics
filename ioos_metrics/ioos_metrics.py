@@ -559,7 +559,7 @@ def hf_radar_installations():
 
 @functools.lru_cache(maxsize=128)
 def mbon_stats():
-    """This function collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity
+    """Collects download statistics about MBON affiliated datasets shared with the Ocean Biodiversity
     Information System (OBIS) and the Global Biodiversity Information Framework (GBIF). The function returns a
     dataframe with rows corresponding to each paper citing a dataset.
     """
@@ -589,10 +589,10 @@ def mbon_stats():
                 df_mapping,
                 pd.DataFrame(
                     {
-                        "gbif_uuid": df["results"].values[0][0]["key"],
-                        "title": [df["results"].values[0][0]["title"]],
+                        "gbif_uuid": df["results"].to_numpy()[0][0]["key"],
+                        "title": [df["results"].to_numpy()[0][0]["title"]],
                         "obis_id": [df_obis.loc[df_obis["obis_title"] == title, "obis_id"].to_string(index=False)],
-                        "doi": [df["results"].values[0][0]["doi"]],
+                        "doi": [df["results"].to_numpy()[0][0]["doi"]],
                     },
                 ),
             ],
@@ -602,7 +602,7 @@ def mbon_stats():
     df_gbif = pd.DataFrame()
     for key in df_mapping["gbif_uuid"]:
         url = f"https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={key}"
-        df2 = pd.read_csv(url)  # collect liturature cited information
+        df2 = pd.read_csv(url)  # collect literature cited information
         df2.columns = ["literature_" + str(col) for col in df2.columns]
         df2["gbif_uuid"] = key
 
@@ -620,9 +620,7 @@ def mbon_stats():
 
         df_obis.loc[df_obis["gbif_uuid"] == key, "gbif_downloads"] = str(df2_group.to_dict())
 
-    df_out = df_gbif.merge(df_obis, on="gbif_uuid")
-
-    return df_out
+    return df_gbif.merge(df_obis, on="gbif_uuid")
 
 
 def update_metrics(*, debug=False):
