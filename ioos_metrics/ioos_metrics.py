@@ -3,10 +3,12 @@
 import functools
 import io
 import logging
+import urllib.parse
 
 import httpx
 import joblib
 import pandas as pd
+import pyobis
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
@@ -563,62 +565,48 @@ def mbon_stats():
     Information System (OBIS) and the Global Biodiversity Information Framework (GBIF). The function returns a
     dataframe with rows corresponding to each paper citing a dataset.
     """
-    import urllib.parse
 
-    import pyobis
+    def _mapping(df) -> "pd.Dataframe":
+        return pd.DataFrame(
+            {
+                "gbif_uuid": df["results"].to_numpy()[0][0]["key"],
+                "title": [df["results"].to_numpy()[0][0]["title"]],
+                "doi": [df["results"].to_numpy()[0][0]["doi"]],
+            },
+        )
 
     # collect dataset information from OBIS
-    institution_id = 23070
+    institution_id = 23070  # FIXME: Add a comment to explain the magic number.
     query = pyobis.dataset.search(instituteid=institution_id)
     df = pd.DataFrame(query.execute())
     df_obis = pd.DataFrame.from_records(df["results"])
     df_obis.columns = [f"obis_{col}" for col in df_obis.columns]
 
-    df_mapping = pd.DataFrame()
-    base_url = "https://api.gbif.org"
-    # iterate through each OBIS dataset to gather uuid from GBIF
-    # create a mapping table
-    for title in df_obis["obis_title"]:
-        string = title
-        query = f"{base_url}/v1/dataset/search?q={urllib.parse.quote(string)}"
-        df = pd.read_json(query, orient="index").T
+    # Query GBIF with OBIS titles and map responses to a table.
+    url = "https://api.gbif.org/v1/dataset/search?q={query}"
+    urls = [url.format(query=urllib.parse.quote(query)) for query in df_obis["obis_title"]]
+    read_json = functools.partial(pd.read_json, orient="index")
+    df_mapping = pd.concat([_mapping(df.T) for df in map(read_json, urls)], ignore_index=True)
+    df_mapping["obis_id"] = df_obis["obis_id"]
 
-        # build a DataFrame with the info we need more accessible
-        df_mapping = pd.concat(
-            [
-                df_mapping,
-                pd.DataFrame(
-                    {
-                        "gbif_uuid": df["results"].to_numpy()[0][0]["key"],
-                        "title": [df["results"].to_numpy()[0][0]["title"]],
-                        "obis_id": [df_obis.loc[df_obis["obis_title"] == title, "obis_id"].to_string(index=False)],
-                        "doi": [df["results"].to_numpy()[0][0]["doi"]],
-                    },
-                ),
-            ],
-            ignore_index=True,
-        )
-
-    df_gbif = pd.DataFrame()
-    for key in df_mapping["gbif_uuid"]:
-        url = f"https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={key}"
-        df2 = pd.read_csv(url)  # collect literature cited information
-        df2.columns = ["literature_" + str(col) for col in df2.columns]
-        df2["gbif_uuid"] = key
-
-        df_gbif = pd.concat([df2, df_gbif], ignore_index=True)
+    url = "https://api.gbif.org/v1/literature/export?format=CSV&gbifDatasetKey={key}"
+    urls = [url.format(key=key) for key in df_mapping["gbif_uuid"]]
+    df_gbif = pd.concat(map(pd.read_csv, urls), ignore_index=True)
+    df_gbif.columns = [f"literature_{col}" for col in df_gbif.columns]
+    # FIXME: Do we need this step? They are merged later.
+    df_gbif["gbif_uuid"] = df_mapping["gbif_uuid"]
 
     # merge the OBIS and GBIF data frames together
     df_obis = df_obis.merge(df_mapping, on="obis_id")
 
     # add gbif download stats
-
-    for key in df_obis["gbif_uuid"]:
-        url = f"https://api.gbif.org/v1/occurrence/download/statistics/export?datasetKey={key}"
-        df2 = pd.read_csv(url, sep="\t")
-        df2_group = df2.groupby("year").agg({"number_downloads": "sum"})
-
-        df_obis.loc[df_obis["gbif_uuid"] == key, "gbif_downloads"] = str(df2_group.to_dict())
+    url = "https://api.gbif.org/v1/occurrence/download/statistics/export?datasetKey={key}"
+    urls = [url.format(key=key) for key in df_obis["gbif_uuid"]]
+    read_csv = functools.partial(pd.read_csv, sep="\t")
+    groups = [df.groupby("year").agg({"number_downloads": "sum"}).to_dict() for df in map(read_csv, urls)]
+    # FIXME: This was a string in the original but do we need it as a string or dict of dicts?
+    # It seems that it can be a flat dict instead like {year: number, ...}
+    df_obis["gbif_downloads"] = groups
 
     return df_gbif.merge(df_obis, on="gbif_uuid")
 
