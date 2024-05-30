@@ -36,6 +36,7 @@ dependencies = [
   "pandas",
   "pdfminer.six",
   "pyarrow",
+  "pyobis",
   "requests",
 ]
 [project.urls]
