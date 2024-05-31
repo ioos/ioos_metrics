@@ -1,4 +1,4 @@
-# ioos_metrics
+# ioos-metrics
 
 A library to compute and compile metrics about the U.S. Integrated Ocean Observing System (U.S. IOOS®). U.S. IOOS® is a vital tool for tracking, predicting, managing, and adapting to changes in our ocean, coastal and Great Lakes environment.  
 
