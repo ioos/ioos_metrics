@@ -1,11 +1,35 @@
-# ioos_by_the_numbers
-Working on creating metrics for the [IOOS by the numbers](https://ioos.noaa.gov/about/ioos-by-the-numbers/)
+# ioos_metrics
 
-Requirements:
+A library to compute and compile metrics about the U.S. Integrated Ocean Observing System (U.S. IOOS®). U.S. IOOS® is a vital tool for tracking, predicting, managing, and adapting to changes in our ocean, coastal and Great Lakes environment.  
 
+Creating metrics for the [IOOS by the numbers](https://ioos.noaa.gov/about/ioos-by-the-numbers/).
+
+"IOOS by the Numbers" is was developed as a graphical representation of IOOS  -- a system of includes our partnerships, research and observing components, and data management capabilities. 
+This figure is an annually updated collection of numbers that show the breadth of the IOOS Program as it is growing and evolving.  
+These data were obtained from multiple sources in July 2022. The original source for each value is identified below. 
+Links to each federal partner or regional association are provided. 
+
+## Installation instructions:
+
+### conda
+```
+conda install ioos-metrics
+```
+
+### pip
+```
+pip install ioos-metrics
+```
+
+## Usage
+
+See <https://github.com/ioos/ioos_metrics/tree/main/notebooks>
 
 ## Website
-Leveraged existing resources from https://github.com/noaa-fisheries-integrated-toolbox/toolbox_web_templating.
+
+url: <https://ioos.github.io/ioos_metrics/>
+
+Leveraged existing resources from <https://github.com/noaa-fisheries-integrated-toolbox/toolbox_web_templating>.
 
 The webpages are built from the `website/` directory.
 
