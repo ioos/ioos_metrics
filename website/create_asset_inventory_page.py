@@ -120,6 +120,7 @@ def map_plot(gdf):
             popup=folium.features.GeoJsonPopup(
                 fields=[
                     "RA",
+                    "Year",
                     "latitude",
                     "longitude",
                     "station_long_name",
@@ -192,6 +193,7 @@ def main(org_config):
     configs = {
         "table": gdf.to_html(table_id="table", index=False, columns=columns),
         "figure": fig,
+        "year": gdf['Year'].unique()[0]
     }
 
     write_templates(configs, org_config)
