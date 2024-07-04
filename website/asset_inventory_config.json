@@ -1,6 +1,6 @@
 {
-  "general_info_text": "Browse the IOOS Asset Inventory.",
-  "general_title": "Browse IOOS asset inventory",
+  "general_info_text": "IOOS asset inventory.",
+  "general_title": "IOOS asset inventory",
   "githubpage": "https://ioos.github.io/ioos_metrics/browse",
   "githubrepo": "https://github.com/ioos/ioos_metrics/",
   "google_analytics": "https://tag_url.google.co",

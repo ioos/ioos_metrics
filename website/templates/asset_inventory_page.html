@@ -51,14 +51,13 @@
     </div>
     <div class="divider"></div>
     <div class="mywrap">
-        <h2 class="title">{{org_config.general_title}} data on <a href="https://erddap.ioos.us/erddap/search/index.html?page=1&itemsPerPage=1000&searchFor=asset+inventory">ERDDAP</a>.
-        </h2>
+        <h1 class="title">{{org_config.general_title}}</h1>
     </div>
     <div>
-        <h3>A brief description of the IOOS Asset Inventory:</h3>
+        <h3>A brief description of the IOOS asset inventory:</h3>
         <ol type="1">
-            <li>The IOOS Asset Inventory contains stationary observing systems that are/were operating at any time during the
-                calendar year (Jan 1 - Dec 31).</li>
+            <li>The IOOS asset inventory contains stationary observing systems that are/were operating at any time during the
+                calendar year (CY) (Jan 1 - Dec 31).</li>
             <li>Stationary observing systems that are exposed through one or more web services
                 implemented by the RA. The asset must be discoverable through the IOOS
                 Catalog. This includes:
@@ -78,13 +77,18 @@
     </div>
     <div>
         <p>Definitions for each field can be found at the <a href="#field-definitions">bottom of this page.</a></p>
+        <p>You can browse the entire IOOS asset inventory collection on <a href="https://erddap.ioos.us/erddap/search/index.html?page=1&itemsPerPage=1000&searchFor=asset+inventory">ERDDAP</a>.</p>
     </div>
 
+        <div>
+            <h3>Map of CY {{configs.year}} assets:</h3>
+        </div>
         <div class="mapbox"  style="width:800px; margin:0 auto;">
         {{configs.figure}}
         </div>
 
     <div>
+        <h3>Table of CY {{configs.year}} assets:</h3>
         {{configs.table}}
         {% raw %}
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
