@@ -4,6 +4,7 @@
 name: Create and Deploy Prod HTML site
 # Includes building automatically when either of the relevant JSON files update on the main branch or on the push of a button
 on:
+  pull_request:
   workflow_dispatch:
   push:
     branches:
@@ -36,6 +37,7 @@ jobs:
         # already in the deploy folder.
         # for now, don't create individual drawer pages
     - name: Deploy 🚀
+      if: github.ref == 'refs/heads/main'
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: website/deploy # The folder the action should deploy.
