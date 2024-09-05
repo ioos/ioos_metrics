@@ -2,12 +2,11 @@
 
 A library to compute and compile metrics about the U.S. Integrated Ocean Observing System (U.S. IOOS®). U.S. IOOS® is a vital tool for tracking, predicting, managing, and adapting to changes in our ocean, coastal and Great Lakes environment.  
 
-Creating metrics for the [IOOS by the numbers](https://ioos.noaa.gov/about/ioos-by-the-numbers/).
+Part of the intent of this repository is to create metrics for the [IOOS by the numbers](https://ioos.noaa.gov/about/ioos-by-the-numbers/).
 
 "IOOS by the Numbers" is was developed as a graphical representation of IOOS  -- a system of includes our partnerships, research and observing components, and data management capabilities. 
 This figure is an annually updated collection of numbers that show the breadth of the IOOS Program as it is growing and evolving.  
-These data were obtained from multiple sources in July 2022. The original source for each value is identified below. 
-Links to each federal partner or regional association are provided. 
+These data are obtained from multiple sources. The source for each value is captured in the functions defined at https://github.com/ioos/ioos_metrics/tree/main/ioos_metrics. 
 
 ## Installation instructions:
 
