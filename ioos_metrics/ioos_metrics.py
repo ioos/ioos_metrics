@@ -169,6 +169,11 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
             att = "unknown"
         return att
 
+    def _fix_glider_call_names(fname: str) -> str:
+        fname = fname.split("-")
+        fname.pop()
+        return "-".join(fname).strip()
+
     def _metadata(info_df) -> dict:
         """Build the metadata a specific dataset_id."""
         return {
@@ -181,7 +186,7 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
                 info_df,
                 attribute_name="time_coverage_end",
             ),
-            "glider": dataset_id.split("-")[0],
+            "glider": _fix_glider_call_names(dataset_id),
             "geospatial_lat_min": _extra_info(
                 info_df,
                 attribute_name="geospatial_lat_min",
