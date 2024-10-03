@@ -18,6 +18,8 @@ lint.ignore = [
     "D401",  # First line of docstring should be in imperative mood
     "G004",  # logging-f-string
     "PD901",  # Avoid using the generic variable name `df` for DataFrames
+    "ISC001",  # single-line-implicit-string-concatenation
+    "COM812",  # missing-trailing-comma
     ]
 
 [lint.extend-per-file-ignores]
