@@ -26,7 +26,7 @@ from ioos_metrics.ioos_metrics import (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def df_previous_metrics():
     return ioos_metrics.previous_metrics()
 
