@@ -19,6 +19,7 @@ exclude read_bufr.py
 exclude ioos_btn_metrics.csv
 
 exclude ruff.toml
+exclude *.lock
 exclude .gitignore
 exclude .pre-commit-config.yaml
 exclude *.yml
