@@ -2,7 +2,7 @@ name: ioos-metrics
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
+  - python=3.13
   - bs4
   - ckanapi
   - fake-useragent
@@ -12,10 +12,14 @@ dependencies:
   - html5lib
   - joblib
   - lxml
+  - nbclassic
   - pandas
   - pdfminer.six
   - pyarrow
-  - pytest
   - pyobis
+  - pytest
   - requests
   - suds
+  - pip
+  - pip:
+    - git+https://github.com/ioos/ioos_metrics.git
