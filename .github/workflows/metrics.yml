@@ -23,11 +23,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Micromamba
-        uses: mamba-org/setup-micromamba@v2
+      - uses: actions/checkout@v4
+      - name: Setup Pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
         with:
-          init-shell: bash
-          environment-file: environment.yml
+          manifest-path: pyproject.toml
 
       - name: echo secrets into a file
         shell: bash -l {0}
@@ -41,10 +41,8 @@ jobs:
 
       - name: Collect quarterly GTS and BTN metrics
         shell: bash -l {0}
-        run: >
-          python btn_metrics.py
-          && python gts_regional_metrics.py
-          && python gts_atn_metrics.py
+        run: |
+          pixi run metrics
 
       - name: Get current date
         run: echo "NOW=$(date -u)" >> ${GITHUB_ENV}

@@ -1,4 +1,5 @@
 *.log
+updated_metrics.csv
 .ipynb_checkpoints/
 /config.py
 /website/deploy/asset_inventory.html
@@ -8,3 +9,6 @@ dist/
 ioos_metrics/_version.py
 website/deploy/gts_atn.html
 website/deploy/gts_regional.html
+# pixi environments
+.pixi
+*.egg-info
