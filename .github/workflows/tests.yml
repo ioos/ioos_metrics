@@ -12,14 +12,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup Micromamba
-      uses: mamba-org/setup-micromamba@v2
+    - uses: actions/checkout@v4
+    - name: Setup Pixi
+      uses: prefix-dev/setup-pixi@v0.8.1
       with:
-        init-shell: bash
-        environment-file: environment.yml
-        environment-name: TEST
+        manifest-path: pyproject.toml
 
     - name: Tests
       shell: bash -l {0}
       run: |
-        python -m pytest -rxs tests
+        pixi run tests

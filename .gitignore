@@ -1,11 +1,14 @@
-*.log
+__pycache__/
+.idea/
 .ipynb_checkpoints/
+.pixi
+*.egg-info
+*.log
 /config.py
 /website/deploy/asset_inventory.html
-__pycache__/
 bufr_messages/
 dist/
 ioos_metrics/_version.py
+updated_metrics.csv
 website/deploy/gts_atn.html
 website/deploy/gts_regional.html
-.idea/
