@@ -1,9 +1,10 @@
+*.log
+.ipynb_checkpoints/
 /config.py
+/website/deploy/asset_inventory.html
 __pycache__/
 bufr_messages/
-website/deploy/gts_regional.html
-website/deploy/gts_atn.html
-/website/deploy/asset_inventory.html
-.ipynb_checkpoints/
+dist/
 ioos_metrics/_version.py
-*.log
+website/deploy/gts_atn.html
+website/deploy/gts_regional.html
