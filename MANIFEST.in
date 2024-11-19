@@ -10,6 +10,7 @@ prune gts
 prune website
 prune tests
 prune notebooks
+prune .binder
 
 exclude *.ipynb
 exclude btn_metrics.py
