@@ -1,5 +1,6 @@
 """Code extracted from IOOS_BTN.ipynb."""
 
+import datetime
 import functools
 import io
 import logging
@@ -94,7 +95,7 @@ def federal_partners():
 
 
 @functools.lru_cache(maxsize=128)
-def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time="2023-12-31T23:59:59Z") -> int:
+def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time=None) -> int:
     """NGDAC Glider Days.
 
     This version uses the AllDatasets entry to compute the glider days.
@@ -121,6 +122,9 @@ def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time="2023-12-31T23:
       Note that data with NaN can be real glider day with lost data. Which is OK for this metric.
 
     """
+    if max_time is None:
+        max_time = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+
     df = pd.read_csv(
         "https://gliders.ioos.us/erddap/tabledap/allDatasets.csvp?minTime,maxTime,datasetID",
     )
