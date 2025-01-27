@@ -57,113 +57,32 @@
               <input type="button" value="FY2021" onclick="simpleSearch(this.value)">
               <input type="button" value="FY2022" onclick="simpleSearch(this.value)">
               <input type="button" value="FY2023" onclick="simpleSearch(this.value)">
+              <input type="button" value="FY2024" onclick="simpleSearch(this.value)">
+              <input type="button" value="FY2025" onclick="simpleSearch(this.value)">
             </div>
           </div>
-
-
-
-
-
         </div>
         <div class="divider_thin"></div>
         <div class="mywrap">
-          <div class="mywrap">
-            {#<!-- <nav class ="sidenav" role="navigation">
-              <button class="menu-toggle" id=”menu-toggle” onclick="menuClick(this)"  aria-label=”toggle the menu” aria-expanded="false" aria-controls="menu"></button>
-              <div class="menulabel">
-                  <div class="bar1" aria-hidden=”true”></div>
-                  <div class="bar2" aria-hidden=”true”></div>
-                  <div class="bar3" aria-hidden=”true”></div>
-              </div>
-
-            <div id = "menu" tabindex="-1">
-              <div class = "box2">
-                    <div class ="row"><img class="icon_small online"><h2> Web App</h2></div>
-                    Tool is available as a web-based application.
-                </div>
-                <div class = "box2">
-                  <div class ="row"><img class="icon_small down" ><h2> Executable</h2></div>
-
-                      Tool is packaged as an executable available for download.
-                </div>
-                <div class = "box2">
-                  <div class ="row"><img class="icon_small github"><h2> Code Repository</h2></div>
-
-                      Code repository associated with the tool is available for developers or users to access. Interested developers can make pull requests on the code base.
-                </div>
-                <div class = "box2">
-                  <div class ="row"><img class="icon_small checkmarkN"> <h2>NOAA Support</h2></div>
-                      Authored and currently maintained by NOAA staff.
-                </div>
-                <div class = "box2">
-                  <div class ="row"><img class="icon_small checkmarkE"> <h2>External Tool</h2></div>
-                      Authored by developers external to NOAA.
-                </div>
-                </div>
-          </nav>--> #}
-
-
 
         <div class ="boxcontainer">
 
           {% for key, value in configs.items() if not "figure" in key %}
           <div class = "box">
               {% set my_string = key  %}
-              <a class = "shortTitle" href={{org_config.githubrepo}}blob/main/gts/{{value.data}}>{{key}}</a>
+              <a class = "shortTitle" href={{value.data}}>{{key}}</a>
               {# <!--<div class = "longTitle">{{key}}</div>--> #}
               <div class = "toolbox_drawers">
                   {{value.table}}
               </div>
-
               <div class = "language"></div>
-              {#<!-- web app button -->#}
-              {#<!--<div class = "iconrow">
-                {% if value['online_app_link'] is defined and value['online_app_link']|length %}
-                 <button class = "icon_small online" onclick="location.href= '{{value.online_app_link}}';" value="Go to online app" ></button>
-                {% else %}
-                 <button class = "icon_small online" disabled></button>
-                {% endif %}
-                -- executable button --
-                {% if value['executable_link'] is defined and value['executable_link']|length %}
-                 <button class = "icon_small down" onclick="location.href='{{value.executable_link}}';" value="download app" ></button>
-                {% else %}
-                  <button class = "icon_small down" disabled></button>
-                {% endif %}
-                -- code repository button --
-                {% if value['source_code_link'] is defined and value['source_code_link']|length %}
-                 <button class = "icon_small github" onclick="location.href='{{value.source_code_link}}';" value="Go to online app" ></button>
-                {% else %}
-                  <button class = "icon_small github" disabled></button>
-                {% endif %}
-
-                -- NOAA support button --
-                {% if value['noaa_internal'] is defined and value['active_development'] is defined and value['noaa_internal'] == true and value['active_development'] == true%}
-                  <button class = "icon_small internal_active" ></button>
-                {% else %}
-                  <button class = "icon_small internal_active" disabled></button>
-                {% endif %}
-                -- External Tool Icon --
-                {% if value['noaa_internal'] is defined and value['active_development'] is defined and value['noaa_internal'] == false and value['active_development'] == true%}
-                  <button class = "icon_small external_active" ></button>
-                {% else %}
-                  <button class = "icon_small external_active" disabled></button>
-                {% endif %}
-
-              </div>-->#}
-
-
           </div>
           {% endfor %}
-        </div>
-
 
         </div>
 
       </div>
       {{configs.figure}}
-
-
-
 
       <div class = "divider"></div>
 
@@ -175,7 +94,6 @@
          <a class ="mylink" href="https://www.ioos.noaa.gov/">NOAA IOOS</a>
          </div>
         </footer>
-        {#<!--<div class ="attribution">Icons by icons8 https://icons8.com/</div>-->#}
       </main>
       <script>
         var sidenav = document.getElementsByClassName("sidenav");
@@ -258,12 +176,6 @@
 
            }
           // boxcontainer
-
-
-
-
-
-
       </script>
    </body>
 </html>

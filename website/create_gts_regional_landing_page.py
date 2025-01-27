@@ -1,5 +1,9 @@
 # This script run once creates a catalog landing page based on the *_config.json file
 # reference when called. E.g., python create_gts_regional_landing_page.py EcoSys_config.json
+
+import datetime as dt
+from fiscalyear import *
+from erddapy import ERDDAP
 from jinja2 import Environment, FileSystemLoader
 import json
 import os
@@ -30,7 +34,7 @@ def write_templates(configs, org_config):
 
 
 def timeseries_plot(output):
-    output["date"] = pd.to_datetime(output["date"])
+    output["date"] = pd.to_datetime(output.index.strftime("%Y-%m"))
 
     fig = px.bar(
         output,
@@ -64,35 +68,69 @@ def timeseries_plot(output):
 
 
 def main(org_config):
+
+    # Go get the data from IOOS ERDDAP
+    # compute monthly totals
+    # Compute Fiscal Year Quarter totals
+    # generate html tables
+    # generate html figures
+    # write to html page
+
     configs = dict()
-    output_all = pd.DataFrame()
 
-    files = os.listdir(org_config["location_of_metrics"])
+    e = ERDDAP(
+        server="https://erddap.ioos.us/erddap",
+        protocol="tabledap",
+    )
 
-    files.remove("GTS_ATN_monthly_totals.csv")
-    files = sorted(files)
+    e.response = "csv"
+    e.dataset_id = "gts_regional_statistics"
 
-    for f in files:
-        filename = os.path.join(org_config["location_of_metrics"], f)
-        output = pd.read_csv(filename)
-        f_out = filename.replace(".csv", ".html").replace(
-            org_config["location_of_metrics"], "deploy"
-        )
+    df = e.to_pandas(
+        index_col="time (UTC)",
+        parse_dates=True
+    )
 
-        output_all = pd.concat([output_all, output], ignore_index=True)
+    groups = df.groupby(pd.Grouper(
+        freq="ME",
+    ))
 
-        print(f_out)
-        key = "{} {}".format(f_out.split("_")[3], f_out.split("_")[4].split(".")[0])
+    s = groups[
+        ["met", "wave"]
+    ].sum()  # reducing the columns so the summary is digestable
 
-        table = output.to_html(
-            index=False, index_names=False, col_space=70, justify="right", table_id=key
+    totals = s.assign(total=s["met"] + s["wave"])
+    totals.index = totals.index.to_period("M")
+
+    start_date = dt.datetime(2018, 1, 1)
+
+    for date in pd.date_range(start_date, dt.datetime.now(), freq="QE"):
+        year = int(date.strftime("%Y"))
+        month = int(date.strftime("%m"))
+        day = int(date.strftime("%d"))
+
+        fd = FiscalDate(year, month, day)
+
+        fq = FiscalQuarter(fd.fiscal_year, fd.fiscal_quarter)
+
+        start_date = fq.start.strftime("%Y-%m-%d")
+        end_date = fq.end.strftime("%Y-%m-%d")
+
+        totals_subset = totals[start_date:end_date]
+
+        totals_subset['date'] = totals_subset.index.strftime("%Y-%m")
+
+        table = totals_subset[['date','met','wave','total']].to_html(
+            index=False, index_names=False, col_space=70, justify="right", table_id=fq
         )
 
         table = table.replace("<td>", '<td style="text-align: right;">')
 
-        configs[key] = {"name": f_out, "data": f, "table": table}
+        configs[fq] = {"name": e.dataset_id,
+                       "data": '{}&time%3E={}&time%3C={}'.format(e.get_download_url(),start_date,end_date),
+                       "table": table}
 
-    fig = timeseries_plot(output_all)
+    fig = timeseries_plot(totals)
 
     configs["figure"] = fig
 
