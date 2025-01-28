@@ -2,7 +2,7 @@
 # reference when called. E.g., python create_gts_regional_landing_page.py EcoSys_config.json
 
 import datetime as dt
-from fiscalyear import *
+from fiscalyear import FiscalDate, FiscalQuarter
 from erddapy import ERDDAP
 from jinja2 import Environment, FileSystemLoader
 import json
@@ -66,17 +66,32 @@ def timeseries_plot(output):
 
     return fig
 
+def stacked_bar_plot(totals):
 
-def main(org_config):
+    fig1 = px.bar(totals,
+                  x=totals.index,
+                  y="met",
+                  color="source",
+                  title="Number of meteorological messages delivered to the GTS via NDBC by source",
+                  labels={'met': 'Messages Delivered to the GTS'},
+                  )
 
-    # Go get the data from IOOS ERDDAP
-    # compute monthly totals
-    # Compute Fiscal Year Quarter totals
-    # generate html tables
-    # generate html figures
-    # write to html page
+    fig2 = px.bar(totals,
+                  x=totals.index,
+                  y="wave",
+                  color="source",
+                  title="Number of wave messages delivered to the GTS via NDBC by source",
+                  labels={'wave': 'Messages Delivered to the GTS'},
+                  )
 
-    configs = dict()
+    #fig.update_yaxes(title_text="Messages Delivered to the GTS")
+
+    fig1 = plotly.io.to_html(fig1, full_html=False)
+    fig2 = plotly.io.to_html(fig2, full_html=False)
+
+    return fig1, fig2
+
+def get_ioos_regional_stats():
 
     e = ERDDAP(
         server="https://erddap.ioos.us/erddap",
@@ -102,7 +117,64 @@ def main(org_config):
     totals = s.assign(total=s["met"] + s["wave"])
     totals.index = totals.index.to_period("M")
 
+    return totals, e
+
+def get_ndbc_full_stats():
+
+    e = ERDDAP(
+        server="https://erddap.ioos.us/erddap",
+        protocol="tabledap",
+    )
+
+    e.response = "csv"
+
+    dsets = {"IOOS": "gts_regional_statistics",
+             "NDBC": "gts_ndbc_statistics",
+             "non-NDBC": "gts_non_ndbc_statistics"}
+
+    df_out = pd.DataFrame()
+
+    for key, value in dsets.items():
+        e.dataset_id = value
+
+        df = e.to_pandas(
+            index_col="time (UTC)",
+            parse_dates=True
+        )
+        df["source"] = key
+
+        df_out = pd.concat([df_out,df])
+
+    group = df_out.groupby(by=["source", pd.Grouper(freq="ME")])
+
+    s = group[
+            ["met", "wave"]
+        ].sum()  # reducing the columns so the summary is digestable
+
+    totals = s.assign(total=s["met"] + s["wave"])
+
+    totals.reset_index(["source"], inplace=True)
+
+    totals.index = totals.index.to_period("M").strftime("%Y-%m")
+
+    return totals
+
+def main(org_config):
+
+    # Go get the data from IOOS ERDDAP
+    # compute monthly totals
+    # Compute Fiscal Year Quarter totals
+    # generate html tables
+    # generate html figures
+    # write to html page
+
+    totals, e = get_ioos_regional_stats()
+
+    #totals = df_out.loc[df_out['source'] == 'IOOS']
+
     start_date = dt.datetime(2018, 1, 1)
+
+    configs = dict()
 
     for date in pd.date_range(start_date, dt.datetime.now(), freq="QE"):
         year = int(date.strftime("%Y"))
@@ -133,6 +205,13 @@ def main(org_config):
     fig = timeseries_plot(totals)
 
     configs["figure"] = fig
+
+    ndbc_totals = get_ndbc_full_stats()
+
+    fig1, fig2 = stacked_bar_plot(ndbc_totals)
+
+    configs["figure1"] = fig1
+    configs["figure2"] = fig2
 
     write_templates(configs, org_config)
 
