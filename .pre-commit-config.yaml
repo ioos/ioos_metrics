@@ -11,7 +11,7 @@ exclude: |
 
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.6.0
+  rev: v5.0.0
   hooks:
     - id: trailing-whitespace
     - id: check-ast
@@ -20,7 +20,7 @@ repos:
     - id: check-added-large-files
 
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.3.0
+  rev: v2.4.0
   hooks:
     - id: codespell
       exclude: >
@@ -36,14 +36,14 @@ repos:
     - id: add-trailing-comma
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.6.8
+  rev: v0.9.3
   hooks:
     - id: ruff
       args: ["--fix", "--show-fixes"]
     - id: ruff-format
 
 - repo: https://github.com/nbQA-dev/nbQA
-  rev: 1.8.7
+  rev: 1.9.1
   hooks:
     - id: nbqa-check-ast
     - id: nbqa-ruff
