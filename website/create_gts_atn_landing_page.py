@@ -1,17 +1,15 @@
 # This script run once creates a catalog landing page based on the *_config.json file
 # reference when called. E.g., python create_gts_regional_landing_page.py EcoSys_config.json
-import base64
-from io import BytesIO
 
+from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
 import json
 import os
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import plotly
-
+import requests
 
 def write_html_index(template, configs, org_config):
     root = os.path.dirname(os.path.abspath(__file__))
@@ -35,22 +33,22 @@ def write_templates(configs, org_config):
 
 
 def timeseries_plot(output):
-    table = output.copy()
 
-    output["date"] = pd.to_datetime(output["date"])
+    output["date"] = pd.to_datetime(output.index.strftime("%Y-%m"))
+
+    table = output[["date","total"]].copy()
+    table["date"] = table.index.strftime("%Y-%m")
 
     figure = go.Figure(
-        # data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])],
         layout=go.Layout(height=600, width=1500)
     )
 
     fig = make_subplots(
         rows=1,
         cols=3,
-        #        vertical_spacing=0.03,
         specs=[
             [{"type": "table"}, {"colspan": 2, "type": "bar"}, None]
-        ],  # {"type": "bar"},{'colspan': 1}]],
+            ],
         figure=figure,
     )
 
@@ -73,48 +71,65 @@ def timeseries_plot(output):
         row=1,
         col=2,
     )
-    #     title="ATN Messages sent to the GTS via NDBC",
-    #     width=800,
-    #     height=600,
-    #     )
-    # )
-    #
-    # fig.update_xaxes(
-    #     title_text="Date",
-    #     dtick="M3",
-    #     tickformat="%b\n%Y",
-    #     rangeslider_visible=True,
-    #     rangeselector={
-    #         "buttons": [
-    #             dict(count=3, label="3m", step="month", stepmode="backward"),
-    #             dict(count=6, label="6m", step="month", stepmode="backward"),
-    #             dict(count=9, label="9m", step="month", stepmode="backward"),
-    #             dict(count=1, label="1y", step="year", stepmode="backward"),
-    #             dict(step="all"),
-    #         ]
-    #     },
-    # )
-    #
-    # fig.update_yaxes(title_text="Messages Delivered to the GTS")
 
     fig = plotly.io.to_html(fig, full_html=False)
 
     return fig
 
 
+def get_atn_gts_metrics():
+
+    # recursively search the https index for bufr messages
+    url = "https://stage-ndbc-bufr.srv.axds.co/platforms/atn/smru/profiles/"
+
+    html = requests.get(url).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    df_out = pd.DataFrame()
+
+    for deployment in soup.find_all("a"):
+        depl_url = url + deployment.text
+        depl_html = requests.get(depl_url).text
+
+        depl_soup = BeautifulSoup(depl_html, "html.parser")
+
+        # some content is not in an html node, so we have to parse line by line
+        files = depl_soup.get_text().split("\r\n")[1:-1]
+
+        for file in files:
+            content = file.split()
+
+            if ".bufr" in content[0]:
+                # save the index file information to DF.
+                fname = deployment.text + content[0]
+                df_file = pd.DataFrame(
+                    {
+                        "fname": [fname],
+                        "date": pd.to_datetime([content[1] + "T" + content[2]]),
+                        "size": [content[3]],
+                    }
+                )
+
+                df_out = pd.concat([df_out, df_file])
+
+    # mask for FY Quarter
+    df_out = df_out.set_index("date").sort_index()
+
+    # groupby month and save data
+    group = df_out.groupby(pd.Grouper(freq="ME"))
+
+    s = group["fname"].count()
+
+    s.index = s.index.to_period("M")
+
+    s = s.rename("total")
+
+    return pd.DataFrame(s)
+
+
 def main(org_config):
-    configs = dict()
 
-    file = "GTS_ATN_monthly_totals.csv"
-
-    filename = os.path.join(org_config["location_of_metrics"], file)
-    output = pd.read_csv(filename)
-    f_out = filename.replace(".csv", ".html").replace(
-        org_config["location_of_metrics"], "deploy"
-    )
-
-    print(f_out)
-    # key = "{} {}".format(f_out.split("\\")[-1].split("_")[0], f_out.split("_")[1])
+    output = get_atn_gts_metrics()
 
     table = output.to_html(
         index=False,
@@ -129,7 +144,6 @@ def main(org_config):
     fig = timeseries_plot(output)
 
     configs = {
-        "name": f_out,
         "data": f,
         "table": table,
         "figure": fig,
