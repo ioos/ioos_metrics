@@ -30,6 +30,7 @@ jobs:
         pip install datetime
         pip install fiscalyear
         pip install erddapy
+        pip install beautifulsoup4
     - name: create HTML file
       run: |
         cd website
