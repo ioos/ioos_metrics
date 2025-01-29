@@ -7,7 +7,6 @@ on:
        - main
      paths:
        - '.github/workflows/metrics.yml'
-       - 'gts_regional_metrics.py'
        - 'btn_metrics.py'
   schedule:
     - cron: "0 12 5 * *"
@@ -42,7 +41,6 @@ jobs:
         shell: bash -l {0}
         run: >
           python btn_metrics.py
-          && python gts_regional_metrics.py
 
       - name: Get current date
         run: echo "NOW=$(date -u)" >> ${GITHUB_ENV}

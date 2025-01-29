@@ -1,5 +1,6 @@
 """Code extracted from IOOS_BTN.ipynb."""
 
+import datetime
 import functools
 import io
 import logging
@@ -12,6 +13,7 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from gliderpy.fetchers import GliderDataFetcher
 from shapely.geometry import LineString, Point
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 from ioos_metrics.national_platforms import national_platforms
 
@@ -94,7 +96,7 @@ def federal_partners():
 
 
 @functools.lru_cache(maxsize=128)
-def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time="2023-12-31T23:59:59Z") -> int:
+def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time=None) -> int:
     """NGDAC Glider Days.
 
     This version uses the AllDatasets entry to compute the glider days.
@@ -121,6 +123,9 @@ def ngdac_gliders_fast(min_time="2000-01-01T00:00:00Z", max_time="2023-12-31T23:
       Note that data with NaN can be real glider day with lost data. Which is OK for this metric.
 
     """
+    if max_time is None:
+        max_time = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+
     df = pd.read_csv(
         "https://gliders.ioos.us/erddap/tabledap/allDatasets.csvp?minTime,maxTime,datasetID",
     )
@@ -223,6 +228,7 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
             )
         )
 
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(5))
     def _computed_metadata(dataset_id) -> dict:
         """Download the minimum amount of data possible for the computed
         metadata.
@@ -269,15 +275,12 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
     for _, row in list(df.iterrows()):
         dataset_id = row["Dataset ID"]
         info_url = row["info_url"].replace("html", "csv")
-        info_df = pd.read_csv(info_url)
-        info = _metadata(info_df)
         try:
+            info_df = pd.read_csv(info_url)
+            info = _metadata(info_df)
             info.update(_computed_metadata(dataset_id=dataset_id))
-        except (httpx.HTTPError, httpx.HTTPStatusError):
-            print(  # noqa: T201
-                f"Could not fetch glider {dataset_id=}. "
-                "This could be a server side error and the metrics will be incomplete!",
-            )
+        except (httpx.HTTPError, httpx.HTTPStatusError, ValueError) as e:
+            print(f"Could not fetch glider {dataset_id=}.\n{e=}")  # noqa: T201
             continue
         metadata.update({dataset_id: info})
     return pd.DataFrame(metadata).T
