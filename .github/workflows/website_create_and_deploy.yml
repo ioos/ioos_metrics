@@ -27,6 +27,9 @@ jobs:
         pip install plotly
         pip install geopandas
         pip install folium
+        pip install datetime
+        pip install fiscalyear
+        pip install erddapy
     - name: create HTML file
       run: |
         cd website

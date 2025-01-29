@@ -1,5 +1,9 @@
 # This script run once creates a catalog landing page based on the *_config.json file
 # reference when called. E.g., python create_gts_regional_landing_page.py EcoSys_config.json
+
+import datetime as dt
+from fiscalyear import FiscalDate, FiscalQuarter
+from erddapy import ERDDAP
 from jinja2 import Environment, FileSystemLoader
 import json
 import os
@@ -30,7 +34,7 @@ def write_templates(configs, org_config):
 
 
 def timeseries_plot(output):
-    output["date"] = pd.to_datetime(output["date"])
+    output["date"] = pd.to_datetime(output.index.strftime("%Y-%m"))
 
     fig = px.bar(
         output,
@@ -62,39 +66,152 @@ def timeseries_plot(output):
 
     return fig
 
+def stacked_bar_plot(totals):
+
+    fig1 = px.bar(totals,
+                  x=totals.index,
+                  y="met",
+                  color="source",
+                  title="Number of meteorological messages delivered to the GTS via NDBC by source",
+                  labels={'met': 'Messages Delivered to the GTS'},
+                  )
+
+    fig2 = px.bar(totals,
+                  x=totals.index,
+                  y="wave",
+                  color="source",
+                  title="Number of wave messages delivered to the GTS via NDBC by source",
+                  labels={'wave': 'Messages Delivered to the GTS'},
+                  )
+
+    #fig.update_yaxes(title_text="Messages Delivered to the GTS")
+
+    fig1 = plotly.io.to_html(fig1, full_html=False)
+    fig2 = plotly.io.to_html(fig2, full_html=False)
+
+    return fig1, fig2
+
+def get_ioos_regional_stats():
+
+    e = ERDDAP(
+        server="https://erddap.ioos.us/erddap",
+        protocol="tabledap",
+    )
+
+    e.response = "csv"
+    e.dataset_id = "gts_regional_statistics"
+
+    df = e.to_pandas(
+        index_col="time (UTC)",
+        parse_dates=True
+    )
+
+    groups = df.groupby(pd.Grouper(
+        freq="ME",
+    ))
+
+    s = groups[
+        ["met", "wave"]
+    ].sum()  # reducing the columns so the summary is digestable
+
+    totals = s.assign(total=s["met"] + s["wave"])
+    totals.index = totals.index.to_period("M")
+
+    return totals, e
+
+def get_ndbc_full_stats():
+
+    e = ERDDAP(
+        server="https://erddap.ioos.us/erddap",
+        protocol="tabledap",
+    )
+
+    e.response = "csv"
+
+    dsets = {"IOOS": "gts_regional_statistics",
+             "NDBC": "gts_ndbc_statistics",
+             "non-NDBC": "gts_non_ndbc_statistics"}
+
+    df_out = pd.DataFrame()
+
+    for key, value in dsets.items():
+        e.dataset_id = value
+
+        df = e.to_pandas(
+            index_col="time (UTC)",
+            parse_dates=True
+        )
+        df["source"] = key
+
+        df_out = pd.concat([df_out,df])
+
+    group = df_out.groupby(by=["source", pd.Grouper(freq="ME")])
+
+    s = group[
+            ["met", "wave"]
+        ].sum()  # reducing the columns so the summary is digestable
+
+    totals = s.assign(total=s["met"] + s["wave"])
+
+    totals.reset_index(["source"], inplace=True)
+
+    totals.index = totals.index.to_period("M").strftime("%Y-%m")
+
+    return totals
 
 def main(org_config):
+
+    # Go get the data from IOOS ERDDAP
+    # compute monthly totals
+    # Compute Fiscal Year Quarter totals
+    # generate html tables
+    # generate html figures
+    # write to html page
+
+    totals, e = get_ioos_regional_stats()
+
+    #totals = df_out.loc[df_out['source'] == 'IOOS']
+
+    start_date = dt.datetime(2018, 1, 1)
+
     configs = dict()
-    output_all = pd.DataFrame()
 
-    files = os.listdir(org_config["location_of_metrics"])
+    for date in pd.date_range(start_date, dt.datetime.now(), freq="QE"):
+        year = int(date.strftime("%Y"))
+        month = int(date.strftime("%m"))
+        day = int(date.strftime("%d"))
 
-    files.remove("GTS_ATN_monthly_totals.csv")
-    files = sorted(files)
+        fd = FiscalDate(year, month, day)
 
-    for f in files:
-        filename = os.path.join(org_config["location_of_metrics"], f)
-        output = pd.read_csv(filename)
-        f_out = filename.replace(".csv", ".html").replace(
-            org_config["location_of_metrics"], "deploy"
-        )
+        fq = FiscalQuarter(fd.fiscal_year, fd.fiscal_quarter)
 
-        output_all = pd.concat([output_all, output], ignore_index=True)
+        start_date = fq.start.strftime("%Y-%m-%d")
+        end_date = fq.end.strftime("%Y-%m-%d")
 
-        print(f_out)
-        key = "{} {}".format(f_out.split("_")[3], f_out.split("_")[4].split(".")[0])
+        totals_subset = totals[start_date:end_date]
 
-        table = output.to_html(
-            index=False, index_names=False, col_space=70, justify="right", table_id=key
+        totals_subset['date'] = totals_subset.index.strftime("%Y-%m")
+
+        table = totals_subset[['date','met','wave','total']].to_html(
+            index=False, index_names=False, col_space=70, justify="right", table_id=fq
         )
 
         table = table.replace("<td>", '<td style="text-align: right;">')
 
-        configs[key] = {"name": f_out, "data": f, "table": table}
+        configs[fq] = {"name": e.dataset_id,
+                       "data": '{}&time%3E={}&time%3C={}'.format(e.get_download_url(),start_date,end_date),
+                       "table": table}
 
-    fig = timeseries_plot(output_all)
+    fig = timeseries_plot(totals)
 
     configs["figure"] = fig
+
+    ndbc_totals = get_ndbc_full_stats()
+
+    fig1, fig2 = stacked_bar_plot(ndbc_totals)
+
+    configs["figure1"] = fig1
+    configs["figure2"] = fig2
 
     write_templates(configs, org_config)
 
