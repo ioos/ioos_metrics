@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from gliderpy.fetchers import GliderDataFetcher
 from shapely.geometry import LineString, Point
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 from ioos_metrics.national_platforms import national_platforms
 
@@ -223,6 +224,7 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
             )
         )
 
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(5))
     def _computed_metadata(dataset_id) -> dict:
         """Download the minimum amount of data possible for the computed
         metadata.
@@ -269,15 +271,12 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
     for _, row in list(df.iterrows()):
         dataset_id = row["Dataset ID"]
         info_url = row["info_url"].replace("html", "csv")
-        info_df = pd.read_csv(info_url)
-        info = _metadata(info_df)
         try:
+            info_df = pd.read_csv(info_url)
+            info = _metadata(info_df)
             info.update(_computed_metadata(dataset_id=dataset_id))
-        except (httpx.HTTPError, httpx.HTTPStatusError):
-            print(  # noqa: T201
-                f"Could not fetch glider {dataset_id=}. "
-                "This could be a server side error and the metrics will be incomplete!",
-            )
+        except (httpx.HTTPError, httpx.HTTPStatusError, ValueError) as e:
+            print(f"Could not fetch glider {dataset_id=}.\n{e=}")  # noqa: T201
             continue
         metadata.update({dataset_id: info})
     return pd.DataFrame(metadata).T

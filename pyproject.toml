@@ -38,6 +38,7 @@ dependencies = [
   "pyarrow",
   "pyobis",
   "requests",
+  "tenacity",
 ]
 [project.urls]
 documentation = "https://ioos.github.io/ioos_metrics"
