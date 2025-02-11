@@ -562,7 +562,7 @@ def hf_radar_installations():
 
     """
     # This is a hardcoded number at the moment!
-    return 165
+    return 183
 
 
 @functools.lru_cache(maxsize=128)
