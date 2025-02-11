@@ -138,16 +138,17 @@ def get_oap():
     * https://cdip.ucsd.edu/m/stn_table
       Includes overlap with the RAs and other programs
 
-    See buoys and moorings at https://oceanacidification.noaa.gov/WhatWeDo/Data.aspx
+    See buoys and moorings at https://oceanacidification.noaa.gov/ocean-acidification-data/
 
     """
-    url = "https://oceanacidification.noaa.gov/WhatWeDo/Data.aspx"
+    url = "https://oceanacidification.noaa.gov/ocean-acidification-data"
     html = requests.get(url, timeout=10).text
     soup = BeautifulSoup(html, "html.parser")
-    text = soup.find_all(attrs={"data-id": "4fa1cacd"})[0].find_all("h6")[0].text
+    text = soup.find(attrs={"class": "dce-osm-wrapper"})
+    jsmap = text.attrs["data_repeater"]
 
-    res = [int(i) for i in text.split() if i.isdigit()]
-    return int(res[0])
+    res = len([word for word in jsmap.lower().split() if word.startswith("data<\\/a><\\/strong><\\/p>")])
+    return res
 
 
 @functools.lru_cache(maxsize=128)
