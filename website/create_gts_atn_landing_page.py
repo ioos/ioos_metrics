@@ -2,6 +2,7 @@
 # reference when called. E.g., python create_gts_regional_landing_page.py EcoSys_config.json
 
 from bs4 import BeautifulSoup
+import datetime as dt
 from jinja2 import Environment, FileSystemLoader
 import json
 import os
@@ -148,6 +149,8 @@ def main(org_config):
         "table": table,
         "figure": fig,
     }
+    
+    configs['today'] = dt.datetime.now().strftime("%Y-%m-%d")
 
     write_templates(configs, org_config)
 
