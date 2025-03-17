@@ -1,195 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   {#<!-- Global site tag (gtag.js) - Google Analytics -->#}
   <script async src="{{org_config.google_analytics}}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
-    gtag('config',"{{org_config.google_analytics_code}}" );
+    gtag('config', "{{org_config.google_analytics_code}}");
   </script>
-    <title>{{org_config.main_title}}</title>
-    <link rel="icon" type="image/png" href="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/favicon.ico">
-   <link type="text/css" rel="stylesheet" href="./static/main.css" />
+  <title>{{org_config.main_title}}</title>
+  <link rel="icon" type="image/png"
+    href="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/favicon.ico">
+  <link type="text/css" rel="stylesheet" href="./static/main.css" />
 
 </head>
+
 <body>
   <main role="main" class="container">
-        <div class="mywrap_head">
-            <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/logo-navbar.png" alt="NOAA IOOS Logo" height="75">&nbsp;&nbsp;&nbsp;
-            <h1 class ="header_title">NOAA Integrated Ocean Observing System Metrics</h1>
-        <p>
-            <a href="https://github.com/ioos/ioos_metrics">
-            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50" height="50">
-            </a>
-        </p>
-        </div>
-        <div class = "divider"></div>
-          <div class ="mywrap_head">
-            <button class="header_button" onclick="location.href='./index.html';" value="Metrics homepage" >Metrics Homepage</button>
-              <button class="main_button" onclick="location.href='https://github.com/ioos/ioos_metrics/issues/new?labels=website';" value="Feedback">
-            Feedback
-        </button>
-            {#<!--<button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Explore Resources" >Explore Resources</button>
+    <div class="mywrap_head">
+      <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/logo-navbar.png" alt="NOAA IOOS Logo"
+        height="75">&nbsp;&nbsp;&nbsp;
+      <h1 class="header_title">NOAA Integrated Ocean Observing System Metrics</h1>
+      <p>
+        <a href="https://github.com/ioos/ioos_metrics">
+          <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50" height="50">
+        </a>
+      </p>
+    </div>
+    <div class="divider"></div>
+    <div class="mywrap_head">
+      <button class="main_button" onclick="location.href='./index.html';" value="Metrics homepage">Metrics Homepage</button>
+      <button class="main_button"
+        onclick="location.href='https://github.com/ioos/ioos_metrics/issues/new?labels=website';" value="Feedback">
+        Feedback
+      </button>
+      {#<!--<button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Explore Resources" >Explore Resources</button>
             <button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Contact IOOS" >Contact IOOS</button>-->#}
-          </div>
-        <div class = "divider"></div>
-        <div class ="mywrap">
-          <h2 class ="title">{{org_config.general_title}}</h2>
-        </div>
-        <a class = "longTitle">Last updated: {{configs.today}}</a>
-        <div class="mywrap">
+    </div>
+    <div class="divider"></div>
+    <div class="mywrap">
+      <h2 class="title">{{org_config.general_title}}</h2>
+    </div>
+    <a class="longTitle">Last updated: {{configs.today}}</a>
+    <div class="mywrap">
 
-          <input class = "boxInput" type="text" id="myInput" onkeyup="simpleSearch()" placeholder="Search for metrics" title="Type in a year/quarter">
+      <input class="boxInput" type="text" id="myInput" onkeyup="simpleSearch()" placeholder="Search for metrics"
+        title="Type in a year/quarter">
 
-          <input type="button" class="dropbtn" value="See all years" onclick="resetSearch()">
+      <input type="button" class="dropbtn" value="See all years" onclick="resetSearch()">
 
-          {#<!-- // Filter by keywords
+      {#<!-- // Filter by keywords
                // To update this, run parsejson.R get_html_snippet()
                // And copy/paste over the output below div class= "tab-content" -->#}
-          <div class="dropdown">
-            <button class="dropbtn">Filter by year</button>
-            <div class="dropdown-content">
-              <input type="button" value="FY2018" onclick="simpleSearch(this.value)">
-              <input type="button" value="FY2019" onclick="simpleSearch(this.value)">
-              <input type="button" value="FY2020" onclick="simpleSearch(this.value)">
-              <input type="button" value="FY2021" onclick="simpleSearch(this.value)">
-              <input type="button" value="FY2022" onclick="simpleSearch(this.value)">
-              <input type="button" value="FY2023" onclick="simpleSearch(this.value)">
-              <input type="button" value="FY2024" onclick="simpleSearch(this.value)">
-              <input type="button" value="FY2025" onclick="simpleSearch(this.value)">
-            </div>
-          </div>
+      <div class="dropdown">
+        <button class="dropbtn">Filter by year</button>
+        <div class="dropdown-content">
+          <input type="button" value="FY2018" onclick="simpleSearch(this.value)">
+          <input type="button" value="FY2019" onclick="simpleSearch(this.value)">
+          <input type="button" value="FY2020" onclick="simpleSearch(this.value)">
+          <input type="button" value="FY2021" onclick="simpleSearch(this.value)">
+          <input type="button" value="FY2022" onclick="simpleSearch(this.value)">
+          <input type="button" value="FY2023" onclick="simpleSearch(this.value)">
+          <input type="button" value="FY2024" onclick="simpleSearch(this.value)">
+          <input type="button" value="FY2025" onclick="simpleSearch(this.value)">
         </div>
-        <div class="divider_thin"></div>
-        <div class="mywrap">
+      </div>
+    </div>
+    <div class="divider_thin"></div>
+    <div class="mywrap">
 
-        <div class ="boxcontainer">
+      <div class="boxcontainer">
 
-          {% for key, value in configs.items() if not "figure" in key %}
-          <div class = "box">
-              {% set my_string = key  %}
-              <a class = "shortTitle" href={{value.data}}>{{key}}</a>
-              {# <!--<div class = "longTitle">{{key}}</div>--> #}
-              <div class = "toolbox_drawers">
-                  {{value.table}}
-              </div>
-              <div class = "language"></div>
+        {% for key, value in configs.items() if not "figure" in key and not "today" in key %}
+        <div class="box">
+          {% set my_string = key %}
+          <a class="shortTitle" href={{value.data}}>{{key}}</a>
+          {# <!--<div class = "longTitle">{{key}}</div>--> #}
+          <div class="toolbox_drawers">
+            {{value.table}}
           </div>
-          {% endfor %}
-
+          <div class="language"></div>
         </div>
+        {% endfor %}
 
       </div>
 
-      <div class = "divider"></div>
+    </div>
 
-      {{configs.figure}}
+    <div class="divider"></div>
 
-      <div class = "divider"></div>
+    {{configs.figure}}
 
-      {{configs.figure1}}
+    <div class="divider"></div>
 
-      <div class = "divider"></div>
+    {{configs.figure1}}
 
-      {{configs.figure2}}
+    <div class="divider"></div>
 
-      <div class = "divider"></div>
+    {{configs.figure2}}
 
-        <footer >
-            <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/IOOS_Emblem_Tertiary_B_RGB.png" alt="NOAA IOOS Logo" height="75">
-            <div class="mywrap_center">
-              
-              <a class ="mylink line" href="https://www.commerce.gov/">U.S. Department of Commerce</a>
-              <a class ="mylink line" href="https://www.noaa.gov">National Oceanographic and Atmospheric Administration</a>
-              <a class ="mylink" href="https://www.ioos.noaa.gov/">NOAA IOOS</a>
-            </div>
-            
-        </footer>
-      </main>
-      <script>
-        var sidenav = document.getElementsByClassName("sidenav");
-        var menu = document.getElementById("menu");
-        var menulabel = document.getElementsByClassName("menulabel");
+    <div class="divider"></div>
+
+    <footer>
+      <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/IOOS_Emblem_Tertiary_B_RGB.png"
+        alt="NOAA IOOS Logo" height="75">
+      <div class="mywrap_center">
+
+        <a class="mylink line" href="https://www.commerce.gov/">U.S. Department of Commerce</a>
+        <a class="mylink line" href="https://www.noaa.gov">National Oceanographic and Atmospheric Administration</a>
+        <a class="mylink" href="https://www.ioos.noaa.gov/">NOAA IOOS</a>
+      </div>
+
+    </footer>
+  </main>
+  <script>
+    var sidenav = document.getElementsByClassName("sidenav");
+    var menu = document.getElementById("menu");
+    var menulabel = document.getElementsByClassName("menulabel");
 
 
-            // sidenav[0].style.display="none";
+    // sidenav[0].style.display="none";
 
-        function simpleSearch(val) {
-            var input, filter, ul, box, box_each, box_each_abbrev, box_each_keywords, box_each_drawer, i, txtValue;
-            if(val === undefined){
-              input = document.getElementById("myInput");
-              filter = input.value.toUpperCase();
-            }
-            else {
-              filter = val.toUpperCase();
-            }
-            box = document.getElementsByClassName("box");
-            for (i = 0; i < box.length; i++) {
-                box_each = box[i].getElementsByClassName("longTitle")[0];
-                box_each_abbrev = box[i].getElementsByClassName("shortTitle")[0];
-                box_each_keywords = box[i].getElementsByClassName("keywords")[0];
-                box_each_drawer = box[i].getElementsByClassName("toolbox_drawers")[0];
-                //console.log(box_each_keywords); // For Debugging
-                txtValue = box_each_abbrev.innerText; //box_each.textContent + " " + box_each_abbrev.innerText + " " + box_each_keywords.innerText + " " + box_each_drawer.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    box[i].style.display = "";
-                } else {
-                    box[i].style.display = "none";
-                }
-            }
+    function simpleSearch(val) {
+      var input, filter, ul, box, box_each, box_each_abbrev, box_each_keywords, box_each_drawer, i, txtValue;
+      if (val === undefined) {
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+      }
+      else {
+        filter = val.toUpperCase();
+      }
+      box = document.getElementsByClassName("box");
+      for (i = 0; i < box.length; i++) {
+        box_each = box[i].getElementsByClassName("longTitle")[0];
+        box_each_abbrev = box[i].getElementsByClassName("shortTitle")[0];
+        box_each_keywords = box[i].getElementsByClassName("keywords")[0];
+        box_each_drawer = box[i].getElementsByClassName("toolbox_drawers")[0];
+        //console.log(box_each_keywords); // For Debugging
+        txtValue = box_each_abbrev.innerText; //box_each.textContent + " " + box_each_abbrev.innerText + " " + box_each_keywords.innerText + " " + box_each_drawer.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          box[i].style.display = "";
+        } else {
+          box[i].style.display = "none";
         }
+      }
+    }
 
-        function drawerSearch(val) {
-            var input, filter, ul, box, box_each, i, txtValue;
-            if(val === undefined){
-              input = document.getElementById("myInput");
-              filter = input.value.toUpperCase();
-            }
-            else {
-              filter = val.toUpperCase();
-            }
-            box = document.getElementsByClassName("box");
-            for (i = 0; i < box.length; i++) {
-                box_each = box[i].getElementsByClassName("toolbox_drawers")[0];
-                txtValue = box_each.textContent;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    box[i].style.display = "";
-                } else {
-                    box[i].style.display = "none";
-                }
-            }
+    function drawerSearch(val) {
+      var input, filter, ul, box, box_each, i, txtValue;
+      if (val === undefined) {
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+      }
+      else {
+        filter = val.toUpperCase();
+      }
+      box = document.getElementsByClassName("box");
+      for (i = 0; i < box.length; i++) {
+        box_each = box[i].getElementsByClassName("toolbox_drawers")[0];
+        txtValue = box_each.textContent;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          box[i].style.display = "";
+        } else {
+          box[i].style.display = "none";
         }
+      }
+    }
 
-        function resetSearch() {
-            var box, i;
-            box = document.getElementsByClassName("box");
-            for (i = 0; i < box.length; i++) {
-              box[i].style.display = "";
-            }
-        }
+    function resetSearch() {
+      var box, i;
+      box = document.getElementsByClassName("box");
+      for (i = 0; i < box.length; i++) {
+        box[i].style.display = "";
+      }
+    }
 
-        function menuClick(x) {
-          // x.classList.toggle("change");
-          menulabel[0].classList.toggle("change");
-          sidenav[0].classList.toggle("open");
-          menu.classList.toggle("is_active");
-          let y =x.getAttribute("aria-expanded");
-          let t;
-          if (y == "true"){
-            y = "false"
-            t="-1";
-          }
-          else {
-            y = "true";
-            t="0";
-          }
-          x.setAttribute("aria-expanded", x);
+    function menuClick(x) {
+      // x.classList.toggle("change");
+      menulabel[0].classList.toggle("change");
+      sidenav[0].classList.toggle("open");
+      menu.classList.toggle("is_active");
+      let y = x.getAttribute("aria-expanded");
+      let t;
+      if (y == "true") {
+        y = "false"
+        t = "-1";
+      }
+      else {
+        y = "true";
+        t = "0";
+      }
+      x.setAttribute("aria-expanded", x);
 
-           }
-          // boxcontainer
-      </script>
-   </body>
+    }
+    // boxcontainer
+  </script>
+</body>
+
 </html>

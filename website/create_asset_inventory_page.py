@@ -43,15 +43,16 @@ def map_plot(gdf):
     tiles = "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}"
     gh_repo = "https://github.com/ioos/ioos_metrics"
     attr = f'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri | <a href="{gh_repo}" target="_blank">{gh_repo}</a>'
-    folium.raster_layers.TileLayer(
-        name="Ocean",
-        tiles=tiles,
-        attr=attr,
-    ).add_to(m)
 
     folium.raster_layers.TileLayer(
         "cartodbdark_matter",
         name="CartoDB",
+    ).add_to(m)
+
+    folium.raster_layers.TileLayer(
+        name="Ocean",
+        tiles=tiles,
+        attr=attr,
     ).add_to(m)
 
     # folium.raster_layers.TileLayer(

@@ -3,189 +3,211 @@
 <header>
     <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 </header>
+
 <head>
     {#<!-- Global site tag (gtag.js) - Google Analytics --> #}
     <script async src="{{org_config.google_analytics}}"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    gtag('config',"{{org_config.google_analytics_code}}" );
+        gtag('config', "{{org_config.google_analytics_code}}");
 
 
 
     </script>
     <title>{{org_config.main_title}}</title>
     <link rel="icon" type="image/png"
-          href="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/favicon.ico">
-    <link type="text/css" rel="stylesheet" href="./static/main.css"/>
+        href="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="./static/main.css" />
 
 </head>
+
 <body>
-<main role="main" class="container">
-    <div class="mywrap_head">
-        <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/logo-navbar.png"
-             alt="NOAA IOOS Logo" height="75">
-        <h1 class="header_title">NOAA Integrated Ocean Observing System Metrics</h1>
-        <p>
-            <a href="https://github.com/ioos/ioos_metrics">
-            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50" height="50">
-            </a>
-        </p>
-    </div>
-    <div class="divider"></div>
-    <div class="mywrap_head">
-        <button class="header_button" onclick="location.href='./index.html';" value="Metrics homepage">Metrics
-            Homepage
-        </button>
-        <button class="main_button" onclick="location.href='https://github.com/ioos/ioos_metrics/issues/new?labels=website';" value="Feedback">
-            Feedback
-        </button>
-        {#<!--<button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Explore Resources">
+    <main role="main" class="container">
+        <div class="mywrap_head">
+            <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/logo-navbar.png"
+                alt="NOAA IOOS Logo" height="75">
+            <h1 class="header_title">NOAA Integrated Ocean Observing System Metrics</h1>
+            <p>
+                <a href="https://github.com/ioos/ioos_metrics">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50"
+                        height="50">
+                </a>
+            </p>
+        </div>
+        <div class="divider"></div>
+        <div class="mywrap_head">
+            <button class="main_button" onclick="location.href='./index.html';" value="Metrics homepage">
+                Metrics Homepage
+            </button>
+            <button class="main_button"
+                onclick="location.href='https://github.com/ioos/ioos_metrics/issues/new?labels=website';"
+                value="Feedback">
+                Feedback
+            </button>
+            {#<!--<button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Explore Resources">
             Explore Resources
         </button>
         <button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Contact IOOS">Contact
             IOOS
         </button>-->#}
-    </div>
-    <div class="divider"></div>
-    <div class="mywrap">
-        <h1 class="title">{{org_config.general_title}}</h1>
-    </div>
-    <a class = "longTitle">Last updated: {{configs.today}}</a>
-    <div>
-        <h3>A brief description of the IOOS asset inventory:</h3>
-        <ol type="1">
-            <li>The IOOS asset inventory contains stationary observing systems that are/were operating at any time during the
-                calendar year (CY) (Jan 1 - Dec 31).</li>
-            <li>Stationary observing systems that are exposed through one or more web services
-                implemented by the RA. The asset must be discoverable through the IOOS
-                Catalog. This includes:
-                <ul>
-                    <li>Assets for operations or research purposes as long as the data are publicly
-                        disseminated.</li>
-                    <li>Non-RA-funded stations operated by a local data provider (i.e. the RA only
-                        has a data management/stewardship role).</li>
-                    <li>Any federal stations that are supported (funded, operated, and/or
-                        maintained) by the RA (e.g. CDIP buoys, NERRS stations).</li>
-                </ul>
-            </li>
-            <li>More details about the Asset Inventory can be found in the IOOS Guidance on Performance Progress
+        </div>
+        <div class="divider"></div>
+        <div class="mywrap">
+            <h1 class="title">{{org_config.general_title}}</h1>
+        </div>
+        <a class="longTitle">Last updated: {{configs.today}}</a>
+        <div>
+            <h3>A brief description of the IOOS asset inventory:</h3>
+            <ol type="1">
+                <li>The IOOS asset inventory contains stationary observing systems that are/were operating at any time
+                    during the
+                    calendar year (CY) (Jan 1 - Dec 31).</li>
+                <li>Stationary observing systems that are exposed through one or more web services
+                    implemented by the RA. The asset must be discoverable through the IOOS
+                    Catalog. This includes:
+                    <ul>
+                        <li>Assets for operations or research purposes as long as the data are publicly
+                            disseminated.</li>
+                        <li>Non-RA-funded stations operated by a local data provider (i.e. the RA only
+                            has a data management/stewardship role).</li>
+                        <li>Any federal stations that are supported (funded, operated, and/or
+                            maintained) by the RA (e.g. CDIP buoys, NERRS stations).</li>
+                    </ul>
+                </li>
+                <li>More details about the Asset Inventory can be found in the IOOS Guidance on Performance Progress
                     Reports found on <a href="https://ioos.noaa.gov/about/funding-opportunities/">this website</a>.
-            </li>
-        </ol>
-    </div>
-    <div>
-        <p>Definitions for each field can be found at the <a href="#field-definitions">bottom of this page.</a></p>
-        <p>You can browse the entire IOOS asset inventory collection on <a href="https://erddap.ioos.us/erddap/search/index.html?page=1&itemsPerPage=1000&searchFor=asset+inventory">ERDDAP</a>.</p>
-    </div>
+                </li>
+            </ol>
+        </div>
+        <div>
+            <p>Definitions for each field can be found at the <a href="#field-definitions">bottom of this page.</a></p>
+            <p>You can browse the entire IOOS asset inventory collection on <a
+                    href="https://erddap.ioos.us/erddap/search/index.html?page=1&itemsPerPage=1000&searchFor=asset+inventory">ERDDAP</a>.
+            </p>
+        </div>
 
         <div>
             <h3>Map of CY {{configs.year}} assets:</h3>
         </div>
-        <div class="mapbox"  style="width:800px; margin:0 auto;">
-        {{configs.figure}}
+        <div class="mapbox" style="width:1000px; margin:0 auto;">
+            {{configs.figure}}
         </div>
 
-    <div>
-        <h3>Table of CY {{configs.year}} assets:</h3>
-        {{configs.table}}
-        {% raw %}
-        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-        <script>
-        $(document).ready( function () {
-            $('#table').DataTable();
-        } );
-        let table = new DataTable('#table');
-        </script>
-        {% endraw %}
-    </div>
+        <div>
+            <h3>Table of CY {{configs.year}} assets:</h3>
+            {{configs.table}}
+            {% raw %}
+            <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+                integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('#table').DataTable();
+                });
+                let table = new DataTable('#table');
+            </script>
+            {% endraw %}
+        </div>
 
 
 
-    <div class="divider_thin"></div>
-            <div id="field-definitions">
-                <h1>Field Definitions</h1>
+        <div class="divider_thin"></div>
+        <div id="field-definitions">
+            <h1>Field Definitions</h1>
             <table border="1" class="dataframe">
                 <thead>
-                <tr style="text-align: left;">
-                    <th>Field</th>
-                    <th>Definition</th>
-                </tr>
+                    <tr style="text-align: left;">
+                        <th>Field</th>
+                        <th>Definition</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>RA</td>
-                    <td>Name of the Regional Association</td>
-                </tr>
-                <tr>
-                    <td>station_long_name</td>
-                    <td>Station name. e.g. Red Bank - Garden Banks, Fripps Inlet,  etc.</td>
-                </tr>
-                <tr>
-                    <td>latitude</td>
-                    <td>Coordinate Reference System WGS84 (<a href="https://epsg.io/4326" rel="nofollow">EPSG:4326</a>).</td>
-                </tr>
-                <tr>
-                    <td>longitude</td>
-                    <td>Coordinate Reference System WGS84 (<a href="https://epsg.io/4326" rel="nofollow">EPSG:4326</a>).</td>
-                </tr>
-                <tr>
-                    <td>Platform</td>
-                    <td>A structure or vehicle designed to hold one or more sensors such that the intended oceanographic or atmospheric variable(s) can be monitored or measured in a manner designed for the ocean observing system or scientific hypotheses.</td>
-                </tr>
-                <tr>
-                    <td>station_deployment</td>
-                    <td>The time when the station became operational.  This can be determined by the first data record or an installation date.  This indicates the first time the station was deployed - not the last or latest, but the first time - even if IOOS was not established yet.</td>
-                </tr>
-                <tr>
-                    <td>Operational</td>
-                    <td>Is the asset deployed and collecting data?<br />Y = Yes (this includes seasonal buoys intended for redeployment).<br />N = No (it was uninstalled/removed, or is offline with no intent to repair).<br />O =  Offline (temporary outage, with intent to repair or redeploy).<br />U = Unknown (e.g. funding uncertainty for repair/redeployment, or operator's plans are unknown).</td>
-                </tr>
-                <tr>
-                    <td>RA_Funded</td>
-                    <td>Does the RA currently fund the asset? This excludes support for data management activities.<br />Yf = Fully funds.<br />Yp = Partially funds.<br />N = No funding.</td>
-                </tr>
-                <tr>
-                    <td>Raw_Vars</td>
-                    <td>A list of observed variables that are associated with each station, with the depth(s) of the each measured oceanographic variable in parentheses following the variable name.</td>
-                </tr>
+                    <tr>
+                        <td>RA</td>
+                        <td>Name of the Regional Association</td>
+                    </tr>
+                    <tr>
+                        <td>station_long_name</td>
+                        <td>Station name. e.g. Red Bank - Garden Banks, Fripps Inlet, etc.</td>
+                    </tr>
+                    <tr>
+                        <td>latitude</td>
+                        <td>Coordinate Reference System WGS84 (<a href="https://epsg.io/4326"
+                                rel="nofollow">EPSG:4326</a>).</td>
+                    </tr>
+                    <tr>
+                        <td>longitude</td>
+                        <td>Coordinate Reference System WGS84 (<a href="https://epsg.io/4326"
+                                rel="nofollow">EPSG:4326</a>).</td>
+                    </tr>
+                    <tr>
+                        <td>Platform</td>
+                        <td>A structure or vehicle designed to hold one or more sensors such that the intended
+                            oceanographic or atmospheric variable(s) can be monitored or measured in a manner designed
+                            for the ocean observing system or scientific hypotheses.</td>
+                    </tr>
+                    <tr>
+                        <td>station_deployment</td>
+                        <td>The time when the station became operational. This can be determined by the first data
+                            record or an installation date. This indicates the first time the station was deployed - not
+                            the last or latest, but the first time - even if IOOS was not established yet.</td>
+                    </tr>
+                    <tr>
+                        <td>Operational</td>
+                        <td>Is the asset deployed and collecting data?<br />Y = Yes (this includes seasonal buoys
+                            intended for redeployment).<br />N = No (it was uninstalled/removed, or is offline with no
+                            intent to repair).<br />O = Offline (temporary outage, with intent to repair or
+                            redeploy).<br />U = Unknown (e.g. funding uncertainty for repair/redeployment, or operator's
+                            plans are unknown).</td>
+                    </tr>
+                    <tr>
+                        <td>RA_Funded</td>
+                        <td>Does the RA currently fund the asset? This excludes support for data management
+                            activities.<br />Yf = Fully funds.<br />Yp = Partially funds.<br />N = No funding.</td>
+                    </tr>
+                    <tr>
+                        <td>Raw_Vars</td>
+                        <td>A list of observed variables that are associated with each station, with the depth(s) of the
+                            each measured oceanographic variable in parentheses following the variable name.</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
 
-    <div class="divider"></div>
+        <div class="divider"></div>
 
-    <footer>
-        <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/IOOS_Emblem_Tertiary_B_RGB.png"
-             alt="NOAA IOOS Logo" height="75">
-        <div class="mywrap_center">
-            <a class="mylink line" href="https://www.commerce.gov/">U.S. Department of Commerce</a>
-            <a class="mylink line" href="https://www.noaa.gov">National Oceanographic and Atmospheric Administration</a>
-            <a class="mylink" href="https://www.ioos.noaa.gov/">NOAA IOOS</a>
-        </div>
-    </footer>
-    {#<!--<div class ="attribution">Icons by icons8 https://icons8.com/</div>--> #}
-</main>
-<script>
+        <footer>
+            <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/IOOS_Emblem_Tertiary_B_RGB.png"
+                alt="NOAA IOOS Logo" height="75">
+            <div class="mywrap_center">
+                <a class="mylink line" href="https://www.commerce.gov/">U.S. Department of Commerce</a>
+                <a class="mylink line" href="https://www.noaa.gov">National Oceanographic and Atmospheric
+                    Administration</a>
+                <a class="mylink" href="https://www.ioos.noaa.gov/">NOAA IOOS</a>
+            </div>
+        </footer>
+        {#<!--<div class ="attribution">Icons by icons8 https://icons8.com/</div>--> #}
+    </main>
+    <script>
         var sidenav = document.getElementsByClassName("sidenav");
         var menu = document.getElementById("menu");
         var menulabel = document.getElementsByClassName("menulabel");
 
 
-            // sidenav[0].style.display="none";
+        // sidenav[0].style.display="none";
 
         function simpleSearch(val) {
             var input, filter, ul, box, box_each, box_each_abbrev, box_each_keywords, box_each_drawer, i, txtValue;
-            if(val === undefined){
-              input = document.getElementById("myInput");
-              filter = input.value.toUpperCase();
+            if (val === undefined) {
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
             }
             else {
-              filter = val.toUpperCase();
+                filter = val.toUpperCase();
             }
             box = document.getElementsByClassName("box");
             for (i = 0; i < box.length; i++) {
@@ -205,12 +227,12 @@
 
         function drawerSearch(val) {
             var input, filter, ul, box, box_each, i, txtValue;
-            if(val === undefined){
-              input = document.getElementById("myInput");
-              filter = input.value.toUpperCase();
+            if (val === undefined) {
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
             }
             else {
-              filter = val.toUpperCase();
+                filter = val.toUpperCase();
             }
             box = document.getElementsByClassName("box");
             for (i = 0; i < box.length; i++) {
@@ -228,31 +250,29 @@
             var box, i;
             box = document.getElementsByClassName("box");
             for (i = 0; i < box.length; i++) {
-              box[i].style.display = "";
+                box[i].style.display = "";
             }
         }
 
         function menuClick(x) {
-          // x.classList.toggle("change");
-          menulabel[0].classList.toggle("change");
-          sidenav[0].classList.toggle("open");
-          menu.classList.toggle("is_active");
-          let y =x.getAttribute("aria-expanded");
-          let t;
-          if (y == "true"){
-            y = "false"
-            t="-1";
-          }
-          else {
-            y = "true";
-            t="0";
-          }
-          x.setAttribute("aria-expanded", x);
+            // x.classList.toggle("change");
+            menulabel[0].classList.toggle("change");
+            sidenav[0].classList.toggle("open");
+            menu.classList.toggle("is_active");
+            let y = x.getAttribute("aria-expanded");
+            let t;
+            if (y == "true") {
+                y = "false"
+                t = "-1";
+            }
+            else {
+                y = "true";
+                t = "0";
+            }
+            x.setAttribute("aria-expanded", x);
 
-           }
-          // boxcontainer
-
-
+        }
+        // boxcontainer
 
 
 
@@ -260,6 +280,9 @@
 
 
 
-</script>
+
+
+    </script>
 </body>
+
 </html>
