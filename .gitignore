@@ -8,3 +8,4 @@ dist/
 ioos_metrics/_version.py
 website/deploy/gts_atn.html
 website/deploy/gts_regional.html
+.idea/

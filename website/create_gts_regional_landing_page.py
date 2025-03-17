@@ -176,7 +176,9 @@ def main(org_config):
 
     configs = dict()
 
-    for date in pd.date_range(start_date, dt.datetime.now(), freq="QE"):
+    today = dt.datetime.now()
+
+    for date in pd.date_range(start_date, today, freq="QE"):
         year = int(date.strftime("%Y"))
         month = int(date.strftime("%m"))
         day = int(date.strftime("%d"))
@@ -212,6 +214,7 @@ def main(org_config):
 
     configs["figure1"] = fig1
     configs["figure2"] = fig2
+    configs["today"] = today.strftime("%Y-%m-%d")
 
     write_templates(configs, org_config)
 

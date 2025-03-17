@@ -1,6 +1,7 @@
 # This script run once creates a catalog landing page based on the *_config.json file
 # reference when called. E.g., python create_gts_regional_landing_page.py EcoSys_config.json
 from jinja2 import Environment, FileSystemLoader
+import datetime as dt
 import json
 import os
 import pandas as pd
@@ -195,6 +196,8 @@ def main(org_config):
         "figure": fig,
         "year": gdf['Year'].unique()[0]
     }
+
+    configs['today'] = dt.datetime.now().strftime("%Y-%m-%d")
 
     write_templates(configs, org_config)
 
