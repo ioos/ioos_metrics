@@ -74,7 +74,7 @@ ioos_metrics = { path = ".", editable = true }
 [tool.pixi.tasks]
 notebook = "cd notebooks && jupyter nbclassic"
 tests = "python -m pytest -rxs tests"
-metrics = "python btn_metrics.py && python gts_regional_metrics.py && python gts_atn_metrics.py"
+metrics = "python btn_metrics.py"
 
 [tool.pixi.dependencies]
 bs4 = ">=4.12.3,<5"
