@@ -4999,9 +4999,9 @@ packages:
   timestamp: 1723739573141
 - kind: pypi
   name: ioos-metrics
-  version: 0.6.1.dev12+gcaef56e
+  version: 0.6.1.dev14+g0e23265
   path: .
-  sha256: aedf0df802290be37607bc87a3ddc74e7180d699da536671bba2ee97dcafadbe
+  sha256: e871447e358cee63bef02373ff7ac30d04a39e49040166451954ef8935c0cebc
   requires_dist:
   - bs4
   - ckanapi
