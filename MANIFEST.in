@@ -10,6 +10,7 @@ prune gts
 prune website
 prune tests
 prune notebooks
+prune .binder
 
 exclude *.ipynb
 exclude btn_metrics.py
@@ -19,6 +20,7 @@ exclude read_bufr.py
 exclude ioos_btn_metrics.csv
 
 exclude ruff.toml
+exclude *.lock
 exclude .gitignore
 exclude .pre-commit-config.yaml
 exclude *.yml

@@ -4,9 +4,8 @@
 
 1. Install pixi: https://pixi.sh/dev/#installation
 1. Clone this repository: `git clone https://github.com/ioos/ioos_metrics.git`
-1. Enter the repository directory: `cd gider_metrics`
-1. Create tne enviroment: `conda env create --name METRICS --file environment.yml`
-1. Start the notebook: `jupyter nbclassic`
+1. Enter the repository directory: `cd ioos_metrics`
+1. Start the notebook: `pixi run notebook`
 
 ## You can also try it on mybinder
 
