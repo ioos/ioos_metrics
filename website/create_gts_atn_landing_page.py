@@ -130,7 +130,7 @@ def get_atn_gts_metrics():
 
 def main(org_config):
 
-    output = get_atn_gts_metrics()
+    output = get_atn_gts_metrics().sort_values(by='date', ascending=False)
 
     table = output.to_html(
         index=False,
