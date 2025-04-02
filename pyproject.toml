@@ -99,7 +99,7 @@ suds = ">=1.1.2,<2"
 website = ["website"]
 
 [tool.pixi.feature.website]
-platforms = ["linux-64"]
+platforms = ["linux-64", "win-64"]
 
 [tool.pixi.feature.website.tasks]
 gts_regional = "cd website && python create_gts_regional_landing_page.py"
