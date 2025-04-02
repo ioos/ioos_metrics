@@ -94,3 +94,25 @@ pyobis = ">=1.3.1,<2"
 pytest = ">=8.3.3,<9"
 requests = ">=2.32.3,<3"
 suds = ">=1.1.2,<2"
+
+[tool.pixi.environments]
+website = ["website"]
+
+[tool.pixi.feature.website]
+platforms = ["linux-64"]
+
+[tool.pixi.feature.website.tasks]
+gts_regional = "cd website && python create_gts_regional_landing_page.py"
+gts_atn = "cd website && python create_gts_atn_landing_page.py"
+asset_inventory = "cd website && python create_asset_inventory_page.py"
+build_site = { cmd = ["ls", "website/deploy"], depends-on = ["gts_regional", "gts_atn", "asset_inventory"] }
+
+[tool.pixi.feature.website.dependencies]
+jinja2 = "*"
+pandas = "*"
+plotly = "*"
+geopandas = "*"
+folium = "*"
+fiscalyear = "*"
+erddapy = "*"
+beautifulsoup4 = "*"
