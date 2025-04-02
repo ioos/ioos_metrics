@@ -147,8 +147,7 @@ def get_oap():
     text = soup.find(attrs={"class": "dce-osm-wrapper"})
     jsmap = text.attrs["data_repeater"]
 
-    res = len([word for word in jsmap.lower().split() if word.startswith("data<\\/a><\\/strong><\\/p>")])
-    return res
+    return len([word for word in jsmap.lower().split() if word.startswith("data<\\/a><\\/strong><\\/p>")])
 
 
 @functools.lru_cache(maxsize=128)
