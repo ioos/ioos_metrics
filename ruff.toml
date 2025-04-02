@@ -35,6 +35,7 @@ lint.ignore = [
     "D100",  # Missing docstring in public module
     "E402",  # Module level import not at top of file
     "FBT003",  # Boolean positional value in function call
+    "T201",  # `print` found"
 ]
 "glider_metrics*" = [
     "ANN001",  # Missing type annotation for function argument
