@@ -4,6 +4,7 @@ import datetime
 import functools
 import io
 import logging
+import urllib
 
 import httpx
 import joblib
@@ -229,6 +230,10 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
         )
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(5))
+    def _read_csv(info_url: str) -> pd.DataFrame:
+        return pd.read_csv(info_url)
+
+    @retry(stop=stop_after_attempt(3), wait=wait_fixed(5))
     def _computed_metadata(dataset_id) -> dict:
         """Download the minimum amount of data possible for the computed
         metadata.
@@ -276,10 +281,10 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
         dataset_id = row["Dataset ID"]
         info_url = row["info_url"].replace("html", "csv")
         try:
-            info_df = pd.read_csv(info_url)
+            info_df = _read_csv(info_url)
             info = _metadata(info_df)
             info.update(_computed_metadata(dataset_id=dataset_id))
-        except (httpx.HTTPError, httpx.HTTPStatusError, ValueError, RetryError) as e:
+        except (httpx.HTTPError, httpx.HTTPStatusError, RetryError, urllib.error.HTTPError, ValueError) as e:
             print(f"Could not fetch glider {dataset_id=}.\n{e=}")  # noqa: T201
             continue
         metadata.update({dataset_id: info})
