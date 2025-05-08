@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from gliderpy.fetchers import GliderDataFetcher
 from shapely.geometry import LineString, Point
-from tenacity import retry, stop_after_attempt, wait_fixed
+from tenacity import RetryError, retry, stop_after_attempt, wait_fixed
 
 from ioos_metrics.national_platforms import national_platforms
 
@@ -279,7 +279,7 @@ def _ngdac_gliders(*, min_time, max_time, min_lat, max_lat, min_lon, max_lon) ->
             info_df = pd.read_csv(info_url)
             info = _metadata(info_df)
             info.update(_computed_metadata(dataset_id=dataset_id))
-        except (httpx.HTTPError, httpx.HTTPStatusError, ValueError) as e:
+        except (httpx.HTTPError, httpx.HTTPStatusError, ValueError, RetryError) as e:
             print(f"Could not fetch glider {dataset_id=}.\n{e=}")  # noqa: T201
             continue
         metadata.update({dataset_id: info})
