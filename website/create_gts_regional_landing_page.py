@@ -91,34 +91,6 @@ def stacked_bar_plot(totals):
 
     return fig1, fig2
 
-def get_ioos_regional_stats():
-
-    e = ERDDAP(
-        server="https://erddap.ioos.us/erddap",
-        protocol="tabledap",
-    )
-
-    e.response = "csv"
-    e.dataset_id = "gts_regional_statistics"
-
-    df = e.to_pandas(
-        index_col="time (UTC)",
-        parse_dates=True
-    )
-
-    groups = df.groupby(pd.Grouper(
-        freq="ME",
-    ))
-
-    s = groups[
-        ["met", "wave"]
-    ].sum()  # reducing the columns so the summary is digestable
-
-    totals = s.assign(total=s["met"] + s["wave"])
-    totals.index = totals.index.to_period("M")
-
-    return totals, e
-
 def get_ndbc_full_stats():
 
     e = ERDDAP(
