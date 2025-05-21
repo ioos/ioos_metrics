@@ -145,7 +145,6 @@ def main(org_config):
     fig = timeseries_plot(output)
 
     configs = {
-        "data": f,
         "table": table,
         "figure": fig,
     }
@@ -156,7 +155,16 @@ def main(org_config):
 
 
 if __name__ == "__main__":
-    org_config_file = "gts_atn_config.json"
-    with open(org_config_file) as f:
-        org_config = json.load(f)
+
+    org_config = {
+        "general_info_text": "Browse all the IOOS GTS ATN Metrics in one place.",
+        "general_title": "Browse all IOOS GTS ATN Metrics",
+        "githubpage": "https://ioos.github.io/ioos_metrics/browse",
+        "githubrepo": "https://github.com/ioos/ioos_metrics/",
+        "google_analytics": "https://tag_url.google.co",
+        "google_analytics_code": "some-code",
+        "location_of_metrics": "../gts",
+        "main_title": "All IOOS GTS ATN Metrics"
+    }
+ 
     main(org_config)

@@ -204,7 +204,16 @@ def main(org_config):
 
 
 if __name__ == "__main__":
-    org_config_file = "asset_inventory_config.json"
-    with open(org_config_file) as f:
-        org_config = json.load(f)
+    
+    org_config = {
+        "general_info_text": "IOOS asset inventory.",
+        "general_title": "IOOS asset inventory",
+        "githubpage": "https://ioos.github.io/ioos_metrics/browse",
+        "githubrepo": "https://github.com/ioos/ioos_metrics/",
+        "google_analytics": "https://tag_url.google.co",
+        "google_analytics_code": "some-code",
+        "location_of_metrics": "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.geoJson",
+        "main_title": "IOOS Asset Inventory"
+    }
+
     main(org_config)
