@@ -145,7 +145,6 @@ def main(org_config):
     fig = timeseries_plot(output)
 
     configs = {
-        #"data": f,
         "table": table,
         "figure": fig,
     }
