@@ -4,7 +4,7 @@ A library to compute and compile metrics about the U.S. Integrated Ocean Observi
 
 Part of the intent of this repository is to create metrics for the [IOOS by the numbers](https://ioos.noaa.gov/about/ioos-by-the-numbers/).
 
-"IOOS by the Numbers" is was developed as a graphical representation of IOOS  -- a system of includes our partnerships, research and observing components, and data management capabilities.
+"IOOS by the Numbers" was developed as a graphical representation of IOOS  -- a system that includes our partnerships, research and observing components, and data management capabilities.
 This figure is an annually updated collection of numbers that show the breadth of the IOOS Program as it is growing and evolving.
 These data are obtained from multiple sources. The source for each value is captured in the functions defined at https://github.com/ioos/ioos_metrics/tree/main/ioos_metrics.
 
