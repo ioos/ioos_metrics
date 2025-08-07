@@ -13,13 +13,20 @@ on:
 
   workflow_dispatch:
 
+# no permissions by default
+permissions: {}
+
 jobs:
   scheduled:
     runs-on: ubuntu-latest
-
+    permissions:
+      pull-requests: write # for creating pull requests
     steps:
       - name: Checkout repo
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Pixi
         uses: prefix-dev/setup-pixi@a0af7a228712d6121d37aba47adf55c1332c9c2e  # v0.9.4
@@ -34,7 +41,6 @@ jobs:
         run: |
           echo "CDMO_NAME = \"${CDMO_NAME}\"" > config.py
           echo "CDMO_KEY = \"${CDMO_KEY}\"" >> config.py
-
 
       - name: Collect quarterly GTS and BTN metrics
         shell: bash -l {0}
@@ -62,9 +68,3 @@ jobs:
             MathewBiddle
           reviewers: |
             MathewBiddle
-
-      - name: Check outputs
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
