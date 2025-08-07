@@ -13,13 +13,20 @@ on:
 
   workflow_dispatch:
 
+# no permissions by default
+permissions: {}
+
 jobs:
   scheduled:
     runs-on: ubuntu-latest
-
+    permissions:
+      pull-requests: write # for creating pull requests
     steps:
       - name: Checkout repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Pixi
         uses: prefix-dev/setup-pixi@19eac09b398e3d0c747adc7921926a6d802df4da  # v0.8.8
@@ -62,9 +69,3 @@ jobs:
             MathewBiddle
           reviewers: |
             MathewBiddle
-
-      - name: Check outputs
-        if: ${{ steps.cpr.outputs.pull-request-number }}
-        run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
