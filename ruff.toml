@@ -37,6 +37,9 @@ lint.ignore = [
     "FBT003",  # Boolean positional value in function call
     "T201",  # `print` found"
 ]
+"notebooks/*" = [
+    "PLC0415",  # `import` should be at the top-level of a file
+]
 "glider_metrics*" = [
     "ANN001",  # Missing type annotation for function argument
     "ANN202", # Missing return type annotation for private function
