@@ -2,6 +2,7 @@
 <html lang="en">
   <script src="https://dgd6r9iiqa8y9.cloudfront.net/ioos-ui-components.min.js"></script>
   <ioos-header></ioos-header>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <head>
   {#<!-- Global site tag (gtag.js) - Google Analytics -->#}
   <script async src="{{org_config.google_analytics}}"></script>
@@ -21,25 +22,41 @@
 
 <body>
   <main role="main" class="container">
-    <div class="mywrap_head">
-      <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/logo-navbar.png" alt="NOAA IOOS Logo"
-        height="75">&nbsp;&nbsp;&nbsp;
-      <h1 class="header_title">NOAA Integrated Ocean Observing System Metrics</h1>
-      <p>
-        <a href="https://github.com/ioos/ioos_metrics">
-          <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50" height="50">
-        </a>
-      </p>
-    </div>
-    <div class="divider"></div>
-    <div class="mywrap_head">
-      <button class="main_button" onclick="location.href='./index.html';" value="Metrics homepage">Metrics Homepage</button>
-      <button class="main_button"
-        onclick="location.href='https://github.com/ioos/ioos_metrics/issues/new?labels=website';" value="Feedback">
-        Feedback
-      </button>
-      {#<!--<button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Explore Resources" >Explore Resources</button>
-            <button class="header_button" onclick="location.href='{{org_config.githubrepo}}';" value="Contact IOOS" >Contact IOOS</button>-->#}
+    <div class="container">
+        <div class="mywrap">
+            <a href="https://ioos.github.io/ioos_metrics">
+                <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/logo-navbar.png"
+                alt="NOAA IOOS Logo" height="75">
+            </a>
+            &nbsp;&nbsp;&nbsp;
+            <h1 class="header_title">NOAA Integrated Ocean Observing System Metrics</h1>
+            <p>
+            <!--<a href="https://github.com/ioos/ioos_metrics">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50" height="50" title="Source Code.">
+            </a>-->
+                <a href="https://github.com/ioos/ioos_metrics/issues/new?labels=website">
+                    <i class="fa fa-question-circle" style="font-size:50px" title="Provide Feedback."></i>
+                </a>
+            </p>
+        </div>
+        <div class="divider"></div>
+        <div class="mywrap">
+            <button class="main_button" onclick="location.href='./gts_regional.html';" value="Regional GTS Metrics">
+                Regional GTS Metrics
+            </button>
+            &nbsp;&nbsp;&nbsp;
+            <button class="main_button" onclick="location.href='./gts_atn.html';"
+                    value="ATN GTS Metrics">ATN GTS Metrics
+            </button>
+
+            <button class="main_button" onclick="location.href='./asset_inventory.html';"
+                    value="Asset Inventory">Asset Inventory
+            </button>
+            &nbsp;&nbsp;&nbsp;
+            <!--<button class="main_button" onclick="location.href='https://github.com/ioos/ioos_metrics/issues/new?labels=website';" value="Feedback">
+                Feedback
+            </button>-->
+        </div>
     </div>
     <div class="divider"></div>
     <div class="mywrap">
