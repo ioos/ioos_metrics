@@ -2,6 +2,7 @@
 <html lang="en">
     <script src="https://dgd6r9iiqa8y9.cloudfront.net/ioos-ui-components.min.js"></script>
     <ioos-header></ioos-header>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146635872-1"></script>
@@ -23,46 +24,77 @@
 </head>
 <div class="container">
     <div class="mywrap">
+        <a href="https://ioos.github.io/ioos_metrics">
         <img src="https://github.com/ioos/documentation-theme-jekyll/raw/main/images/logo-navbar.png"
-             alt="NOAA IOOS Logo" height="75">&nbsp;&nbsp;&nbsp;
+             alt="NOAA IOOS Logo" height="75">
+        </a>
+        &nbsp;&nbsp;&nbsp;
         <h1 class="header_title">NOAA Integrated Ocean Observing System Metrics</h1>
         <p>
-            <a href="https://github.com/ioos/ioos_metrics">
-            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50" height="50">
+            <!--<a href="https://github.com/ioos/ioos_metrics">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50" height="50" title="Source Code.">
+            </a>-->
+            <a href="https://github.com/ioos/ioos_metrics/issues/new?labels=website">
+                <i class="fa fa-question-circle" style="font-size:50px" title="Provide Feedback."></i>
             </a>
         </p>
     </div>
     <div class="divider"></div>
     <div class="mywrap">
-        <button class="main_button" onclick="location.href='./gts_regional.html';" value="Browse GTS Regional Metrics">
-            Browse GTS Regional Metrics
+        <button class="main_button" onclick="location.href='./gts_regional.html';" value="Regional GTS Metrics">
+            Regional GTS Metrics
         </button>
         &nbsp;&nbsp;&nbsp;
         <button class="main_button" onclick="location.href='./gts_atn.html';"
-                value="Browse ATN GTS Metrics">Browse ATN GTS Metrics
+                value="ATN GTS Metrics">ATN GTS Metrics
         </button>
 
         <button class="main_button" onclick="location.href='./asset_inventory.html';"
-                value="Browse ATN GTS Metrics">Asset Inventory
+                value="Asset Inventory">Asset Inventory
         </button>
         &nbsp;&nbsp;&nbsp;
-        <button class="main_button" onclick="location.href='https://github.com/ioos/ioos_metrics/issues/new?labels=website';" value="Feedback">
+        <!--<button class="main_button" onclick="location.href='https://github.com/ioos/ioos_metrics/issues/new?labels=website';" value="Feedback">
             Feedback
-        </button>
+        </button>-->
     </div>
 
 </div>
 <div class="divider"></div>
 <div class="infoText" role="main">
-    <p>
-        Add descriptive text here.
+
+    <p class="intro">
+        This webpage serves as a centralized dashboard and documentation portal for tracking the performance, data flow, and asset inventory of the <strong>U.S. Integrated Ocean Observing System (IOOS)</strong>. 
+        Maintained by the IOOS program (part of NOAA), the site provides a transparent, data-driven look at how the national network is operating. The <strong>IOOS Metrics</strong> webpage is designed for transparency and strategic decision-making. 
+        By quantifying the "reach" of the observing system—from the number of active sensors to the speed of data delivery—it helps NOAA and its partners communicate the value of the Integrated Ocean Observing System to stakeholders, scientists, and the public.
     </p>
     <p>
-        Add more descriptive text here.
+        Within this website you will find information on the following key areas:
     </p>
-    <p>
-        Describe who maintains this resource.
-    </p>
+
+    <section>
+        <h2>Data Performance & GTS Metrics</h2>
+        <p>
+            One of the primary functions of the site is to monitor how data from regional associations (<strong>Regional</strong>) and specialized networks (like the <strong>Animal Telemetry Network - ATN</strong>) is being contributed to the <strong>Global Telecommunications System (GTS)</strong>. 
+            This is a critical metric for IOOS, as it measures the successful transmission of real-time coastal ocean observations to international weather and ocean forecasting centers.
+        </p>
+    </section>
+
+    <section>
+        <h2>Asset Inventory</h2>
+        <p>
+            The website includes an <strong>Asset Inventory</strong> page that provides a detailed list of the observing platforms (stations, sensors, and platforms) across the 11 IOOS Regional Associations for each calendar year. This allows users to see the geographical distribution and operational status of the hardware used to monitor the U.S. coasts, oceans, and Great Lakes.
+        </p>
+    </section>
+
+    <section>
+        <h2>Transparency & Accountability</h2>
+        <p>
+            By openly sharing these metrics, the IOOS Metrics webpage promotes transparency and accountability within the ocean observing community. 
+            It allows stakeholders to assess how well the IOOS is meeting its goals for data collection and dissemination, and it provides a basis for continuous improvement.
+            All of the content and data presented on this site is open-source and available for review on <a href="https://github.com/ioos/ioos_metrics/">GitHub</a>.
+        </p>
+    </section>
+
 </div>
 <div class="divider"></div>
 
