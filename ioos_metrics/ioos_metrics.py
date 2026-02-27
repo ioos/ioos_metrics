@@ -354,7 +354,7 @@ def regional_platforms():
     and is available on [ERDDAP](http://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.html).
 
     """
-    url = "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.json?station_long_name&distinct()"
+    url = "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.json?Year%2CRA%2Cstation_long_name&Year=max(Year)&distinct()"
     df = pd.read_json(url)
     return len(df.loc["rows"].iloc[0])
 
