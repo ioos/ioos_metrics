@@ -473,7 +473,7 @@ def metadata_records():
     however they do differ and the reason for that difference is unclear.
 
     """
-    from ckanapi import RemoteCKAN
+    from ckanapi import RemoteCKAN  # noqa: PLC0415
 
     url = "https://data.ioos.us"
     user_agent = "ckanapiioos/1.0 (+https://ioos.us/)"
@@ -537,7 +537,7 @@ def hab_pilot_projects():
     Might be able to parse the pdf and calculate this on the fly.
 
     """
-    from pdfminer.high_level import extract_text
+    from pdfminer.high_level import extract_text  # noqa: PLC0415
 
     url = "https://cdn.ioos.noaa.gov/media/2022/10/NHABON-Funding-Awards-FY22.pdf"
 
@@ -576,9 +576,7 @@ def mbon_stats():
     Information System (OBIS) and the Global Biodiversity Information Framework (GBIF). The function returns a
     dataframe with rows corresponding to each paper citing a dataset.
     """
-    import urllib.parse
-
-    import pyobis
+    import pyobis  # noqa: PLC0415
 
     # collect dataset information from OBIS
     institution_id = 23070
