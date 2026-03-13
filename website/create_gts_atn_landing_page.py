@@ -81,7 +81,7 @@ def timeseries_plot(output):
 def get_atn_gts_metrics():
 
     # recursively search the https index for bufr messages
-    url = "https://stage-ndbc-bufr.srv.axds.co/platforms/atn/smru/profiles/"
+    url = "https://ndbc-bufr.srv.axds.co/platforms/atn/smru/profiles/"
 
     html = requests.get(url).text
     soup = BeautifulSoup(html, "html.parser")
