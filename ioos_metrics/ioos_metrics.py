@@ -479,8 +479,15 @@ def metadata_records():
     user_agent = "ckanapiioos/1.0 (+https://ioos.us/)"
 
     ioos_catalog = RemoteCKAN(url, user_agent=user_agent)
-    datasets = ioos_catalog.action.package_search()
-    return datasets["count"]
+    harvest_sources = ioos_catalog.action.package_search(fq='dataset_type:harvest', rows=1000)
+    
+    grand_total = 0
+    for harvest in harvest_sources['results']:
+      harvest_source = ioos_catalog.action.harvest_source_show(id=harvest['id'])
+      total_datasets = harvest_source['status']['total_datasets']
+      grand_total = grand_total + total_datasets
+        
+    return grand_total
 
 
 @functools.lru_cache(maxsize=128)
