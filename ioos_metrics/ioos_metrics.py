@@ -490,7 +490,10 @@ def metadata_records():
     for harvest in harvest_sources['results']:
       harvest_source = ioos_catalog.action.harvest_source_show(id=harvest['id'])
       total_datasets = harvest_source['status']['total_datasets']
-      df_totals = pd.concat([df_totals, pd.DataFrame({'source':[harvest_source['title']],'total_datasets':[total_datasets]})])
+      df_totals = pd.concat(
+          [df_totals, 
+           pd.DataFrame({'source':[harvest_source['title']],'total_datasets':[total_datasets]})]
+      )
         
     return df_totals['total_datasets'].sum()
 
