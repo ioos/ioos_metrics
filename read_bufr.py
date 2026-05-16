@@ -1,7 +1,7 @@
 fname = 'bufr_messages/profile_1048783524.bufr'
 
 import pdbufr
-#fname = 'https://stage-ndbc-bufr.srv.axds.co/platforms/atn/smru/profiles/ct169-594-21/profile_1023825600.bufr'
+#fname = 'https://ndbc-bufr.srv.axds.co/platforms/atn/smru/profiles/ct169-594-21/profile_1023825600.bufr'
 #df_bufr = pdbufr.read_bufr(fname, flat=True, columns="data")
 
 df_bufr = pdbufr.read_bufr(fname,
@@ -15,7 +15,7 @@ import os
 #import urllib.request
 
 # recursively search the https index for bufr messages
-url = 'https://stage-ndbc-bufr.srv.axds.co/platforms/atn/smru/profiles/'
+url = 'https://ndbc-bufr.srv.axds.co/platforms/atn/smru/profiles/'
 
 html = requests.get(url).text
 soup = BeautifulSoup(html, 'html.parser')
