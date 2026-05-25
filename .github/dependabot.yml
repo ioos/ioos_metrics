@@ -7,11 +7,20 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    cooldown:
-      default-days: 7
     labels:
       - "Bot"
     groups:
       github-actions:
         patterns:
           - '*'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "Bot"
+    cooldown:
+      default-days: 7
