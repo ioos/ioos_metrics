@@ -324,7 +324,8 @@ def comt():
             logger.info(f"{tag.next_sibling.find_all('li')=}")
             comt = len(tag.next_sibling.find_all("li"))
 
-    return comt
+    # The page is stale, let's hardcode this one for now.
+    return 2
 
 
 @functools.lru_cache(maxsize=128)
@@ -354,7 +355,7 @@ def regional_platforms():
     and is available on [ERDDAP](http://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.html).
 
     """
-    url = "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.json?station_long_name&distinct()"
+    url = "https://erddap.ioos.us/erddap/tabledap/processed_asset_inventory.json?Year%2CRA%2Cstation_long_name&Year=max(Year)&distinct()"
     df = pd.read_json(url)
     return len(df.loc["rows"].iloc[0])
 
@@ -410,7 +411,9 @@ def ott_projects():
     for entry in df[0]:
         logger.info(f"{df[0][entry][0].count('new in')=}")
         ott_projects += df[0][entry][0].count("new in")
-    return ott_projects
+
+    # The page is stale, let's hardcode this one for now.
+    return 13
 
 
 @functools.lru_cache(maxsize=128)
