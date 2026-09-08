@@ -126,5 +126,7 @@ def test_mbon_stats():
     ]
 
     assert isinstance(df, pd.DataFrame)
-    assert all(col in df.columns for col in columns)
     assert not df.empty
+    for col in columns:
+        exists = col if col in df.columns else "missing"
+        assert col == exists
