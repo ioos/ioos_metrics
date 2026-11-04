@@ -469,8 +469,12 @@ def metadata_records():
     """These are the number of metadata records currently available through the
     [IOOS Catalog](https://data.ioos.us).
     Previously the number of records was on the order of 8,600.
-    Below are three different mechanisms to calculate this metric,
-    however they do differ and the reason for that difference is unclear.
+
+    Unfortunately, the total number of records returned from `package_search()` 
+    contains duplicates.
+    
+    This claculates the number of records by adding together the total number 
+    of records per harvest source. Which seems to be more representative.
 
     """
     from ckanapi import RemoteCKAN  # noqa: PLC0415
@@ -479,8 +483,10 @@ def metadata_records():
     user_agent = "ckanapiioos/1.0 (+https://ioos.us/)"
 
     ioos_catalog = RemoteCKAN(url, user_agent=user_agent)
-    datasets = ioos_catalog.action.package_search()
-    return datasets["count"]
+    harvest_sources = ioos_catalog.action.package_search(fq='dataset_type:harvest', rows=1000)
+
+    sources = [ioos_catalog.action.harvest_source_show(id=harvest['id']) for harvest in harvest_sources['results']]
+    return sum([sources['status']['total_datasets'] for source in sources])
 
 
 @functools.lru_cache(maxsize=128)
