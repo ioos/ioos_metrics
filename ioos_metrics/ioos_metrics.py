@@ -484,18 +484,9 @@ def metadata_records():
 
     ioos_catalog = RemoteCKAN(url, user_agent=user_agent)
     harvest_sources = ioos_catalog.action.package_search(fq='dataset_type:harvest', rows=1000)
-    
-    grand_total = 0
-    df_totals = pd.DataFrame()
-    for harvest in harvest_sources['results']:
-      harvest_source = ioos_catalog.action.harvest_source_show(id=harvest['id'])
-      total_datasets = harvest_source['status']['total_datasets']
-      df_totals = pd.concat(
-          [df_totals, 
-           pd.DataFrame({'source':[harvest_source['title']],'total_datasets':[total_datasets]})]
-      )
-        
-    return df_totals['total_datasets'].sum()
+
+    sources = [ioos_catalog.action.harvest_source_show(id=harvest['id']) for harvest in harvest_sources['results']]
+    return sum([sources['status']['total_datasets'] for source in sources])
 
 
 @functools.lru_cache(maxsize=128)
